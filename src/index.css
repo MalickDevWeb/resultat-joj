@@ -313,6 +313,8 @@ tr.sen td{background:var(--ocean-soft)}
 .mode{white-space:nowrap;flex:none}
 
 /* Liens « Revoir l'accueil / Réinitialiser » sur mobile (panneau latéral masqué) */
+.src-note{font-size:12px;color:var(--muted);text-align:center;margin:18px 0 0}
+.src-note a,.v p a{color:var(--ocean)}
 .m-links{display:flex;gap:18px;justify-content:center;padding:20px 0 8px}
 .m-links .restart{margin:0}
 @media (min-width:760px){.m-links{display:none}}

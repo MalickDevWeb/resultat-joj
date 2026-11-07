@@ -1,24 +1,41 @@
 import { useCallback, useEffect, useState } from 'react';
-import { SEED_EVENTS, SEED_PENDING, cur, now, type Place, type PodiumEvent, type Session } from '../data';
+import { SEED_EVENTS, SEED_PENDING, SOURCE, cur, isImport, now, type Place, type PodiumEvent, type Session } from '../data';
 
-const KEY = 'podium-dakar-2026:v1';
+const KEY = 'podium-dakar-2026:v2';
 
 interface Data {
   events: PodiumEvent[];
   pending: Session[];
+  importedAt?: string; // date de l'import Wikipédia sur lequel reposent ces données
 }
 
-const seed = (): Data => structuredClone({ events: SEED_EVENTS, pending: SEED_PENDING });
+const seed = (): Data => structuredClone({ events: SEED_EVENTS, pending: SEED_PENDING, importedAt: SOURCE.fetchedAt });
+
+/** Un podium touché par un chef de site (publié, validé ou rectifié dans l'application). */
+const isLocal = (e: PodiumEvent) => e.versions.some((v) => !isImport(v));
+
+/**
+ * Nouvel import : on repart des données importées, en gardant le travail fait dans l'application
+ * (podiums publiés ou rectifiés par un chef de site).
+ */
+function merge(old: Data): Data {
+  const fresh = seed();
+  const local = new Map(old.events.filter(isLocal).map((e) => [e.id, e]));
+  const events = fresh.events.map((e) => local.get(e.id) ?? e);
+  for (const [id, e] of local) if (!events.some((x) => x.id === id)) events.push(e);
+  const pending = fresh.pending.filter((s) => !local.has(s.id));
+  return { ...fresh, events, pending };
+}
 
 function load(): Data {
   try {
     const raw = localStorage.getItem(KEY);
     if (raw) {
       const d = JSON.parse(raw) as Data;
-      if (Array.isArray(d.events) && Array.isArray(d.pending)) return d;
+      if (Array.isArray(d.events) && Array.isArray(d.pending)) return d.importedAt === SOURCE.fetchedAt ? d : merge(d);
     }
   } catch {
-    /* stockage indisponible : on repart des données de démo */
+    /* stockage indisponible : on repart des données importées */
   }
   return seed();
 }
@@ -41,11 +58,11 @@ export function usePodiumStore() {
     if (!src) return null;
     const e: PodiumEvent = {
       ...src,
-      id: 'e' + Date.now(),
+      id: src.id, // même identifiant que l'épreuve : un import ultérieur la retrouve
       status: 'prov',
       versions: [{ v: 1, at: now(), by: 'Vous (chef de site)', motif: null, valid: null, pod }],
     };
-    setData((d) => ({ events: [...d.events, e], pending: d.pending.filter((x) => x.id !== sessionId) }));
+    setData((d) => ({ ...d, events: [...d.events, e], pending: d.pending.filter((x) => x.id !== sessionId) }));
     return e.id;
   }, [data.pending]);
 

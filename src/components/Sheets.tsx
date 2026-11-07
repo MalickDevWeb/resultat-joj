@@ -78,11 +78,11 @@ export function RectifySheet({ event, onClose, onSubmit }: {
       motifRef.current?.focus();
       return;
     }
-    onSubmit([0, 1, 2].map((i) => {
+    onSubmit([0, 1, 2].map((i): Place => {
       const n = names[i].trim() || c.pod[i].n;
       // La performance suit l'athlète s'il reste à la même place.
-      return { n, c: codes[i], perf: n === c.pod[i].n && codes[i] === c.pod[i].c ? c.pod[i].perf : '' };
-    }), m);
+      return { n, c: codes[i], m: c.pod[i].m, perf: n === c.pod[i].n && codes[i] === c.pod[i].c ? c.pod[i].perf : '' };
+    }).concat(c.pod.slice(3)), m);
   };
 
   return (
@@ -95,7 +95,7 @@ export function RectifySheet({ event, onClose, onSubmit }: {
         <div className="trio">
           {[0, 1, 2].map((i) => (
             <div className="place" key={i}>
-              <Medal i={i + 1} />
+              <Medal i={c.pod[i]?.m ?? i + 1} />
               <input aria-label={`Place ${i + 1}`} value={names[i]}
                 onChange={(e) => setNames(names.map((x, j) => (j === i ? e.target.value : x)))} />
               <select aria-label="Pays" value={codes[i]}

@@ -1,4 +1,4 @@
-import { ALL_SITES, LIVE, SPORTS, today, type PodiumEvent, type Session } from '../data';
+import { ALL_SITES, LIVE, SOURCE, SPORTS, at, today, type PodiumEvent, type Session } from '../data';
 import { Badge, Scene, SportIcon } from './ui';
 
 interface Props {
@@ -18,7 +18,9 @@ export function Results({ events, pending, site, isPublic, openId, onOpen, onLog
     const P = events.filter((e) => e.disc === d && inSite(e)).sort((a, b) => b.time.localeCompare(a.time));
     const U = pending.filter((x) => x.disc === d && inSite(x));
     return { d, L, P, U, total: L.length + P.length + U.length };
-  }).filter((x) => x.total);
+  }).filter((x) => x.total)
+    // Les sports qui ont déjà des podiums d'abord (tri stable : l'ordre du programme est conservé).
+    .sort((a, b) => Number(b.P.length > 0) - Number(a.P.length > 0));
 
   if (!list.length) return <p className="empty">Aucune épreuve sur ce site aujourd'hui.</p>;
 
@@ -53,13 +55,11 @@ export function Results({ events, pending, site, isPublic, openId, onOpen, onLog
             );
           })}
         </div>
-      ) : (
-        <p className="empty" style={{ padding: '16px 0' }}>Aucune épreuve en direct sur ce site.</p>
-      )}
+      ) : null}
 
       {others.length > 0 && (
         <>
-          <div className="block-title"><h2>Autres sports</h2><span>Terminés ou à venir</span></div>
+          <div className="block-title"><h2>{n ? 'Autres sports' : 'Sports'}</h2><span>Terminés ou à venir</span></div>
           <div className="acc">
             {others.map((x) => (
               <details key={x.d}>
@@ -67,19 +67,19 @@ export function Results({ events, pending, site, isPublic, openId, onOpen, onLog
                   <SportIcon d={x.d} />
                   <span className="sum">
                     <b>{x.d}</b>
-                    {x.P.length ? <Badge s={x.P[0].status} /> : <span className="badge b-next">À {x.U[0].time}</span>}
+                    {x.P.length ? <Badge s={x.P[0].status} /> : <span className="badge b-next">{x.U[0].time ? `À ${x.U[0].time}` : 'À venir'}</span>}
                   </span>
                   <span className="count">{x.total}</span>
                   <svg className="chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" /></svg>
                 </summary>
                 {x.P.map((e) => (
                   <button key={e.id} className="ev" onClick={() => onOpen(e.id)} aria-current={openId === e.id}>
-                    <strong>{e.name}</strong><small>{e.venue} · {e.time}</small><Badge s={e.status} />
+                    <strong>{e.name}</strong><small>{e.venue}{at(e.time)}</small><Badge s={e.status} />
                   </button>
                 ))}
                 {x.U.map((e) => (
                   <button key={e.id} className="ev" disabled>
-                    <strong>{e.name}</strong><small>{e.venue} · {e.time}</small><span className="badge b-next">À venir</span>
+                    <strong>{e.name}</strong><small>{e.venue}{at(e.time)}</small><span className="badge b-next">À venir</span>
                   </button>
                 ))}
               </details>
@@ -88,6 +88,10 @@ export function Results({ events, pending, site, isPublic, openId, onOpen, onLog
         </>
       )}
 
+      <p className="src-note">
+        Résultats : <a href={SOURCE.url} target="_blank" rel="noreferrer">{SOURCE.name}</a> ({SOURCE.license}),
+        importés le {new Date(SOURCE.fetchedAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' })}.
+      </p>
       {isPublic && <button className="to-resp" onClick={onLogin}>Je suis chef de site</button>}
     </>
   );

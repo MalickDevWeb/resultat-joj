@@ -1,4 +1,4 @@
-import { NOC, medalTable, type PodiumEvent } from '../data';
+import { NOC, SOURCE, medalTable, type PodiumEvent } from '../data';
 
 export function Medals({ events }: { events: PodiumEvent[] }) {
   const rows = medalTable(events);
@@ -34,7 +34,8 @@ export function Medals({ events }: { events: PodiumEvent[] }) {
       </div>
       <p className="note">
         Calculé à partir de la version actuelle de chaque podium, provisoire ou officiel. Une rectification met le
-        tableau à jour sans saisie manuelle. Classement : or, puis argent, puis bronze.
+        tableau à jour sans saisie manuelle. Classement : or, puis argent, puis bronze. Résultats importés de{' '}
+        <a href={SOURCE.url} target="_blank" rel="noreferrer">{SOURCE.name}</a> ({SOURCE.license}).
       </p>
     </>
   );

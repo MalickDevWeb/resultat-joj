@@ -25,7 +25,20 @@ npm run dev
 npm run build
 ```
 
-## 🎮 Démo (données simulées)
+## 🏟️ Résultats réels (Wikipédia)
+
+Les résultats viennent de Wikipédia (pages « <Sport> at the 2026 Summer Youth Olympics », licence CC BY-SA 4.0) :
+
+```bash
+npm run import:wiki   # met à jour src/resultats.json, puis npm run build
+```
+
+- 25 sports, 151 épreuves : podiums renseignés = « Officiel », les autres = « À venir ».
+- Sites et lieux réels (Dakar, Diamniadio, Saly), noms de pays en français, ex aequo et doubles bronzes gérés.
+- Un nouvel import remplace les données, mais garde les podiums publiés ou rectifiés par un chef de site.
+- Wikipédia ne donne ni les heures ni les épreuves en cours : rien n'est affiché « en direct ».
+
+## 🎮 Démo
 
 Tout fonctionne hors ligne, les données sont stockées dans le navigateur (`localStorage`).
 

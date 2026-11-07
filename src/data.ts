@@ -1,4 +1,5 @@
-// Données et types de Podium Dakar 2026 (portés depuis le prototype).
+// Données et types de Podium Dakar 2026.
+import resultats from './resultats.json';
 
 export type Status = 'prov' | 'off' | 'rect';
 
@@ -6,6 +7,8 @@ export interface Place {
   n: string; // nom de l'athlète ou de l'équipe
   c: string; // code pays (CNO)
   perf?: string;
+  m?: number; // médaille : 1 or, 2 argent, 3 bronze (ex aequo possibles)
+  team?: string[]; // membres d'une équipe
 }
 
 export interface Version {
@@ -23,7 +26,8 @@ export interface Session {
   name: string;
   site: string;
   venue: string;
-  time: string;
+  time: string; // heure locale, vide si inconnue
+  url?: string; // page source
 }
 
 export interface PodiumEvent extends Session {
@@ -32,43 +36,22 @@ export interface PodiumEvent extends Session {
 }
 
 export const ALL_SITES = 'Tous les sites';
-export const SITES = [ALL_SITES, 'Diamniadio', 'Dakar Arena', 'Saly', 'Corniche'];
 
-export const NOC: Record<string, string> = {
-  SEN: 'Sénégal', MAR: 'Maroc', KEN: 'Kenya', BRA: 'Brésil', NGA: 'Nigeria', FRA: 'France',
-  EGY: 'Égypte', JPN: 'Japon', CIV: "Côte d'Ivoire", USA: 'États-Unis', ESP: 'Espagne',
-  CHN: 'Chine', TUN: 'Tunisie', KOR: 'Corée',
-};
+/* Résultats réels importés de Wikipédia : npm run import:wiki (voir scripts/import-wikipedia.mjs). */
+export const SOURCE = resultats.source;
+export const SITES = [ALL_SITES, ...resultats.sites];
+export const NOC: Record<string, string> = resultats.noc;
+export const SPORTS: string[] = resultats.sports.map((s) => s.disc);
+export const SEED_EVENTS = resultats.events as PodiumEvent[];
+export const SEED_PENDING = resultats.pending as Session[];
+/** Wikipédia ne donne pas les épreuves en cours : aucune épreuve « en direct ». */
+export const LIVE: Session[] = [];
 
-export const SPORTS = ['Athlétisme', 'Lutte', 'Beach-volley', 'Basketball 3x3', 'Taekwondo', 'Natation'];
+/** Une version issue de l'import (et non saisie par un chef de site). */
+export const isImport = (v: Version) => v.by === SOURCE.name;
 
-const p = (n: string, c: string, perf = ''): Place => ({ n, c, perf });
-
-export const SEED_EVENTS: PodiumEvent[] = [
-  { id: 'e1', disc: 'Athlétisme', name: '100 m garçons — finale', site: 'Diamniadio', venue: 'Stade Abdoulaye Wade', time: '10:40', status: 'off',
-    versions: [{ v: 1, at: '10:52', by: 'A. Ndiaye (chef de site)', motif: null, valid: 'M. Sow · 11:05', pod: [p('Amadou Diallo', 'SEN', '10.38'), p('Brian Kiptoo', 'KEN', '10.41'), p('Lucas Silva', 'BRA', '10.47')] }] },
-  { id: 'e2', disc: 'Lutte', name: 'Lutte libre −57 kg filles', site: 'Dakar Arena', venue: 'Dakar Arena', time: '11:30', status: 'rect',
-    versions: [
-      { v: 1, at: '12:04', by: 'F. Gueye (chef de site)', motif: null, valid: 'I. Fall · 12:10', pod: [p('Salma Idrissi', 'MAR'), p('Aïssatou Faye', 'SEN'), p('Chioma Okafor', 'NGA')] },
-      { v: 2, at: '14:25', by: 'F. Gueye (chef de site)', motif: "Réclamation acceptée : pesée non conforme pour la médaillée d'or.", valid: 'I. Fall · 14:31', pod: [p('Aïssatou Faye', 'SEN'), p('Chioma Okafor', 'NGA'), p('Nour Hassan', 'EGY')] },
-    ] },
-  { id: 'e3', disc: 'Taekwondo', name: 'Taekwondo −55 kg garçons', site: 'Dakar Arena', venue: 'Dakar Arena', time: '13:00', status: 'off',
-    versions: [{ v: 1, at: '13:41', by: 'F. Gueye (chef de site)', motif: null, valid: 'I. Fall · 13:50', pod: [p('Min-jun Park', 'KOR'), p('Youssef Ben Ali', 'TUN'), p('Ibrahima Ba', 'SEN')] }] },
-  { id: 'e4', disc: 'Beach-volley', name: 'Beach-volley filles — finale', site: 'Saly', venue: 'Plage de Saly', time: '14:00', status: 'prov',
-    versions: [{ v: 1, at: '15:02', by: 'K. Diop (chef de site)', motif: null, valid: null, pod: [p('Santos / Lima', 'BRA'), p('Diatta / Mendy', 'SEN'), p('García / Ruiz', 'ESP')] }] },
-  { id: 'e5', disc: 'Basketball 3x3', name: 'Basketball 3x3 garçons', site: 'Corniche', venue: 'Place du Souvenir africain', time: '14:30', status: 'prov',
-    versions: [{ v: 1, at: '15:12', by: 'O. Thiam (chef de site)', motif: null, valid: null, pod: [p('États-Unis', 'USA'), p('Sénégal', 'SEN'), p("Côte d'Ivoire", 'CIV')] }] },
-];
-
-export const LIVE: Session[] = [
-  { id: 'l1', disc: 'Lutte', name: 'Lutte libre −65 kg garçons', site: 'Dakar Arena', venue: 'Dakar Arena', time: '15:30' },
-  { id: 'l2', disc: 'Beach-volley', name: 'Beach-volley garçons — demi-finale', site: 'Saly', venue: 'Plage de Saly', time: '15:40' },
-];
-
-export const SEED_PENDING: Session[] = [
-  { id: 'u1', disc: 'Natation', name: '200 m nage libre filles', site: 'Corniche', venue: 'Piscine olympique', time: '16:00' },
-  { id: 'u2', disc: 'Athlétisme', name: 'Saut en longueur filles', site: 'Diamniadio', venue: 'Stade Abdoulaye Wade', time: '16:20' },
-];
+/** « · 10:40 » si l'heure est connue, sinon rien. */
+export const at = (time: string) => (time ? ` · ${time}` : '');
 
 /* Compte de démonstration, vérifié côté client (pas une vraie sécurité). */
 export const DEMO_ACCOUNT = { email: 'admin123joj@gmail.com', pass: 'joj1234' };
@@ -93,7 +76,7 @@ export const today = () => {
 /** Tableau des médailles calculé depuis la version actuelle de chaque podium. */
 export function medalTable(events: PodiumEvent[]): [string, number[]][] {
   const t: Record<string, number[]> = {};
-  events.forEach((e) => cur(e).pod.forEach((x, i) => { (t[x.c] ??= [0, 0, 0])[i]++; }));
+  events.forEach((e) => cur(e).pod.forEach((x, i) => { (t[x.c] ??= [0, 0, 0])[(x.m ?? i + 1) - 1]++; }));
   return Object.entries(t).sort(
     (a, b) => b[1][0] - a[1][0] || b[1][1] - a[1][1] || b[1][2] - a[1][2] || a[0].localeCompare(b[0]),
   );

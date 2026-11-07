@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from 'react';
-import type { Place, PodiumEvent, Session } from '../data';
+import { at, type Place, type PodiumEvent, type Session } from '../data';
 import { ErrBox, Medal, Scene, nocOptions, type ApiError } from './ui';
 
 interface Props {
@@ -51,7 +51,7 @@ export function Publish({ events, pending, onPublish }: Props) {
             <label className="lbl" htmlFor="pev">Choisissez l'épreuve</label>
             <select id="pev" value={selV} onChange={(e) => { setPev(e.target.value); setErr(null); }}>
               {items.map((o) => (
-                <option key={o.v} value={o.v}>{o.x.name} · {o.x.time}{o.done ? ' (déjà publié)' : ''}</option>
+                <option key={o.v} value={o.v}>{o.x.disc} · {o.x.name}{at(o.x.time)}{o.done ? ' (déjà publié)' : ''}</option>
               ))}
             </select>
             {sel && (
@@ -59,7 +59,7 @@ export function Publish({ events, pending, onPublish }: Props) {
                 <span className="evpic"><Scene d={sel.x.disc} /></span>
                 <div>
                   <b>{sel.x.name}</b>
-                  <small>{sel.x.venue} · {sel.x.time}</small>
+                  <small>{sel.x.venue}{at(sel.x.time)}</small>
                   {sel.done ? <span className="badge b-rect">Déjà publié</span> : <span className="badge b-next">Sans podium</span>}
                 </div>
               </div>
