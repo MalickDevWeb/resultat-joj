@@ -375,18 +375,9 @@ tr.sen td{background:var(--ocean-soft)}
 .check{display:flex;align-items:center;gap:10px;cursor:pointer}
 .check input{width:20px;height:20px;padding:0;accent-color:var(--g)}
 .link{border:0;background:none;padding:0;color:var(--g);text-decoration:underline;cursor:pointer;font:inherit}
-.link.strong{text-decoration:none;font-weight:700}
 .primary{display:flex;align-items:center;justify-content:center;gap:12px;border:0;border-radius:999px;background:var(--g);color:#fff;
   font-weight:700;font-size:18px;padding:15px;cursor:pointer;box-shadow:0 12px 24px -12px rgba(11,122,59,.8)}
 .primary:hover{background:var(--g2)}
-.or{display:flex;align-items:center;gap:14px;color:var(--mut);font-size:14px}
-.or::before,.or::after{content:"";flex:1;height:1px;background:var(--ln)}
-.social{display:flex;align-items:center;justify-content:center;gap:12px;border:1.5px solid var(--ln);background:#fff;border-radius:999px;
-  padding:11px;font-size:15.5px;font-weight:500;color:var(--ink2);cursor:pointer}
-.social:hover{border-color:#a9afa7}
-.gicon{width:26px;height:26px}
-.orange{width:30px;height:30px;background:#ff7900;color:#fff;font-size:7px;font-weight:700;display:grid;align-items:end;padding:0 0 3px 2px;border-radius:2px}
-.signup{text-align:center;margin:2px 0 0;font-size:15px}
 
 .guest{display:flex;flex-wrap:wrap;gap:8px 16px;justify-content:center}
 .guest button{display:inline-flex;align-items:center;gap:6px;border:0;border-radius:999px;padding:9px 16px;cursor:pointer;
