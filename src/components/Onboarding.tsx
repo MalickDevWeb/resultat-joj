@@ -1,28 +1,27 @@
-import { useState, type ReactNode } from 'react';
+import { useRef, useState, type FormEvent, type ReactNode } from 'react';
+import {
+  ArrowRight, CalendarDays, Eye, EyeOff, Facebook, Instagram, Linkedin, Lock, Mail, MapPin, Youtube,
+} from 'lucide-react';
+import { DEMO_ACCOUNT } from '../data';
+import { ErrBox, type ApiError } from './ui';
 
 interface Props {
-  onEnter: (who: 'pub' | 'resp') => void;
+  /** Connexion réussie avec un compte JOJ (chef de site). */
+  onLogin: () => void;
+  /** Consultation publique, sans compte. */
+  onGuest: () => void;
   canInstall: boolean;
   onInstall: () => void;
-  live: number;
-  done: number;
-  next: number;
 }
 
 /* Fichiers officiels à déposer dans public/brand/ (voir README). */
 const LOGO = '/brand/joj-logo.png';
-const MASCOT = '/brand/mascotte.png';
+const AYO = '/brand/ayo.webp';
+const AYO_HEAD = '/brand/ayo-head.webp';
+const HERO = '/brand/hero.jpg';
 
-/* JOJ Dakar 2026 : du 31 octobre au 13 novembre 2026. */
-const START = Date.UTC(2026, 9, 31);
-const END = Date.UTC(2026, 10, 13);
+const REMEMBER_KEY = 'podium-remember-email';
 
-function gamesDay() {
-  const t = Date.now();
-  if (t < START) return `J-${Math.ceil((START - t) / 864e5)}`;
-  if (t > END + 864e5) return 'Jeux terminés';
-  return `Jour ${Math.floor((t - START) / 864e5) + 1} sur 14`;
-}
 
 /** Image officielle, ou le contenu de secours si le fichier n'a pas encore été ajouté. */
 function Img({ src, alt, className, fallback = null }: { src: string; alt: string; className: string; fallback?: ReactNode }) {
@@ -30,111 +29,166 @@ function Img({ src, alt, className, fallback = null }: { src: string; alt: strin
   return ok ? <img src={src} alt={alt} className={className} onError={() => setOk(false)} /> : <>{fallback}</>;
 }
 
-/* Façade de la Dakar Arena : losanges aux couleurs vives, générés une fois. */
-const FACADE = ['#0b7a3b', '#1f9a4a', '#5cb848', '#a9cf45', '#f2d43a', '#f7a531', '#ef6b2a', '#e0342b'];
-const DIAMONDS = (() => {
-  const out: { d: string; f: string; o: number }[] = [];
-  const w = 18, h = 26;
-  for (let r = 0; r < 7; r++) {
-    for (let c = 0; c < 20; c++) {
-      const x = 150 + c * w + (r % 2 ? w / 2 : 0);
-      const y = 160 + r * (h / 2);
-      // Dominante verte à gauche, chaude à droite, avec du rythme.
-      const k = Math.min(FACADE.length - 1, Math.max(0, Math.round(c / 3 + Math.sin(c * 1.7 + r * 2.3) * 1.6)));
-      out.push({ d: `M${x} ${y - h / 2}L${x + w / 2} ${y}L${x} ${y + h / 2}L${x - w / 2} ${y}Z`, f: FACADE[k], o: 0.75 + ((c * 7 + r * 3) % 4) * 0.08 });
-    }
-  }
-  return out;
-})();
-
-function Scene() {
-  return (
-    <svg className="scene" viewBox="0 0 400 520" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
-      <defs>
-        <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#6fb6e6" /><stop offset="1" stopColor="#dcf0fa" />
-        </linearGradient>
-        <linearGradient id="plaza" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#ece6dc" /><stop offset="1" stopColor="#cfc4b3" />
-        </linearGradient>
-        <clipPath id="drum"><path d="M150 168 A170 28 0 0 1 490 168 L490 292 Q320 306 150 292Z" /></clipPath>
-      </defs>
-      <rect width="400" height="520" fill="url(#sky)" />
-      {/* Nuages légers */}
-      <g fill="#fff" opacity=".7">
-        <ellipse cx="70" cy="70" rx="46" ry="10" /><ellipse cx="96" cy="62" rx="26" ry="10" />
-        <ellipse cx="300" cy="44" rx="38" ry="8" />
-      </g>
-      {/* Arena */}
-      <path d="M150 152 A170 32 0 0 1 490 152 L490 170 A170 28 0 0 0 150 170Z" fill="#f4f4f2" />
-      <g stroke="#cfd3d6" strokeWidth="1.2">
-        {Array.from({ length: 18 }, (_, i) => <path key={i} d={`M${160 + i * 19} ${140 - Math.sin((i / 17) * Math.PI) * 6}v26`} />)}
-      </g>
-      <g clipPath="url(#drum)">
-        <rect x="150" y="150" width="340" height="160" fill="#2a6b3c" />
-        {DIAMONDS.map((x, i) => <path key={i} d={x.d} fill={x.f} opacity={x.o} stroke="#ffffff" strokeOpacity=".35" strokeWidth=".8" />)}
-      </g>
-      <path d="M150 286 Q320 300 490 286 V312 H150Z" fill="#f7f7f5" />
-      <g fill="#3b4a52">{Array.from({ length: 8 }, (_, i) => <rect key={i} x={182 + i * 30} y="296" width="14" height="16" rx="1" />)}</g>
-      {/* Parvis */}
-      <rect y="308" width="400" height="212" fill="url(#plaza)" />
-      <g stroke="#b9ad9b" strokeWidth="1" opacity=".55">
-        {[-260, -140, -40, 60, 160, 280, 420, 560].map((x) => <path key={x} d={`M220 308L${x} 520`} />)}
-        <path d="M0 360H400M0 430H400" />
-      </g>
-      {/* Sculpture : trois arcs vert, jaune, rouge et l'étoile */}
-      <g fill="none" strokeLinecap="round">
-        <path d="M34 470 C30 360 70 250 168 176" stroke="#0b7a3b" strokeWidth="15" />
-        <path d="M62 474 C60 380 96 280 186 214" stroke="#f2d43a" strokeWidth="15" />
-        <path d="M90 478 C92 400 122 320 196 262" stroke="#e0342b" strokeWidth="15" />
-      </g>
-      <path d="M48 402l7 20h21l-17 12 7 20-18-12-18 12 7-20-17-12h21z" fill="#0b7a3b" />
-      <g fill="#e2dbcf" stroke="#c7bca9"><rect x="18" y="470" width="96" height="14" rx="2" /></g>
-    </svg>
-  );
+function readRemembered() {
+  try { return localStorage.getItem(REMEMBER_KEY) ?? ''; } catch { return ''; }
+}
+function writeRemembered(v: string | null) {
+  try { v ? localStorage.setItem(REMEMBER_KEY, v) : localStorage.removeItem(REMEMBER_KEY); } catch { /* stockage indisponible */ }
 }
 
-export function Onboarding({ onEnter, canInstall, onInstall, live, done, next }: Props) {
+/* Logos de secours (texte) tant que les fichiers officiels ne sont pas déposés. */
+const JojFallback = (
+  <div className="fb-joj" role="img" aria-label="Dakar 2026, Jeux Olympiques de la Jeunesse">
+    <b>JOJ</b><span>DAKAR 2026</span>
+    <svg viewBox="0 0 64 30" aria-hidden="true" className="rings">
+      {[[10, 10, '#0081c8'], [32, 10, '#000'], [54, 10, '#ee334e'], [21, 20, '#fcb131'], [43, 20, '#00a651']].map(([x, y, c]) => (
+        <circle key={`${x}${y}`} cx={x} cy={y} r="8.5" fill="none" stroke={c as string} strokeWidth="2.2" />
+      ))}
+    </svg>
+  </div>
+);
+
+const XIcon = () => (
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4l16 16M20 4L4 20" /></svg>
+);
+const GoogleIcon = () => (
+  <svg viewBox="0 0 48 48" aria-hidden="true" className="gicon">
+    <path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z" />
+    <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z" />
+    <path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z" />
+    <path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z" />
+  </svg>
+);
+
+export function Onboarding({ onLogin, onGuest, canInstall, onInstall }: Props) {
+  const remembered = readRemembered();
+  // Démo : seul le compte de test existe, il est pré-rempli.
+  const [email, setEmail] = useState(remembered || DEMO_ACCOUNT.email);
+  const [pass, setPass] = useState(DEMO_ACCOUNT.pass);
+  const [show, setShow] = useState(false);
+  const [remember, setRemember] = useState(!!remembered);
+  const [err, setErr] = useState<ApiError | null>(null);
+  const passRef = useRef<HTMLInputElement>(null);
+
+  const unavailable = (what: string) =>
+    setErr({ status: 501, code: 'NOT_AVAILABLE', msg: `${what} n'est pas encore disponible dans cette démonstration.` });
+
+  const submit = (ev: FormEvent) => {
+    ev.preventDefault();
+    const em = email.trim().toLowerCase();
+    if (!em || !pass) {
+      setErr({ status: 400, code: 'CREDENTIALS_MISSING', msg: 'Saisissez votre adresse e-mail et votre mot de passe.' });
+      return;
+    }
+    if (em !== DEMO_ACCOUNT.email || pass !== DEMO_ACCOUNT.pass) {
+      setErr({ status: 401, code: 'INVALID_CREDENTIALS', msg: 'Adresse e-mail ou mot de passe incorrect.' });
+      passRef.current?.focus();
+      return;
+    }
+    writeRemembered(remember ? em : null);
+    setErr(null);
+    onLogin();
+  };
+
   return (
     <section className="onb" aria-label="Bienvenue">
-      <div className="onb-art">
-        <Scene />
-        <div className="onb-logo">
-          <Img src={LOGO} alt="Dakar 2026, Jeux Olympiques de la Jeunesse" className="logo-img"
-            fallback={
-              <div className="logo-fb" role="img" aria-label="Dakar 2026, Jeux Olympiques de la Jeunesse">
-                <b>DAKAR<br />2026</b>
-                <div className="logo-boxes">
-                  <span className="lb lb-flag" aria-hidden="true"><i /><i /><i /></span>
-                  <span className="lb bubble">Jeux<br />Olympiques<br />de la Jeunesse</span>
-                </div>
-              </div>
-            } />
-        </div>
-        <Img src={MASCOT} alt="La mascotte de Dakar 2026" className="mascot" />
+      <div className="onb-bg" aria-hidden="true">
+        <Img src={HERO} alt="" className="onb-photo" />
       </div>
 
-      <div className="onb-copy gut">
-        <div className="onb-tags">
-          <span className="live-dot">{live} en direct</span>
-          <span className="sep" aria-hidden="true">·</span>
-          <span>{gamesDay()}</span>
+      <div className="onb-hero">
+        <div className="onb-logos">
+          <Img src={LOGO} alt="Dakar 2026, Jeux Olympiques de la Jeunesse" className="brand-img" fallback={JojFallback} />
+          <i className="vsep" aria-hidden="true" />
+          <span className="ayo-badge"><img src={AYO_HEAD} alt="Ayo, la mascotte de Dakar 2026" /></span>
         </div>
-        <h1>Qui a gagné&nbsp;?<br /><em>La réponse officielle.</em></h1>
-        <p>Les podiums de Dakar, Diamniadio et Saly en temps réel. Chaque correction reste visible.</p>
-
-        <div className="onb-stats" aria-label="Aujourd'hui">
-          <div><strong>{done}</strong><span>podiums publiés</span></div>
-          <div><strong>{next}</strong><span>finales à venir</span></div>
+        <h1>Jeux Olympiques<br />de la Jeunesse<br /><em>Dakar 2026</em></h1>
+        <div className="ayo-hero">
+          <Img src={AYO} alt="Ayo, la mascotte des JOJ Dakar 2026, brandit la flamme" className="ayo-img" />
         </div>
-
-        <div className="enter">
-          <button className="main" onClick={() => onEnter('pub')}>Voir les résultats <span aria-hidden="true">→</span></button>
-          <button onClick={() => onEnter('resp')}>Je suis chef de site <span>Publier</span></button>
-          {canInstall && <button onClick={onInstall}>Installer l'application <span>Hors ligne</span></button>}
-        </div>
-        <small className="onb-foot">Démonstration · données simulées</small>
       </div>
+
+      <div className="onb-side">
+        <p className="script big" aria-hidden="true">Ensemble pour<br />Dakar 2026</p>
+
+        <div className="login-card">
+          <span className="card-flag" aria-hidden="true"><i /><i /><i /></span>
+          <div className="card-head">
+            <svg viewBox="0 0 48 26" aria-hidden="true" className="people">
+              <circle cx="11" cy="7" r="5" fill="#0b7a3b" /><path d="M2 25a9 8 0 0 1 18 0z" fill="#0b7a3b" />
+              <circle cx="24" cy="5.5" r="5.5" fill="#f2c40f" /><path d="M14 25a10 9 0 0 1 20 0z" fill="#f2c40f" />
+              <circle cx="37" cy="7" r="5" fill="#e0342b" /><path d="M28 25a9 8 0 0 1 18 0z" fill="#e0342b" />
+            </svg>
+            <h2>Se connecter</h2>
+            <p className="script">Ensemble pour Dakar 2026</p>
+          </div>
+
+          <form noValidate onSubmit={submit} className="login-form">
+            <label className="field">
+              <Mail size={19} aria-hidden="true" />
+              <span className="vh">Adresse e-mail ou numéro de téléphone</span>
+              <input type="text" autoComplete="username" placeholder="Adresse e-mail ou numéro de téléphone"
+                value={email} onChange={(e) => setEmail(e.target.value)} />
+            </label>
+            <label className="field">
+              <Lock size={19} aria-hidden="true" />
+              <span className="vh">Mot de passe</span>
+              <input ref={passRef} type={show ? 'text' : 'password'} autoComplete="current-password" placeholder="Mot de passe"
+                value={pass} onChange={(e) => setPass(e.target.value)} />
+              <button type="button" className="eye" onClick={() => setShow(!show)}
+                aria-label={show ? 'Masquer le mot de passe' : 'Afficher le mot de passe'}>
+                {show ? <EyeOff size={19} /> : <Eye size={19} />}
+              </button>
+            </label>
+
+            <div className="row-opts">
+              <label className="check">
+                <input type="checkbox" checked={remember} onChange={(e) => setRemember(e.target.checked)} />
+                Se souvenir de moi
+              </label>
+              <button type="button" className="link" onClick={() => unavailable('La récupération du mot de passe')}>
+                Mot de passe oublié&nbsp;?
+              </button>
+            </div>
+
+            {err && <ErrBox e={err} />}
+
+            <button type="submit" className="primary">Se connecter <ArrowRight size={20} aria-hidden="true" /></button>
+
+            <div className="or"><span>ou</span></div>
+
+            <button type="button" className="social" onClick={() => unavailable('La connexion Google')}>
+              <GoogleIcon /> Continuer avec Google
+            </button>
+            <button type="button" className="social" onClick={() => unavailable('La connexion Orange')}>
+              <span className="orange" aria-hidden="true">orange</span> Continuer avec Orange
+            </button>
+
+            <p className="signup">
+              Vous n'avez pas de compte&nbsp;?{' '}
+              <button type="button" className="link strong" onClick={() => unavailable('La création de compte')}>Créer un compte</button>
+            </p>
+          </form>
+        </div>
+
+        <div className="guest">
+          <button type="button" onClick={onGuest}>Voir les résultats sans compte <ArrowRight size={16} aria-hidden="true" /></button>
+          {canInstall && <button type="button" onClick={onInstall}>Installer l'application</button>}
+        </div>
+      </div>
+
+      <footer className="onb-foot">
+        <div className="fi"><CalendarDays size={30} aria-hidden="true" /><div><b>Dakar 2026</b><span>Du 31 octobre au 13 novembre</span></div></div>
+        <div className="fi"><MapPin size={30} aria-hidden="true" /><div><b>Sénégal</b><span>Pays hôte</span></div></div>
+        <p className="script">Unis par le sport,<br />connectés par l'innovation</p>
+        <nav className="socials" aria-label="Réseaux sociaux">
+          <a href="https://www.youtube.com" target="_blank" rel="noreferrer" aria-label="YouTube"><Youtube size={18} /></a>
+          <a href="https://www.facebook.com" target="_blank" rel="noreferrer" aria-label="Facebook"><Facebook size={18} /></a>
+          <a href="https://x.com" target="_blank" rel="noreferrer" aria-label="X"><XIcon /></a>
+          <a href="https://www.instagram.com" target="_blank" rel="noreferrer" aria-label="Instagram"><Instagram size={18} /></a>
+          <a href="https://www.linkedin.com" target="_blank" rel="noreferrer" aria-label="LinkedIn"><Linkedin size={18} /></a>
+        </nav>
+      </footer>
     </section>
   );
 }

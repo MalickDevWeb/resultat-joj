@@ -20,7 +20,7 @@ export default defineConfig(({ mode }) => {
         registerType: 'autoUpdate',
         manifest: false, // Utilise public/manifest.json
         injectManifest: {
-          globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+          globPatterns: ['**/*.{js,css,html,ico,png,svg,webp}'],
           maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
         },
       }),

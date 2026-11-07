@@ -38,7 +38,7 @@ Tout fonctionne hors ligne, les données sont stockées dans le navigateur (`loc
 
 Déposez les fichiers officiels ici (sinon un logo texte de secours s'affiche) :
 
-- `public/brand/joj-logo.png` : logo Dakar 2026 (format carré, fond blanc)
-- `public/brand/mascotte.png` : mascotte (PNG à fond transparent)
+- `public/brand/joj-logo.png` : logo JOJ Dakar 2026 (PNG à fond transparent)
+- `public/brand/hero.jpg` : photo de fond de l'accueil (paysage, ~1920×1280)
 
 > Node 18+ suffit pour le build ; Node 20+ recommandé.

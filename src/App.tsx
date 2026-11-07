@@ -66,10 +66,9 @@ export default function App() {
   };
   const enter = (who: Role) => {
     setOnb(false);
-    setRole('pub');
+    setRole(who);
     setTab('results');
     setOpen(null);
-    if (who === 'resp') setSheet('login');
   };
   const install = async () => {
     if (isIOS) {
@@ -189,8 +188,9 @@ export default function App() {
       )}
       {toastMsg && <div className="toast" role="status">{toastMsg}</div>}
 
-      {onb && <Onboarding onEnter={enter} canInstall={isInstallable} onInstall={install}
-        live={LIVE.length} done={events.length} next={pending.length} />}
+      {onb && <Onboarding canInstall={isInstallable} onInstall={install}
+        onGuest={() => enter('pub')}
+        onLogin={() => { enter('resp'); toast('Connecté : onglet Publier disponible'); }} />}
     </div>
   );
 }
