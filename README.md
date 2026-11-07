@@ -1,4 +1,4 @@
-# Starter Template PWA (Progressive Web App)
+# Podium Dakar 2026 — résultats JOJ (PWA)
 
 Ce projet est un socle minimaliste et prêt à l'emploi configuré avec **Vite**, **React**, et **vite-plugin-pwa**.
 
@@ -24,3 +24,21 @@ npm run dev
 # 3. Compiler pour la production
 npm run build
 ```
+
+## 🎮 Démo (données simulées)
+
+Tout fonctionne hors ligne, les données sont stockées dans le navigateur (`localStorage`).
+
+- **Public** : résultats par site, détail des podiums, historique des versions, tableau des médailles.
+- **Chef de site** : `admin123joj@gmail.com` / `joj1234` (compte de démo, vérifié côté client).
+  - Publier un podium (provisoire) → Valider (officiel) → Rectifier avec motif (nouvelle version, l'ancienne reste visible).
+  - « Réinitialiser la démo » restaure les données de départ.
+
+## 🏅 Logos officiels JOJ
+
+Déposez les fichiers officiels ici (sinon un logo texte de secours s'affiche) :
+
+- `public/brand/joj-logo.png` : logo Dakar 2026 (format carré, fond blanc)
+- `public/brand/mascotte.png` : mascotte (PNG à fond transparent)
+
+> Node 18+ suffit pour le build ; Node 20+ recommandé.

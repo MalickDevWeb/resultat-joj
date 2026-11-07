@@ -1,0 +1,12 @@
+node_modules/
+build/
+dist/
+coverage/
+.DS_Store
+*.log
+.env*
+!.env.example
+
+# Archives locales (non versionnées)
+backup_unfpa_original.tar.gz
+podium (1).html
