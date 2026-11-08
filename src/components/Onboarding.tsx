@@ -1,6 +1,6 @@
 import { useRef, useState, type FormEvent, type ReactNode } from 'react';
 import {
-  ArrowRight, CalendarDays, Eye, EyeOff, Facebook, Instagram, Linkedin, Lock, Mail, MapPin, Youtube,
+  ArrowRight, CalendarDays, Medal, Trophy, Eye, EyeOff, Facebook, Instagram, Linkedin, Lock, Mail, MapPin, Youtube,
 } from 'lucide-react';
 import { DEMO_ACCOUNT } from '../data';
 import { ErrBox, type ApiError } from './ui';
@@ -95,6 +95,14 @@ export function Onboarding({ onLogin, onGuest, canInstall, onInstall }: Props) {
           <span className="ayo-badge"><img src={AYO_HEAD} alt="Ayo, la mascotte de Dakar 2026" /></span>
         </div>
         <h1>Jeux Olympiques<br />de la Jeunesse<br /><em>Dakar 2026</em></h1>
+        <div className="hero-cta">
+          <button type="button" className="cta-results" onClick={onGuest}>
+            <span className="cta-ico" aria-hidden="true"><Trophy size={26} /></span>
+            <span className="cta-txt"><b>Voir les résultats</b><small>Médailles, podiums et classements en direct</small></span>
+            <ArrowRight size={22} aria-hidden="true" className="cta-arrow" />
+          </button>
+          <p className="cta-note"><span className="live-dot" aria-hidden="true" />Accès libre, sans compte</p>
+        </div>
         <div className="ayo-hero">
           <Img src={AYO} alt="Ayo, la mascotte des JOJ Dakar 2026, brandit la flamme" className="ayo-img" />
         </div>
@@ -147,12 +155,18 @@ export function Onboarding({ onLogin, onGuest, canInstall, onInstall }: Props) {
 
             <button type="submit" className="primary">Se connecter <ArrowRight size={20} aria-hidden="true" /></button>
           </form>
+
+          <div className="or" aria-hidden="true"><span>ou</span></div>
+          <button type="button" className="secondary" onClick={onGuest}>
+            <Medal size={20} aria-hidden="true" /> Voir les résultats sans compte <ArrowRight size={18} aria-hidden="true" />
+          </button>
         </div>
 
-        <div className="guest">
-          <button type="button" onClick={onGuest}>Voir les résultats sans compte <ArrowRight size={16} aria-hidden="true" /></button>
-          {canInstall && <button type="button" onClick={onInstall}>Installer l'application</button>}
-        </div>
+        {canInstall && (
+          <div className="guest">
+            <button type="button" onClick={onInstall}>Installer l'application</button>
+          </div>
+        )}
       </div>
 
       <footer className="onb-foot">

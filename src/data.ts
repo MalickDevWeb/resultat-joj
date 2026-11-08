@@ -82,6 +82,42 @@ export function medalTable(events: PodiumEvent[]): [string, number[]][] {
   );
 }
 
+
+/* Pictogrammes des sports (24×24, trait). Les têtes sont des disques pleins (classe h). */
+const H = (x: number, y: number) => `<circle class="h" cx="${x}" cy="${y}" r="2"/>`;
+const WAVE = (y: number) => `M2 ${y}c2-1.5 3-1.5 5 0s3 1.5 5 0 3-1.5 5 0 3 1.5 5 0`;
+export const PICTOS: Record<string, string> = {
+  'Athlétisme': `${H(15, 4)}<path d="M14 7l-3 6M14 7l3 3 3-1M14 7l-4 1-2 3M11 13l4 3-1 5M11 13l-3 4H4"/>`,
+  'Rugby à 7': `<ellipse cx="12" cy="12" rx="9.5" ry="5.5" transform="rotate(-35 12 12)"/><path d="M8.5 15.5l7-7M10.5 11.5l2 2M12.5 9.5l2 2"/>`,
+  'Taekwondo': `${H(6, 4)}<path d="M7 7l1 7M8 14l-2 7M8 14l7-2 6-3M7.5 9l4 1M7.5 9l-3 3"/>`,
+  'Basketball 3x3': `<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3v18M5.6 5.6c3 3 3 9.8 0 12.8M18.4 5.6c-3 3-3 9.8 0 12.8"/>`,
+  'Baseball5': `<circle cx="12" cy="12" r="9"/><path d="M7 4.6c2.4 4 2.4 10.8 0 14.8M17 4.6c-2.4 4-2.4 10.8 0 14.8"/>`,
+  'Breaking': `${H(12, 20)}<path d="M12 17.5V11M12 11L8 4M12 11l4-7M12 14l-6 1M12 14l5-3 3 2"/>`,
+  'Skateboard': `${H(12, 3)}<path d="M12 6v5M12 11l-3 3M12 11l3 3M8 8l4-1 4 2M2 14c0 1.5 1 2 2 2h16c1 0 2-.5 2-2"/><circle cx="7" cy="19" r="1.6"/><circle cx="17" cy="19" r="1.6"/>`,
+  'Natation': `${H(7, 10)}<path d="M9.5 11l6-3.5 5 2.5M5 12l-3 1M${WAVE(16).slice(1)}M${WAVE(20).slice(1)}"/>`,
+  'Cyclisme sur route': `${H(15, 4)}<circle cx="6" cy="17" r="3.5"/><circle cx="18" cy="17" r="3.5"/><path d="M6 17l4-7h5l3 7M10 10l3 7M14 7l1 3"/>`,
+  'Futsal': `<circle cx="12" cy="12" r="9"/><path d="M12 7.5l3.3 2.4-1.3 3.9h-4l-1.3-3.9zM12 7.5V3M15.3 9.9l4.4-1.4M14 13.8l2.7 3.7M10 13.8l-2.7 3.7M8.7 9.9L4.3 8.5"/>`,
+  'Badminton': `<path d="M7 3l3 12h4l3-12M10.5 3l.8 12M13.5 3l-.8 12M8 7h8"/><circle cx="12" cy="18" r="2.6"/>`,
+  'Équitation': `<path d="M7 20.5V11a5 5 0 0 1 10 0v9.5M4.5 20.5H9M15 20.5h4.5"/><circle class="h" cx="9.6" cy="12.5" r="1"/><circle class="h" cx="14.4" cy="12.5" r="1"/><circle class="h" cx="9.5" cy="16.5" r="1"/><circle class="h" cx="14.5" cy="16.5" r="1"/>`,
+  "Tir à l'arc": `<circle cx="11" cy="13" r="8"/><circle cx="11" cy="13" r="4.5"/><circle class="h" cx="11" cy="13" r="1.2"/><path d="M11 13l9-9M17 3.5h3.5V7"/>`,
+  'Escrime': `<path d="M4 4l14 14M20 4L6 18M16.5 19.5l3-3M7.5 19.5l-3-3M3 21l2-2M21 21l-2-2"/>`,
+  'Tennis de table': `<circle cx="10" cy="10" r="6.5"/><path d="M14.6 14.6l5 5"/><circle class="h" cx="19" cy="5" r="1.8"/>`,
+  'Boxe': `<path d="M7 21h9v-4c2-1.3 3-3.3 3-6.5A5.5 5.5 0 0 0 13.5 5H10a5 5 0 0 0-5 5v4.5c0 1.5 1 2.5 2 2.5zM7 17h9M5.5 11.5H11"/>`,
+  'Wushu': `${H(12, 4)}<path d="M12 7v6M12 9l-7-2M12 9l5 2 3-2M12 13l-5 3v5M12 13l5 3-1 5"/>`,
+  'Gymnastique artistique': `${H(12, 9)}<path d="M5 2v4M19 2v4M12 11.5V17M12 11.5L6.5 7M12 11.5L17.5 7M12 17l-3 4M12 17l3 4"/><circle cx="5.5" cy="7.5" r="1.5"/><circle cx="18.5" cy="7.5" r="1.5"/>`,
+  'Judo': `<path d="M8 3l4 5 4-5M6.5 3.5L3 8l3 3v10h12V11l3-3-3.5-4.5M12 8v13M6 13.5h12M10 13.5l-2 4M14 13.5l2 4"/>`,
+  'Handball de plage': `${H(9, 4)}<path d="M9 7v6M9 9l5-4M9 9l-4 2M9 13l-3 8M9 13l4 8"/><circle cx="17.5" cy="4" r="2.3"/>`,
+  'Beach-volley': `<circle cx="12" cy="12" r="9"/><path d="M12 3c-2.5 4-2.5 7 0 9M12 12c4 1.2 6.8.4 8.8-2M12 12c-2 3.2-5.4 5-8.6 4.6"/>`,
+  'Lutte de plage': `${H(7, 4)}${H(17, 4)}<path d="M7 7l1 7-2 7M8 14l2 7M17 7l-1 7 2 7M16 14l-2 7M7.5 10l4.5 2 4.5-2"/>`,
+  'Aviron de mer': `<path d="M2.5 16h19c-1 2.5-3 4-6 4h-7c-3 0-5-1.5-6-4zM5 3l13 13M19 3L6 16"/>`,
+  'Voile': `<path d="M12 2.5V17M12 3.5l7 12.5h-7M11 6.5L5 16h6M3 18h18l-2.5 3.5h-13z"/>`,
+  'Triathlon': `<circle cx="6.5" cy="9" r="3.5"/><circle cx="17.5" cy="9" r="3.5"/><path d="M6.5 9L10 4h4l3.5 5M10 4l2 5M${WAVE(18).slice(1)}"/>`,
+};
+PICTOS['Lutte'] = PICTOS['Lutte de plage'];
+
+/** Couleur de tuile (drapeau du Sénégal) attribuée de façon stable à chaque sport. */
+export const sportTone = (d: string) => (['g', 'y', 'r'] as const)[[...d].reduce((n, ch) => n + ch.charCodeAt(0), 0) % 3];
+
 /* Illustrations SVG (statiques, contrôlées) des sports. */
 const W = 'stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"';
 export const SCENES: Record<string, string> = {

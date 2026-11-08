@@ -1,4 +1,4 @@
-import { BADGE, NOC, SCENES, type Place, type Status } from '../data';
+import { BADGE, NOC, PICTOS, SCENES, sportTone, type Place, type Status } from '../data';
 
 export interface ApiError {
   status: number;
@@ -27,11 +27,16 @@ export function PodRows({ pod, perf = false }: { pod: Place[]; perf?: boolean })
   );
 }
 
-/** Illustration par défaut : couleurs du drapeau et initiale du sport (texte échappé). */
+/** Illustration par défaut : couleurs du drapeau et pictogramme du sport (ou son initiale, texte échappé). */
 const genericScene = (d: string) => {
-  const k = [...d].reduce((n, ch) => n + ch.charCodeAt(0), 0) % 3;
+  const k = ['g', 'y', 'r'].indexOf(sportTone(d));
   const bg = ['#00853f', '#fdef42', '#e31b23'][k];
   const fg = k === 1 ? '#141414' : '#fff';
+  const p = PICTOS[d];
+  if (p) {
+    return `<rect width="160" height="120" fill="${bg}"/><circle cx="80" cy="60" r="46" fill="${fg}" opacity=".12"/>`
+      + `<g transform="translate(50 30) scale(2.5)" fill="none" stroke="${fg}" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${p.replace(/class="h"/g, `fill="${fg}" stroke="none"`)}</g>`;
+  }
   const ch = (d.trim()[0] || '?').toUpperCase().replace(/[<>&"']/g, '');
   return `<rect width="160" height="120" fill="${bg}"/><circle cx="80" cy="60" r="34" fill="none" stroke="${fg}" stroke-width="5" opacity=".35"/><text x="80" y="76" text-anchor="middle" font-family="sans-serif" font-weight="800" font-size="46" fill="${fg}">${ch}</text>`;
 };
@@ -42,7 +47,12 @@ export const Scene = ({ d }: { d: string }) => (
     dangerouslySetInnerHTML={{ __html: SCENES[d] || genericScene(d) }} />
 );
 
-export const SportIcon = ({ d }: { d: string }) => (
+/** Tuile du sport : pictogramme sur fond aux couleurs du drapeau. */
+export const SportIcon = ({ d }: { d: string }) => PICTOS[d] ? (
+  <span className={`ico picto t-${sportTone(d)}`} aria-hidden="true">
+    <svg viewBox="0 0 24 24" dangerouslySetInnerHTML={{ __html: PICTOS[d] }} />
+  </span>
+) : (
   <span className="ico mini" aria-hidden="true"><Scene d={d} /></span>
 );
 

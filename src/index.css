@@ -412,6 +412,34 @@ tr.sen td{background:var(--ocean-soft)}
   .onb-foot .fi + .fi{border-left:1px solid rgba(255,255,255,.35);padding-left:32px}
   .onb-foot .script{grid-column:auto}
   .socials{grid-column:auto}
+
+  /* Tout tient dans l'écran, sans défilement : les tailles suivent la hauteur de la fenêtre. */
+  .onb{height:100%;grid-template-rows:minmax(0,1fr) auto}
+  .onb-hero{padding:clamp(14px,4vh,40px) clamp(28px,4vw,64px);gap:clamp(6px,1.4vh,14px)}
+  .brand-img{height:clamp(52px,12vh,130px)}
+  .fb-joj b{font-size:clamp(30px,6vh,62px)}
+  .fb-joj span{font-size:clamp(12px,2.2vh,22px)}
+  .fb-joj .rings{width:clamp(40px,8vh,84px)}
+  .ayo-badge{width:clamp(60px,12vh,124px)}
+  .vsep{min-height:40px}
+  .onb-hero h1{font-size:clamp(24px,min(3.6vw,5.2vh),48px)}
+  .ayo-hero{bottom:2%;width:clamp(180px,min(22vw,42vh),360px)}
+  .onb-side{padding:clamp(10px,2.4vh,28px) clamp(24px,3vw,56px) clamp(10px,2vh,28px) 0;
+    gap:clamp(6px,1.2vh,12px);align-content:center}
+  .onb-side>.script.big{font-size:clamp(22px,min(3.4vw,4.6vh),52px);margin-bottom:0}
+  .onb-side>.script.big::after{margin-top:clamp(2px,.6vh,6px)}
+  .login-card{padding:clamp(14px,2.6vh,24px) 28px clamp(14px,2.2vh,20px)}
+  .card-head{margin-bottom:clamp(6px,1.6vh,16px);gap:2px}
+  .people{width:clamp(36px,5.5vh,58px)}
+  .card-head h2{font-size:clamp(22px,3.8vh,36px)}
+  .card-head .script{font-size:clamp(14px,2vh,19px)}
+  .login-form{gap:clamp(7px,1.3vh,12px)}
+  .field input{padding:clamp(8px,1.5vh,14px) 0}
+  .primary{padding:clamp(9px,1.6vh,15px);font-size:clamp(16px,2vh,18px)}
+  .guest button{padding:clamp(6px,1vh,9px) 16px}
+  .onb-foot{padding:clamp(8px,1.8vh,18px) clamp(28px,3vw,48px)}
+  .onb-foot .fi svg{width:clamp(22px,3.2vh,30px);height:auto}
+  .socials a{width:clamp(30px,4.2vh,38px);height:clamp(30px,4.2vh,38px)}
 }
 @media (prefers-reduced-motion:no-preference){
   .onb .login-card{animation:onb-up .6s cubic-bezier(.22,.9,.24,1) both}
@@ -425,7 +453,7 @@ tr.sen td{background:var(--ocean-soft)}
 .ayo-badge{flex:none;width:clamp(70px,9vw,124px);aspect-ratio:1;border-radius:50%;overflow:hidden;
   background:radial-gradient(circle at 50% 40%,#fff8dc,#ffe28a);border:4px solid #fff;
   box-shadow:0 0 0 3px var(--y),0 10px 24px -10px rgba(20,33,77,.6)}
-.ayo-badge img{width:100%;height:100%;object-fit:cover;object-position:50% 15%;transform:scale(1.08) translateY(4%)}
+.ayo-badge img{width:100%;height:100%;object-fit:cover;object-position:50% 40%}
 .ayo-hero{position:absolute;z-index:2;right:12px;top:118px;width:clamp(120px,36vw,170px);pointer-events:none}
 .ayo-hero::before{content:"";position:absolute;left:8%;right:8%;bottom:-2%;height:14%;border-radius:50%;
   background:radial-gradient(closest-side,rgba(10,40,30,.35),transparent)}
@@ -441,3 +469,90 @@ tr.sen td{background:var(--ocean-soft)}
   @keyframes ayo-float{50%{transform:translateY(-10px) rotate(-1.5deg)}}
   .ayo-hero{animation:onb-up .8s .25s cubic-bezier(.22,.9,.24,1) both}
 }
+
+/* Appel à l'action « Voir les résultats » pour les visiteurs */
+.hero-cta{position:relative;z-index:3;display:grid;justify-items:start;gap:8px;margin-top:clamp(4px,1.6vh,18px)}
+.cta-results{display:flex;align-items:center;gap:14px;border:0;cursor:pointer;text-align:left;
+  padding:10px 22px 10px 10px;border-radius:999px;color:#fff;
+  background:linear-gradient(135deg,#0d8a43 0%,#0b7a3b 55%,#075c2c 100%);
+  box-shadow:0 0 0 4px rgba(255,255,255,.7),0 18px 34px -14px rgba(7,92,44,.85);
+  transition:transform .2s cubic-bezier(.22,.9,.24,1),box-shadow .2s}
+.cta-results:hover{transform:translateY(-2px);box-shadow:0 0 0 4px #fff,0 22px 40px -14px rgba(7,92,44,.95)}
+.cta-results:focus-visible{outline:3px solid var(--y);outline-offset:4px}
+.cta-ico{flex:none;display:grid;place-items:center;width:clamp(42px,6.4vh,54px);aspect-ratio:1;border-radius:50%;
+  background:var(--y);color:#5a4300;box-shadow:inset 0 -3px 0 rgba(0,0,0,.12)}
+.cta-txt{display:grid;line-height:1.15}
+.cta-txt b{font-family:var(--display);font-weight:800;font-size:clamp(18px,2.8vh,24px);letter-spacing:-.01em}
+.cta-txt small{font-size:clamp(12px,1.7vh,14px);opacity:.9;font-weight:500}
+.cta-arrow{flex:none;margin-left:4px;transition:transform .2s}
+.cta-results:hover .cta-arrow{transform:translateX(4px)}
+.cta-note{display:flex;align-items:center;gap:8px;margin:0 0 0 14px;font-size:13.5px;font-weight:600;color:var(--navy)}
+.live-dot{width:9px;height:9px;border-radius:50%;background:var(--r);box-shadow:0 0 0 0 rgba(224,52,43,.6)}
+@media (prefers-reduced-motion:no-preference){
+  .live-dot{animation:live 1.6s ease-out infinite}
+  @keyframes live{70%{box-shadow:0 0 0 8px rgba(224,52,43,0)}100%{box-shadow:0 0 0 0 rgba(224,52,43,0)}}
+}
+@media (max-width:1023px){.hero-cta{justify-items:stretch}.cta-results{justify-content:flex-start}.cta-arrow{margin-left:auto}}
+
+/* Formulaire : séparateur « ou » + bouton résultats */
+.or{display:flex;align-items:center;gap:12px;margin:clamp(8px,1.6vh,14px) 0;color:var(--mut);font-size:13px;font-weight:600}
+.or::before,.or::after{content:"";flex:1;height:1px;background:var(--ln)}
+.secondary{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;cursor:pointer;
+  border:2px solid var(--g);border-radius:999px;background:#fff;color:var(--g);font-weight:700;
+  font-size:clamp(15px,2vh,17px);padding:clamp(8px,1.4vh,13px)}
+.secondary:hover{background:#eaf6ef}
+.secondary svg:first-child{color:#c99a00}
+@media (max-width:420px){.secondary{font-size:14px;gap:6px;padding-inline:8px}}
+
+/* Motion design du bouton « Voir les résultats » */
+.cta-results{position:relative;overflow:hidden;isolation:isolate}
+.cta-results::before{ /* reflet lumineux qui traverse le bouton */
+  content:"";position:absolute;z-index:-1;top:-20%;bottom:-20%;left:-40%;width:35%;pointer-events:none;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.38),transparent);transform:translateX(-120%) skewX(-18deg)}
+.cta-results::after{ /* éclat doré au survol */
+  content:"";position:absolute;z-index:-2;inset:0;border-radius:inherit;pointer-events:none;opacity:0;
+  background:radial-gradient(120% 140% at 0% 50%,rgba(246,201,14,.35),transparent 60%);transition:opacity .3s}
+.cta-results:hover::after{opacity:1}
+.cta-ico svg{transform-origin:50% 90%}
+.secondary{position:relative;overflow:hidden;transition:background .2s,transform .2s}
+.secondary::before{content:"";position:absolute;top:0;bottom:0;left:-40%;width:30%;pointer-events:none;
+  background:linear-gradient(100deg,transparent,rgba(11,122,59,.14),transparent);transform:translateX(-120%) skewX(-18deg)}
+.secondary:hover{transform:translateY(-1px)}
+.secondary svg{transition:transform .25s}
+.secondary:hover svg:last-child{transform:translateX(4px)}
+
+@media (prefers-reduced-motion:no-preference){
+  /* entrée : le bouton surgit avec un léger rebond */
+  .onb .onb-hero>.hero-cta{animation:cta-in .8s .3s cubic-bezier(.34,1.56,.64,1) both}
+  @keyframes cta-in{from{opacity:0;transform:translateY(18px) scale(.92)}}
+  /* halo qui respire autour du bouton */
+  .cta-results{animation:cta-glow 2.8s 1.2s ease-in-out infinite}
+  @keyframes cta-glow{
+    0%,100%{box-shadow:0 0 0 4px rgba(255,255,255,.7),0 0 0 4px rgba(11,122,59,.35),0 18px 34px -14px rgba(7,92,44,.85)}
+    50%{box-shadow:0 0 0 4px rgba(255,255,255,.9),0 0 0 14px rgba(11,122,59,0),0 22px 38px -14px rgba(7,92,44,.95)}}
+  .cta-results:hover{animation-play-state:paused}
+  /* reflet périodique */
+  .cta-results::before{animation:cta-shine 3.6s 1.4s ease-in-out infinite}
+  @keyframes cta-shine{0%{transform:translateX(-120%) skewX(-18deg)}35%,100%{transform:translateX(520%) skewX(-18deg)}}
+  /* trophée qui se balance, pastille qui tourne au survol */
+  .cta-ico svg{animation:cta-trophy 3.6s 1.4s ease-in-out infinite}
+  @keyframes cta-trophy{0%,60%,100%{transform:rotate(0)}66%{transform:rotate(-14deg) scale(1.08)}74%{transform:rotate(10deg) scale(1.08)}82%{transform:rotate(-5deg)}90%{transform:rotate(0)}}
+  .cta-ico{transition:transform .5s cubic-bezier(.34,1.56,.64,1)}
+  .cta-results:hover .cta-ico{transform:rotate(-12deg) scale(1.1)}
+  /* flèche qui invite à cliquer */
+  .cta-arrow{animation:cta-nudge 1.8s 1.2s ease-in-out infinite}
+  @keyframes cta-nudge{0%,100%{transform:translateX(0)}50%{transform:translateX(5px)}}
+  .cta-results:hover .cta-arrow{animation:none;transform:translateX(7px)}
+  .cta-results:active{transform:translateY(0) scale(.97)}
+  /* bouton du formulaire : reflet au survol */
+  .secondary:hover::before{animation:cta-shine 1s ease-out}
+}
+
+/* Tuiles des sports : pictogramme aux couleurs du drapeau */
+.ico.picto{color:#fff;box-shadow:inset 0 -2px 0 rgba(0,0,0,.12)}
+.ico.picto svg{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.ico.picto svg .h{fill:currentColor;stroke:none}
+.ico.picto.t-g{background:#00853f}
+.ico.picto.t-y{background:#fdef42;color:#141414}
+.ico.picto.t-r{background:#e31b23}
+.acc summary .ico.picto svg{width:22px;height:22px}
