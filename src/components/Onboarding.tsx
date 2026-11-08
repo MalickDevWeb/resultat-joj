@@ -1,6 +1,6 @@
 import { useRef, useState, type FormEvent, type ReactNode } from 'react';
 import {
-  ArrowRight, CalendarDays, Medal, Trophy, Eye, EyeOff, Facebook, Instagram, Linkedin, Lock, Mail, MapPin, Youtube,
+  ArrowRight, CalendarDays, Download, Medal, Trophy, Eye, EyeOff, Facebook, Instagram, Linkedin, Lock, Mail, MapPin, Youtube,
 } from 'lucide-react';
 import { DEMO_ACCOUNT } from '../data';
 import { ErrBox, type ApiError } from './ui';
@@ -60,6 +60,7 @@ export function Onboarding({ onLogin, onGuest, canInstall, onInstall }: Props) {
   const [show, setShow] = useState(false);
   const [remember, setRemember] = useState(!!remembered);
   const [err, setErr] = useState<ApiError | null>(null);
+  const [tries, setTries] = useState(0);
   const passRef = useRef<HTMLInputElement>(null);
 
   const unavailable = (what: string) =>
@@ -69,10 +70,12 @@ export function Onboarding({ onLogin, onGuest, canInstall, onInstall }: Props) {
     ev.preventDefault();
     const em = email.trim().toLowerCase();
     if (!em || !pass) {
+      setTries((t) => t + 1);
       setErr({ status: 400, code: 'CREDENTIALS_MISSING', msg: 'Saisissez votre adresse e-mail et votre mot de passe.' });
       return;
     }
     if (em !== DEMO_ACCOUNT.email || pass !== DEMO_ACCOUNT.pass) {
+      setTries((t) => t + 1);
       setErr({ status: 401, code: 'INVALID_CREDENTIALS', msg: 'Adresse e-mail ou mot de passe incorrect.' });
       passRef.current?.focus();
       return;
@@ -98,7 +101,7 @@ export function Onboarding({ onLogin, onGuest, canInstall, onInstall }: Props) {
         <div className="hero-cta">
           <button type="button" className="cta-results" onClick={onGuest}>
             <span className="cta-ico" aria-hidden="true"><Trophy size={26} /></span>
-            <span className="cta-txt"><b>Voir les résultats</b><small>Médailles, podiums et classements en direct</small></span>
+            <span className="cta-txt"><b>Voir les résultats</b><small>Podiums et médailles en direct</small></span>
             <ArrowRight size={22} aria-hidden="true" className="cta-arrow" />
           </button>
           <p className="cta-note"><span className="live-dot" aria-hidden="true" />Accès libre, sans compte</p>
@@ -115,9 +118,10 @@ export function Onboarding({ onLogin, onGuest, canInstall, onInstall }: Props) {
           <span className="card-flag" aria-hidden="true"><i /><i /><i /></span>
           <div className="card-head">
             <svg viewBox="0 0 48 26" aria-hidden="true" className="people">
-              <circle cx="11" cy="7" r="5" fill="#0b7a3b" /><path d="M2 25a9 8 0 0 1 18 0z" fill="#0b7a3b" />
-              <circle cx="24" cy="5.5" r="5.5" fill="#f2c40f" /><path d="M14 25a10 9 0 0 1 20 0z" fill="#f2c40f" />
-              <circle cx="37" cy="7" r="5" fill="#e0342b" /><path d="M28 25a9 8 0 0 1 18 0z" fill="#e0342b" />
+              <g className="p1">
+              <circle cx="11" cy="7" r="5" fill="#0b7a3b" /><path d="M2 25a9 8 0 0 1 18 0z" fill="#0b7a3b" /></g><g className="p2">
+              <circle cx="24" cy="5.5" r="5.5" fill="#f2c40f" /><path d="M14 25a10 9 0 0 1 20 0z" fill="#f2c40f" /></g><g className="p3">
+              <circle cx="37" cy="7" r="5" fill="#e0342b" /><path d="M28 25a9 8 0 0 1 18 0z" fill="#e0342b" /></g>
             </svg>
             <h2>Se connecter</h2>
             <p className="script">Ensemble pour Dakar 2026</p>
@@ -151,7 +155,7 @@ export function Onboarding({ onLogin, onGuest, canInstall, onInstall }: Props) {
               </button>
             </div>
 
-            {err && <ErrBox e={err} />}
+            {err && <div key={tries} className="err-anim"><ErrBox e={err} /></div>}
 
             <button type="submit" className="primary">Se connecter <ArrowRight size={20} aria-hidden="true" /></button>
           </form>
@@ -164,7 +168,10 @@ export function Onboarding({ onLogin, onGuest, canInstall, onInstall }: Props) {
 
         {canInstall && (
           <div className="guest">
-            <button type="button" onClick={onInstall}>Installer l'application</button>
+            <button type="button" onClick={onInstall}>
+              <Download size={16} aria-hidden="true" />
+              Installer l'application
+            </button>
           </div>
         )}
       </div>

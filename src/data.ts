@@ -138,3 +138,13 @@ export const SCENES: Record<string, string> = {
     <path d="M76 66Q92 38 112 62M62 70L46 76" stroke="#fff" ${W}/><circle cx="70" cy="68" r="8" fill="#fdef42"/>
     <path d="M0 76q10-6 20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0M0 90q10-6 20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0" stroke="#fff" stroke-width="3" fill="none" opacity=".85"/>`,
 };
+
+/** Texte normalisé pour la recherche (minuscules, sans accents). */
+export const norm = (t: string) => t.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+/** Vrai si tous les mots de la recherche apparaissent dans l'un des textes. */
+export const matches = (q: string, ...texts: string[]) => {
+  const words = norm(q).split(/\s+/).filter(Boolean);
+  if (!words.length) return true;
+  const hay = norm(texts.join(' '));
+  return words.every((w) => hay.includes(w));
+};

@@ -20,12 +20,12 @@ export const usePWAInstall = () => {
       return;
     }
 
-    // Détection iOS
+    // Détection iOS (iPhone, iPad, iPod)
     const userAgent = window.navigator.userAgent.toLowerCase();
-    const isIosDevice = /iphone|ipad|ipod/.test(userAgent);
+    const isIosDevice = /iphone|ipad|ipod/.test(userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
     setIsIOS(isIosDevice);
 
-    if (isIosDevice && !isStandalone) {
+    if (!isStandalone) {
       setIsInstallable(true);
     }
 

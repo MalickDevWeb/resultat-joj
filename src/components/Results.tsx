@@ -1,28 +1,32 @@
-import { ALL_SITES, LIVE, SOURCE, SPORTS, at, today, type PodiumEvent, type Session } from '../data';
+import { CalendarDays } from 'lucide-react';
+import { ALL_SITES, LIVE, NOC, SOURCE, SPORTS, at, cur, matches, sportTone, today, type PodiumEvent, type Session } from '../data';
 import { Badge, Scene, SportIcon } from './ui';
 
 interface Props {
   events: PodiumEvent[];
   pending: Session[];
   site: string;
+  q: string;
   isPublic: boolean;
   openId: string | null;
   onOpen: (id: string) => void;
   onLogin: () => void;
 }
 
-export function Results({ events, pending, site, isPublic, openId, onOpen, onLogin }: Props) {
+export function Results({ events, pending, site, q, isPublic, openId, onOpen, onLogin }: Props) {
   const inSite = (x: Session) => site === ALL_SITES || x.site === site;
+  const hitS = (x: Session) => matches(q, x.disc, x.name, x.venue, x.site);
+  const hitE = (e: PodiumEvent) => hitS(e) || cur(e).pod.some((p) => matches(q, p.n, p.c, NOC[p.c] ?? '', ...(p.team ?? [])));
   const list = SPORTS.map((d) => {
-    const L = LIVE.filter((x) => x.disc === d && inSite(x));
-    const P = events.filter((e) => e.disc === d && inSite(e)).sort((a, b) => b.time.localeCompare(a.time));
-    const U = pending.filter((x) => x.disc === d && inSite(x));
+    const L = LIVE.filter((x) => x.disc === d && inSite(x) && hitS(x));
+    const P = events.filter((e) => e.disc === d && inSite(e) && hitE(e)).sort((a, b) => b.time.localeCompare(a.time));
+    const U = pending.filter((x) => x.disc === d && inSite(x) && hitS(x));
     return { d, L, P, U, total: L.length + P.length + U.length };
   }).filter((x) => x.total)
     // Les sports qui ont déjà des podiums d'abord (tri stable : l'ordre du programme est conservé).
     .sort((a, b) => Number(b.P.length > 0) - Number(a.P.length > 0));
 
-  if (!list.length) return <p className="empty">Aucune épreuve sur ce site aujourd'hui.</p>;
+  if (!list.length) return <p className="empty">{q.trim() ? `Aucun résultat pour « ${q.trim()} ».` : "Aucune épreuve sur ce site aujourd'hui."}</p>;
 
   const liveList = list.filter((x) => x.L.length);
   const others = list.filter((x) => !x.L.length);
@@ -34,7 +38,7 @@ export function Results({ events, pending, site, isPublic, openId, onOpen, onLog
     <>
       <div className="day">
         <div>
-          <span className="pill">{nLive ? `${nLive} en direct` : "Aujourd'hui"}</span>
+          <span className="pill"><CalendarDays size={14} aria-hidden="true" /> {nLive ? `${nLive} en direct` : "Aujourd'hui"}</span>
           <h2>{today()}</h2>
         </div>
       </div>
@@ -59,10 +63,13 @@ export function Results({ events, pending, site, isPublic, openId, onOpen, onLog
 
       {others.length > 0 && (
         <>
-          <div className="block-title"><h2>{n ? 'Autres sports' : 'Sports'}</h2><span>Terminés ou à venir</span></div>
+          <div className="block-title">
+            <h2><svg viewBox="0 0 24 24" aria-hidden="true" className="p24 bt-ico"><circle className="h" cx="15" cy="4" r="2" /><path d="M14 7l-3 6M14 7l3 3 3-1M14 7l-4 1-2 3M11 13l4 3-1 5M11 13l-3 4H4" /></svg>{n ? 'Autres sports' : 'Sports'}</h2>
+            <i className="bt-line" aria-hidden="true" /><span>Terminés ou à venir</span>
+          </div>
           <div className="acc">
             {others.map((x) => (
-              <details key={x.d}>
+              <details key={x.d} className={`st-${sportTone(x.d)}`} open={q.trim() ? true : undefined}>
                 <summary>
                   <SportIcon d={x.d} />
                   <span className="sum">
