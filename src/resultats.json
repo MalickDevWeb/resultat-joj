@@ -3,7 +3,7 @@
   "name": "Wikipédia",
   "url": "https://en.wikipedia.org/wiki/2026_Summer_Youth_Olympics",
   "license": "CC BY-SA 4.0",
-  "fetchedAt": "2026-11-07T17:50:16.270Z"
+  "fetchedAt": "2026-11-11T20:59:08.082Z"
  },
  "sites": [
   "Dakar",
@@ -349,6 +349,1416 @@
  },
  "events": [
   {
+   "id": "athletics-m-100-m",
+   "disc": "Athlétisme",
+   "name": "100 m garçons",
+   "site": "Dakar",
+   "venue": "Stade Iba Mar Diop",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Gift Bright",
+       "c": "NGR",
+       "perf": "10.28",
+       "m": 1
+      },
+      {
+       "n": "Zhang Hangyu",
+       "c": "CHN",
+       "perf": "10.57",
+       "m": 2
+      },
+      {
+       "n": "Szymon Dołęga",
+       "c": "POL",
+       "perf": "10.61",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "athletics-m-200-m",
+   "disc": "Athlétisme",
+   "name": "200 m garçons",
+   "site": "Dakar",
+   "venue": "Stade Iba Mar Diop",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Ropafadzo Mzondo",
+       "c": "ZIM",
+       "perf": "21.04",
+       "m": 1
+      },
+      {
+       "n": "Deuquan' Farrell",
+       "c": "GUY",
+       "perf": "21.36",
+       "m": 2
+      },
+      {
+       "n": "Pi Wangkay",
+       "c": "PHI",
+       "perf": "21.36",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "athletics-m-400-m",
+   "disc": "Athlétisme",
+   "name": "400 m garçons",
+   "site": "Dakar",
+   "venue": "Stade Iba Mar Diop",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Saeed Omar",
+       "c": "UAE",
+       "perf": "46.40",
+       "m": 1
+      },
+      {
+       "n": "Mustapha Jadama",
+       "c": "GAM",
+       "perf": "46.93",
+       "m": 2
+      },
+      {
+       "n": "Han Liu",
+       "c": "CHN",
+       "perf": "47.16",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "athletics-m-800-m",
+   "disc": "Athlétisme",
+   "name": "800 m garçons",
+   "site": "Dakar",
+   "venue": "Stade Iba Mar Diop",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Yomif Abebe",
+       "c": "ETH",
+       "perf": "1:48.99",
+       "m": 1
+      },
+      {
+       "n": "Ghebreab Mantay",
+       "c": "ERI",
+       "perf": "1:49.31",
+       "m": 2
+      },
+      {
+       "n": "Timothy Cheptoek",
+       "c": "UGA",
+       "perf": "1:51.59",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "athletics-m-1500-m",
+   "disc": "Athlétisme",
+   "name": "1500 m garçons",
+   "site": "Dakar",
+   "venue": "Stade Iba Mar Diop",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Wabi Seblega",
+       "c": "ETH",
+       "perf": "3:58.73",
+       "m": 1
+      },
+      {
+       "n": "Lahiru Achintha Gallage",
+       "c": "SRI",
+       "perf": "3:59.08",
+       "m": 2
+      },
+      {
+       "n": "Alex Sangil",
+       "c": "ESP",
+       "perf": "3:59.70",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "athletics-m-3000-m",
+   "disc": "Athlétisme",
+   "name": "3000 m garçons",
+   "site": "Dakar",
+   "venue": "Stade Iba Mar Diop",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Enock Tuitoek",
+       "c": "KEN",
+       "perf": "8:07.69",
+       "m": 1
+      },
+      {
+       "n": "Goytom Mekonen",
+       "c": "ETH",
+       "perf": "8:08.24",
+       "m": 2
+      },
+      {
+       "n": "Meziane Benhammou",
+       "c": "FRA",
+       "perf": "8:11.59",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "athletics-m-110-m-hurdles",
+   "disc": "Athlétisme",
+   "name": "110 m haies garçons",
+   "site": "Dakar",
+   "venue": "Stade Iba Mar Diop",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Marquies Page",
+       "c": "JAM",
+       "perf": "12.95",
+       "m": 1
+      },
+      {
+       "n": "Shijie Chen",
+       "c": "CHN",
+       "perf": "13.40",
+       "m": 2
+      },
+      {
+       "n": "Enrique Bosch",
+       "c": "RSA",
+       "perf": "13.45",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "athletics-m-400-m-hurdles",
+   "disc": "Athlétisme",
+   "name": "400 m haies garçons",
+   "site": "Dakar",
+   "venue": "Stade Iba Mar Diop",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Jaeden Campbell",
+       "c": "JAM",
+       "perf": "50.60",
+       "m": 1
+      },
+      {
+       "n": "Noriyuki Takano",
+       "c": "JPN",
+       "perf": "50.88",
+       "m": 2
+      },
+      {
+       "n": "Zsombor Klucsik",
+       "c": "AUT",
+       "perf": "51.59",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "athletics-m-2000-m-steeplechase",
+   "disc": "Athlétisme",
+   "name": "2000 m steeple garçons",
+   "site": "Dakar",
+   "venue": "Stade Iba Mar Diop",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Junedin Abdo",
+       "c": "ETH",
+       "perf": "5:29.30",
+       "m": 1
+      },
+      {
+       "n": "Wesley Kiplagat Kipkech",
+       "c": "KEN",
+       "perf": "5:36.28",
+       "m": 2
+      },
+      {
+       "n": "Michael Kibet",
+       "c": "UGA",
+       "perf": "5:39.50",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "athletics-m-5000-m-race-walk",
+   "disc": "Athlétisme",
+   "name": "5000 m marche garçons",
+   "site": "Dakar",
+   "venue": "Stade Iba Mar Diop",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Gabriel González",
+       "c": "ESP",
+       "perf": "20:41.36",
+       "m": 1
+      },
+      {
+       "n": "Vitalii Tarasiuk",
+       "c": "UKR",
+       "perf": "20:55.54",
+       "m": 2
+      },
+      {
+       "n": "Futo Abe",
+       "c": "JPN",
+       "perf": "21:09.22",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "athletics-m-high-jump",
+   "disc": "Athlétisme",
+   "name": "Saut en hauteur garçons",
+   "site": "Dakar",
+   "venue": "Stade Iba Mar Diop",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Matao le Roux",
+       "c": "RSA",
+       "perf": "2.16 m",
+       "m": 1
+      },
+      {
+       "n": "Sen Liu",
+       "c": "CHN",
+       "perf": "2.14 m",
+       "m": 2
+      },
+      {
+       "n": "Ahmed Mohamed Zaki Mohamed",
+       "c": "EGY",
+       "perf": "2.09 m",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "athletics-m-pole-vault",
+   "disc": "Athlétisme",
+   "name": "Saut à la perche garçons",
+   "site": "Dakar",
+   "venue": "Stade Iba Mar Diop",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Axel Faye",
+       "c": "FRA",
+       "perf": "4.95 m",
+       "m": 1
+      },
+      {
+       "n": "Carlo Crúz",
+       "c": "MEX",
+       "perf": "4.85 m",
+       "m": 2
+      },
+      {
+       "n": "Tanakorn Daengmanee",
+       "c": "THA",
+       "perf": "4.85 m",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "athletics-m-long-jump",
+   "disc": "Athlétisme",
+   "name": "Saut en longueur garçons",
+   "site": "Dakar",
+   "venue": "Stade Iba Mar Diop",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Koki Hasebe",
+       "c": "JPN",
+       "perf": "7.45 m",
+       "m": 1
+      },
+      {
+       "n": "Stiliyan Orlinov",
+       "c": "BUL",
+       "perf": "7.30 m",
+       "m": 2
+      },
+      {
+       "n": "Ibrahim Sawadogo",
+       "c": "BUR",
+       "perf": "7.23 m",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "athletics-m-triple-jump",
+   "disc": "Athlétisme",
+   "name": "Triple saut garçons",
+   "site": "Dakar",
+   "venue": "Stade Iba Mar Diop",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Sheng Xuefeng",
+       "c": "CHN",
+       "perf": "16.18 m",
+       "m": 1
+      },
+      {
+       "n": "Shakhzodbek Kholmurodov",
+       "c": "UZB",
+       "perf": "15.71 m",
+       "m": 2
+      },
+      {
+       "n": "João Matos",
+       "c": "POR",
+       "perf": "15.53 m",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "athletics-m-shot-put",
+   "disc": "Athlétisme",
+   "name": "Lancer du poids garçons",
+   "site": "Dakar",
+   "venue": "Stade Iba Mar Diop",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Pyetro Henrico Souza",
+       "c": "BRA",
+       "perf": "19.79 m",
+       "m": 1
+      },
+      {
+       "n": "Xhaevion Kelly",
+       "c": "JAM",
+       "perf": "19.34 m",
+       "m": 2
+      },
+      {
+       "n": "Darius Botha",
+       "c": "RSA",
+       "perf": "19.23 m",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "athletics-m-discus-throw",
+   "disc": "Athlétisme",
+   "name": "Lancer du disque garçons",
+   "site": "Dakar",
+   "venue": "Stade Iba Mar Diop",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Yahya Sawaby",
+       "c": "EGY",
+       "perf": "68.23 m",
+       "m": 1
+      },
+      {
+       "n": "Kamari Kennedy",
+       "c": "JAM",
+       "perf": "66.31 m",
+       "m": 2
+      },
+      {
+       "n": "Vittorio Gorziglia",
+       "c": "CHI",
+       "perf": "56.00 m",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "athletics-m-hammer-throw",
+   "disc": "Athlétisme",
+   "name": "Lancer du marteau garçons",
+   "site": "Dakar",
+   "venue": "Stade Iba Mar Diop",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Patry Iván Valdez",
+       "c": "ECU",
+       "perf": "73.27 m",
+       "m": 1
+      },
+      {
+       "n": "John-Pierre Theron",
+       "c": "RSA",
+       "perf": "71.79 m",
+       "m": 2
+      },
+      {
+       "n": "Mohamed Ismail",
+       "c": "EGY",
+       "perf": "69.72 m",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "athletics-m-javelin-throw",
+   "disc": "Athlétisme",
+   "name": "Lancer du javelot garçons",
+   "site": "Dakar",
+   "venue": "Stade Iba Mar Diop",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Marco Kaethler",
+       "c": "PAR",
+       "perf": "73.49 m",
+       "m": 1
+      },
+      {
+       "n": "Dilan Graciano",
+       "c": "COL",
+       "perf": "71.72 m",
+       "m": 2
+      },
+      {
+       "n": "Vladimir Culis",
+       "c": "MDA",
+       "perf": "67.43 m",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "athletics-w-100-m",
+   "disc": "Athlétisme",
+   "name": "100 m filles",
+   "site": "Dakar",
+   "venue": "Stade Iba Mar Diop",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Rosemary Nwankwo",
+       "c": "NGR",
+       "perf": "11.16",
+       "m": 1
+      },
+      {
+       "n": "Arwa Ali",
+       "c": "UAE",
+       "perf": "11.41",
+       "m": 2
+      },
+      {
+       "n": "Dana Salem",
+       "c": "QAT",
+       "perf": "11.48",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "athletics-w-200-m",
+   "disc": "Athlétisme",
+   "name": "200 m filles",
+   "site": "Dakar",
+   "venue": "Stade Iba Mar Diop",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Patricia Siné",
+       "c": "DOM",
+       "perf": "23.35",
+       "m": 1
+      },
+      {
+       "n": "Tyra Fenton",
+       "c": "ANT",
+       "perf": "23.36",
+       "m": 2
+      },
+      {
+       "n": "Chen Xinxuan",
+       "c": "CHN",
+       "perf": "24.03",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "athletics-w-400-m",
+   "disc": "Athlétisme",
+   "name": "400 m filles",
+   "site": "Dakar",
+   "venue": "Stade Iba Mar Diop",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Praise Ugoh",
+       "c": "NGR",
+       "perf": "52.76",
+       "m": 1
+      },
+      {
+       "n": "Osmary Pacheco",
+       "c": "VEN",
+       "perf": "52.85",
+       "m": 2
+      },
+      {
+       "n": "Aisha Muhammed",
+       "c": "UAE",
+       "perf": "53.06",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "athletics-w-800-m",
+   "disc": "Athlétisme",
+   "name": "800 m filles",
+   "site": "Dakar",
+   "venue": "Stade Iba Mar Diop",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Netsanet Selemon",
+       "c": "ETH",
+       "perf": "2:04.43",
+       "m": 1
+      },
+      {
+       "n": "Naomi Cesar",
+       "c": "PHI",
+       "perf": "2:09.34",
+       "m": 2
+      },
+      {
+       "n": "Khadija Elmostaqim",
+       "c": "MAR",
+       "perf": "2:10.05",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "athletics-w-1500-m",
+   "disc": "Athlétisme",
+   "name": "1500 m filles",
+   "site": "Dakar",
+   "venue": "Stade Iba Mar Diop",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Elsabet Amare",
+       "c": "ETH",
+       "perf": "4:28.02",
+       "m": 1
+      },
+      {
+       "n": "Abigael Chepkirui",
+       "c": "KEN",
+       "perf": "4:29.86",
+       "m": 2
+      },
+      {
+       "n": "Kanari Estifanos",
+       "c": "ERI",
+       "perf": "4:31.10",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "athletics-w-3000-m",
+   "disc": "Athlétisme",
+   "name": "3000 m filles",
+   "site": "Dakar",
+   "venue": "Stade Iba Mar Diop",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Faith Rono",
+       "c": "KEN",
+       "perf": "9:15.47",
+       "m": 1
+      },
+      {
+       "n": "Yordanos Tsigab",
+       "c": "ETH",
+       "perf": "9:15.71",
+       "m": 2
+      },
+      {
+       "n": "Keren Chelimo",
+       "c": "UGA",
+       "perf": "9:32.41",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "athletics-w-100-m-hurdles",
+   "disc": "Athlétisme",
+   "name": "100 m haies filles",
+   "site": "Dakar",
+   "venue": "Stade Iba Mar Diop",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Zhang Keyi",
+       "c": "CHN",
+       "perf": "13.17",
+       "m": 1
+      },
+      {
+       "n": "Anna Peeters",
+       "c": "FRA",
+       "perf": "13.57",
+       "m": 2
+      },
+      {
+       "n": "Shourya Avinash Ambure",
+       "c": "IND",
+       "perf": "13.59",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "athletics-w-400-m-hurdles",
+   "disc": "Athlétisme",
+   "name": "400 m haies filles",
+   "site": "Dakar",
+   "venue": "Stade Iba Mar Diop",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Megan Nieman",
+       "c": "RSA",
+       "perf": "57.75",
+       "m": 1
+      },
+      {
+       "n": "Mina Hirsbrunner",
+       "c": "SUI",
+       "perf": "57.84",
+       "m": 2
+      },
+      {
+       "n": "Michell Gómez",
+       "c": "COL",
+       "perf": "58.90",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "athletics-w-2000-m-steeplechase",
+   "disc": "Athlétisme",
+   "name": "2000 m steeple filles",
+   "site": "Dakar",
+   "venue": "Stade Iba Mar Diop",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Abigael Kosgei",
+       "c": "KEN",
+       "perf": "6:30.24",
+       "m": 1
+      },
+      {
+       "n": "Mekonen Abera",
+       "c": "ETH",
+       "perf": "6:32.15",
+       "m": 2
+      },
+      {
+       "n": "Elif Çelik",
+       "c": "TUR",
+       "perf": "6:36.99",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "athletics-w-5000-m-race-walk",
+   "disc": "Athlétisme",
+   "name": "5000 m marche filles",
+   "site": "Dakar",
+   "venue": "Stade Iba Mar Diop",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Wang Yaru",
+       "c": "CHN",
+       "perf": "22:58.33",
+       "m": 1
+      },
+      {
+       "n": "Justė Andrijauskaitė",
+       "c": "LTU",
+       "perf": "23:55.00",
+       "m": 2
+      },
+      {
+       "n": "Daryna Kozka",
+       "c": "UKR",
+       "perf": "23:58.96",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "athletics-w-high-jump",
+   "disc": "Athlétisme",
+   "name": "Saut en hauteur filles",
+   "site": "Dakar",
+   "venue": "Stade Iba Mar Diop",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Yasmeen Roy",
+       "c": "KUW",
+       "perf": "1.80 m",
+       "m": 1
+      },
+      {
+       "n": "Milan Blignaut",
+       "c": "RSA",
+       "perf": "1.74 m",
+       "m": 2
+      },
+      {
+       "n": "Malia Housen",
+       "c": "JAM",
+       "perf": "1.71 m",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "athletics-w-pole-vault",
+   "disc": "Athlétisme",
+   "name": "Saut à la perche filles",
+   "site": "Dakar",
+   "venue": "Stade Iba Mar Diop",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Julie Bourgis",
+       "c": "FRA",
+       "perf": "4.20 m",
+       "m": 1
+      },
+      {
+       "n": "Csenge Zsombor",
+       "c": "HUN",
+       "perf": "3.80 m",
+       "m": 2
+      },
+      {
+       "n": "Lena Kaczkowska",
+       "c": "POL",
+       "perf": "3.60 m",
+       "m": 3
+      },
+      {
+       "n": "Kiyora Matsuura",
+       "c": "JPN",
+       "perf": "",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "athletics-w-long-jump",
+   "disc": "Athlétisme",
+   "name": "Saut en longueur filles",
+   "site": "Dakar",
+   "venue": "Stade Iba Mar Diop",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Poko Silvia Canape",
+       "c": "ITA",
+       "perf": "5.92 m",
+       "m": 1
+      },
+      {
+       "n": "Maria Saadi",
+       "c": "MAR",
+       "perf": "5.89 m",
+       "m": 2
+      },
+      {
+       "n": "Deborah Achleitner",
+       "c": "AUT",
+       "perf": "5.72 m",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "athletics-w-triple-jump",
+   "disc": "Athlétisme",
+   "name": "Triple saut filles",
+   "site": "Dakar",
+   "venue": "Stade Iba Mar Diop",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Gift Okunrobo",
+       "c": "ESP",
+       "perf": "12.69 m",
+       "m": 1
+      },
+      {
+       "n": "Amelia Negulescu",
+       "c": "ROU",
+       "perf": "12.67 m",
+       "m": 2
+      },
+      {
+       "n": "Zalissa Zongo",
+       "c": "BUR",
+       "perf": "12.67 m",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "athletics-w-shot-put",
+   "disc": "Athlétisme",
+   "name": "Lancer du poids filles",
+   "site": "Dakar",
+   "venue": "Stade Iba Mar Diop",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Zsófi Marton",
+       "c": "HUN",
+       "perf": "16.47 m",
+       "m": 1
+      },
+      {
+       "n": "Zara Veltruski",
+       "c": "CRO",
+       "perf": "16.12 m",
+       "m": 2
+      },
+      {
+       "n": "Alaa Belal",
+       "c": "EGY",
+       "perf": "15.92 m",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "athletics-w-discus-throw",
+   "disc": "Athlétisme",
+   "name": "Lancer du disque filles",
+   "site": "Dakar",
+   "venue": "Stade Iba Mar Diop",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Marina Hadjicosta",
+       "c": "CYP",
+       "perf": "53.20 m",
+       "m": 1
+      },
+      {
+       "n": "Katr Ennada Jaoued",
+       "c": "TUN",
+       "perf": "49.28 m",
+       "m": 2
+      },
+      {
+       "n": "Kendra Duany",
+       "c": "MEX",
+       "perf": "48.44 m",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "athletics-w-hammer-throw",
+   "disc": "Athlétisme",
+   "name": "Lancer du marteau filles",
+   "site": "Dakar",
+   "venue": "Stade Iba Mar Diop",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Milaniia Kokhan",
+       "c": "UKR",
+       "perf": "71.27 m",
+       "m": 1
+      },
+      {
+       "n": "Yang Xingyue",
+       "c": "CHN",
+       "perf": "65.96 m",
+       "m": 2
+      },
+      {
+       "n": "Alison Salinas",
+       "c": "MEX",
+       "perf": "61.52 m",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "athletics-w-javelin-throw",
+   "disc": "Athlétisme",
+   "name": "Lancer du javelot filles",
+   "site": "Dakar",
+   "venue": "Stade Iba Mar Diop",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Ilsa Mayerlin Córdoba",
+       "c": "COL",
+       "perf": "57.62 m",
+       "m": 1
+      },
+      {
+       "n": "Parizoda Talabova",
+       "c": "UZB",
+       "perf": "54.68 m",
+       "m": 2
+      },
+      {
+       "n": "Eliza Ligere",
+       "c": "LAT",
+       "perf": "52.00 m",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
    "id": "rugby-sevens-m-men",
    "disc": "Rugby à 7",
    "name": "Tournoi garçons",
@@ -504,6 +1914,456 @@
         "Sariaka Raveloarisoa",
         "Melissah Razafindravelo"
        ],
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "taekwondo-m-48-kg",
+   "disc": "Taekwondo",
+   "name": "48 kg garçons",
+   "site": "Dakar",
+   "venue": "Gymnase Iba Mar Diop",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Taekwondo_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Youssef Hassan Kamal",
+       "c": "EGY",
+       "perf": "",
+       "m": 1
+      },
+      {
+       "n": "Maxence Botta",
+       "c": "FRA",
+       "perf": "",
+       "m": 2
+      },
+      {
+       "n": "Abdellatif Ladimat",
+       "c": "MAR",
+       "perf": "",
+       "m": 3
+      },
+      {
+       "n": "Dmitrii Balagula",
+       "c": "MDA",
+       "perf": "",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "taekwondo-m-55-kg",
+   "disc": "Taekwondo",
+   "name": "55 kg garçons",
+   "site": "Dakar",
+   "venue": "Gymnase Iba Mar Diop",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Taekwondo_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Cheng Po-yu",
+       "c": "TPE",
+       "perf": "",
+       "m": 1
+      },
+      {
+       "n": "Asadbek Samandarov",
+       "c": "UZB",
+       "perf": "",
+       "m": 2
+      },
+      {
+       "n": "Alejandro Tordoya",
+       "c": "BOL",
+       "perf": "",
+       "m": 3
+      },
+      {
+       "n": "Abdoul Aziz Issifi Mamoudou",
+       "c": "NIG",
+       "perf": "",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "taekwondo-m-63-kg",
+   "disc": "Taekwondo",
+   "name": "63 kg garçons",
+   "site": "Dakar",
+   "venue": "Gymnase Iba Mar Diop",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Taekwondo_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Abdallah Al-Zawahra",
+       "c": "JOR",
+       "perf": "",
+       "m": 1
+      },
+      {
+       "n": "Guillermo Cortés",
+       "c": "MEX",
+       "perf": "",
+       "m": 2
+      },
+      {
+       "n": "Nikolai Sparre",
+       "c": "GER",
+       "perf": "",
+       "m": 3
+      },
+      {
+       "n": "İbrahim Efe Düzel",
+       "c": "TUR",
+       "perf": "",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "taekwondo-m-73-kg",
+   "disc": "Taekwondo",
+   "name": "73 kg garçons",
+   "site": "Dakar",
+   "venue": "Gymnase Iba Mar Diop",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Taekwondo_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Ahmad Al-Dahamsheh",
+       "c": "JOR",
+       "perf": "",
+       "m": 1
+      },
+      {
+       "n": "Adil Kazimli",
+       "c": "AZE",
+       "perf": "",
+       "m": 2
+      },
+      {
+       "n": "Jorge Martínez",
+       "c": "MEX",
+       "perf": "",
+       "m": 3
+      },
+      {
+       "n": "Ameth Diop",
+       "c": "SEN",
+       "perf": "",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "taekwondo-m-plus-73-kg",
+   "disc": "Taekwondo",
+   "name": "+73 kg garçons",
+   "site": "Dakar",
+   "venue": "Gymnase Iba Mar Diop",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Taekwondo_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Benyamin Soltanian",
+       "c": "IRI",
+       "perf": "",
+       "m": 1
+      },
+      {
+       "n": "Iván Lysenko",
+       "c": "ESP",
+       "perf": "",
+       "m": 2
+      },
+      {
+       "n": "Jang Jun-won",
+       "c": "KOR",
+       "perf": "",
+       "m": 3
+      },
+      {
+       "n": "Bashir Adzhiev",
+       "c": "RUS",
+       "perf": "",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "taekwondo-w-44-kg",
+   "disc": "Taekwondo",
+   "name": "44 kg filles",
+   "site": "Dakar",
+   "venue": "Gymnase Iba Mar Diop",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Taekwondo_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Petra Uglešić",
+       "c": "CRO",
+       "perf": "",
+       "m": 1
+      },
+      {
+       "n": "Elina Tkhamokova",
+       "c": "RUS",
+       "perf": "",
+       "m": 2
+      },
+      {
+       "n": "Virginia Lampis",
+       "c": "ITA",
+       "perf": "",
+       "m": 3
+      },
+      {
+       "n": "Lai Yi-jhen",
+       "c": "TPE",
+       "perf": "",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "taekwondo-w-49-kg",
+   "disc": "Taekwondo",
+   "name": "49 kg filles",
+   "site": "Dakar",
+   "venue": "Gymnase Iba Mar Diop",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Taekwondo_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Lee Si-woo",
+       "c": "KOR",
+       "perf": "",
+       "m": 1
+      },
+      {
+       "n": "Mackenzie Macdonald",
+       "c": "AUS",
+       "perf": "",
+       "m": 2
+      },
+      {
+       "n": "Ioanna Konstantinou",
+       "c": "CYP",
+       "perf": "",
+       "m": 3
+      },
+      {
+       "n": "Housseina Zada Mamoudou",
+       "c": "NIG",
+       "perf": "",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "taekwondo-w-55-kg",
+   "disc": "Taekwondo",
+   "name": "55 kg filles",
+   "site": "Dakar",
+   "venue": "Gymnase Iba Mar Diop",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Taekwondo_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Marie Sarr",
+       "c": "SEN",
+       "perf": "",
+       "m": 1
+      },
+      {
+       "n": "Yasmine Haouani",
+       "c": "TUN",
+       "perf": "",
+       "m": 2
+      },
+      {
+       "n": "Aline Herrera",
+       "c": "MEX",
+       "perf": "",
+       "m": 3
+      },
+      {
+       "n": "Karlee Vogel",
+       "c": "USA",
+       "perf": "",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "taekwondo-w-63-kg",
+   "disc": "Taekwondo",
+   "name": "63 kg filles",
+   "site": "Dakar",
+   "venue": "Gymnase Iba Mar Diop",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Taekwondo_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Luna Fellinger",
+       "c": "GER",
+       "perf": "",
+       "m": 1
+      },
+      {
+       "n": "Asal Goltapeh",
+       "c": "IRI",
+       "perf": "",
+       "m": 2
+      },
+      {
+       "n": "Aïda Touré",
+       "c": "SEN",
+       "perf": "",
+       "m": 3
+      },
+      {
+       "n": "Ayşe Işık",
+       "c": "TUR",
+       "perf": "",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "taekwondo-w-plus-63-kg",
+   "disc": "Taekwondo",
+   "name": "+63 kg filles",
+   "site": "Dakar",
+   "venue": "Gymnase Iba Mar Diop",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Taekwondo_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Ema Zećirović",
+       "c": "SRB",
+       "perf": "",
+       "m": 1
+      },
+      {
+       "n": "Alice Bínová",
+       "c": "CZE",
+       "perf": "",
+       "m": 2
+      },
+      {
+       "n": "Meriem Benyoub",
+       "c": "FRA",
+       "perf": "",
+       "m": 3
+      },
+      {
+       "n": "Lyubov Yun",
+       "c": "KAZ",
+       "perf": "",
        "m": 3
       }
      ]
@@ -1750,6 +3610,237 @@
    ]
   },
   {
+   "id": "road-cycling-m-men-s-road-race",
+   "disc": "Cyclisme sur route",
+   "name": "Course en ligne garçons",
+   "site": "Dakar",
+   "venue": "Corniche Ouest",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Road_cycling_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Daan Wilmsen",
+       "c": "BEL",
+       "perf": "",
+       "m": 1
+      },
+      {
+       "n": "Stepan Bortnik",
+       "c": "RUS",
+       "perf": "",
+       "m": 2
+      },
+      {
+       "n": "Caleb McKenzie",
+       "c": "AUS",
+       "perf": "",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "road-cycling-m-men-s-time-trial",
+   "disc": "Cyclisme sur route",
+   "name": "Contre-la-montre garçons",
+   "site": "Dakar",
+   "venue": "Corniche Ouest",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Road_cycling_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Timotej Michalík",
+       "c": "SVK",
+       "perf": "",
+       "m": 1
+      },
+      {
+       "n": "Lorenzo Ceccarello",
+       "c": "ITA",
+       "perf": "",
+       "m": 2
+      },
+      {
+       "n": "Daan Wilmsen",
+       "c": "BEL",
+       "perf": "",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "road-cycling-w-women-s-road-race",
+   "disc": "Cyclisme sur route",
+   "name": "Course en ligne filles",
+   "site": "Dakar",
+   "venue": "Corniche Ouest",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Road_cycling_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Angelina Novolodskaya",
+       "c": "RUS",
+       "perf": "",
+       "m": 1
+      },
+      {
+       "n": "Elsie Apps",
+       "c": "AUS",
+       "perf": "",
+       "m": 2
+      },
+      {
+       "n": "Linda Sítková",
+       "c": "CZE",
+       "perf": "",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "road-cycling-w-women-s-time-trial",
+   "disc": "Cyclisme sur route",
+   "name": "Contre-la-montre filles",
+   "site": "Dakar",
+   "venue": "Corniche Ouest",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Road_cycling_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Anel Tashbay",
+       "c": "KAZ",
+       "perf": "",
+       "m": 1
+      },
+      {
+       "n": "Karolína Hajduková",
+       "c": "SVK",
+       "perf": "",
+       "m": 2
+      },
+      {
+       "n": "Angelina Novolodskaya",
+       "c": "RUS",
+       "perf": "",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "futsal-w-women",
+   "disc": "Futsal",
+   "name": "Tournoi filles",
+   "site": "Diamniadio",
+   "venue": "Dakar Arena",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Futsal_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Ukraine",
+       "c": "UKR",
+       "perf": "",
+       "team": [
+        "Polina Serykh",
+        "Kira Hulenko",
+        "Evelina Zavhorodnia",
+        "Yeva Shchavinska",
+        "Anhelina Zaporozhets",
+        "Alina Hordiienko",
+        "Marharyta Ruchka",
+        "Adelina Vlasenko",
+        "Valeriia Yukhnovets",
+        "Oksana Shevchuk"
+       ],
+       "m": 1
+      },
+      {
+       "n": "Venezuela",
+       "c": "VEN",
+       "perf": "",
+       "team": [
+        "Sofía Torrealba",
+        "Nelmari Aguilar",
+        "Eliannys Paz",
+        "María Briceño",
+        "Valeska Gutiérrez",
+        "Victoria Colmenarez",
+        "Flavia Rodríguez",
+        "Antonella Mejía",
+        "Alexa Velásquez",
+        "Sophya Silva"
+       ],
+       "m": 2
+      },
+      {
+       "n": "Iran",
+       "c": "IRI",
+       "perf": "",
+       "team": [
+        "Fatemeh Shokrani",
+        "Melina Nikbakht",
+        "Nafiseh Mohammadi",
+        "Niyayesh Rahmani",
+        "Sarina Zare",
+        "Tanaz Bagheri",
+        "Hadis Yari",
+        "Setayesh Rezaei",
+        "Elnaz Hosseinipour",
+        "Narges Amirmohseni"
+       ],
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
    "id": "badminton-m-men-s-singles",
    "disc": "Badminton",
    "name": "Simple garçons",
@@ -1859,6 +3950,279 @@
       {
        "n": "Alejandro Gutiérrez",
        "c": "COL",
+       "perf": "",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "archery-m-men-s-individual",
+   "disc": "Tir à l'arc",
+   "name": "Individuel garçons",
+   "site": "Diamniadio",
+   "venue": "Stade Abdoulaye-Wade",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Archery_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Maël Lamouret",
+       "c": "FRA",
+       "perf": "",
+       "m": 1
+      },
+      {
+       "n": "Chen Pin-an",
+       "c": "TPE",
+       "perf": "",
+       "m": 2
+      },
+      {
+       "n": "Lee Ji-ho",
+       "c": "KOR",
+       "perf": "",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "archery-w-women-s-individual",
+   "disc": "Tir à l'arc",
+   "name": "Individuel filles",
+   "site": "Diamniadio",
+   "venue": "Stade Abdoulaye-Wade",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Archery_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Dünya Yenihayat",
+       "c": "TUR",
+       "perf": "",
+       "m": 1
+      },
+      {
+       "n": "Ye-eun Whang",
+       "c": "USA",
+       "perf": "",
+       "m": 2
+      },
+      {
+       "n": "Sandra Pérez",
+       "c": "ESP",
+       "perf": "",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "archery-x-mixed-team",
+   "disc": "Tir à l'arc",
+   "name": "Équipe mixte",
+   "site": "Diamniadio",
+   "venue": "Stade Abdoulaye-Wade",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Archery_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Ye-eun Whang Aarya Arun",
+       "c": "USA",
+       "perf": "",
+       "m": 1
+      },
+      {
+       "n": "Aurane Lapouge Maël Lamouret",
+       "c": "FRA",
+       "perf": "",
+       "m": 2
+      },
+      {
+       "n": "Kim Su-min Lee Ji-ho",
+       "c": "KOR",
+       "perf": "",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "fencing-m-men-s-epee",
+   "disc": "Escrime",
+   "name": "Épée garçons",
+   "site": "Diamniadio",
+   "venue": "Centre des expositions, pavillon A",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Fencing_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Simon Shan",
+       "c": "CAN",
+       "perf": "",
+       "m": 1
+      },
+      {
+       "n": "Vukan Rađenović",
+       "c": "SRB",
+       "perf": "",
+       "m": 2
+      },
+      {
+       "n": "Wout Van Laecke",
+       "c": "BEL",
+       "perf": "",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "fencing-m-men-s-foil",
+   "disc": "Escrime",
+   "name": "Fleuret garçons",
+   "site": "Diamniadio",
+   "venue": "Centre des expositions, pavillon A",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Fencing_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Harris Ho",
+       "c": "HKG",
+       "perf": "",
+       "m": 1
+      },
+      {
+       "n": "Masashi Maeda",
+       "c": "JPN",
+       "perf": "",
+       "m": 2
+      },
+      {
+       "n": "Aris Kiayias",
+       "c": "CYP",
+       "perf": "",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "fencing-w-women-s-epee",
+   "disc": "Escrime",
+   "name": "Épée filles",
+   "site": "Diamniadio",
+   "venue": "Centre des expositions, pavillon A",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Fencing_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Lotti Horváth",
+       "c": "HUN",
+       "perf": "",
+       "m": 1
+      },
+      {
+       "n": "Alina Dmytruk",
+       "c": "UKR",
+       "perf": "",
+       "m": 2
+      },
+      {
+       "n": "Francesca Aina",
+       "c": "ITA",
+       "perf": "",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "fencing-w-women-s-foil",
+   "disc": "Escrime",
+   "name": "Fleuret filles",
+   "site": "Diamniadio",
+   "venue": "Centre des expositions, pavillon A",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Fencing_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Uliana Belykh",
+       "c": "RUS",
+       "perf": "",
+       "m": 1
+      },
+      {
+       "n": "Sara Amr Hossny",
+       "c": "EGY",
+       "perf": "",
+       "m": 2
+      },
+      {
+       "n": "Lena Mayerl",
+       "c": "AUT",
        "perf": "",
        "m": 3
       }
@@ -2132,6 +4496,231 @@
       {
        "n": "Mia Zhuo",
        "c": "GER",
+       "perf": "",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "artistic-gymnastics-m-team",
+   "disc": "Gymnastique artistique",
+   "name": "Équipe garçons",
+   "site": "Diamniadio",
+   "venue": "Centre des expositions, pavillon E",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Artistic_gymnastics_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Chine",
+       "c": "CHN",
+       "perf": "",
+       "team": [
+        "Li Lezheng",
+        "Yang Lanbin",
+        "Zhao Ruiyang"
+       ],
+       "m": 1
+      },
+      {
+       "n": "Japon",
+       "c": "JPN",
+       "perf": "",
+       "team": [
+        "Hiroto Fujimoto",
+        "Ikki Nishihara",
+        "Naoto Shiroiwa"
+       ],
+       "m": 2
+      },
+      {
+       "n": "Royaume-Uni",
+       "c": "GBR",
+       "perf": "",
+       "team": [
+        "Uzair Chowdhury",
+        "Benjamin Porter",
+        "Lucas Scully"
+       ],
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "artistic-gymnastics-m-all-around",
+   "disc": "Gymnastique artistique",
+   "name": "Concours général garçons",
+   "site": "Diamniadio",
+   "venue": "Centre des expositions, pavillon E",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Artistic_gymnastics_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Daniil Smirnov",
+       "c": "RUS",
+       "perf": "",
+       "m": 1
+      },
+      {
+       "n": "Uzair Chowdhury",
+       "c": "GBR",
+       "perf": "",
+       "m": 2
+      },
+      {
+       "n": "Ikki Nishihara",
+       "c": "JPN",
+       "perf": "",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "artistic-gymnastics-w-team",
+   "disc": "Gymnastique artistique",
+   "name": "Équipe filles",
+   "site": "Diamniadio",
+   "venue": "Centre des expositions, pavillon E",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Artistic_gymnastics_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Chine",
+       "c": "CHN",
+       "perf": "",
+       "team": [
+        "Chen Ziyan",
+        "Xie Guying",
+        "Zhong Qi"
+       ],
+       "m": 1
+      },
+      {
+       "n": "Japon",
+       "c": "JPN",
+       "perf": "",
+       "team": [
+        "Yume Minamino",
+        "Kanon Nakashima",
+        "Nanami Togo"
+       ],
+       "m": 2
+      },
+      {
+       "n": "France",
+       "c": "FRA",
+       "perf": "",
+       "team": [
+        "Caly Chayani",
+        "Lilou Marliac",
+        "Louane Plisson"
+       ],
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "artistic-gymnastics-w-all-around",
+   "disc": "Gymnastique artistique",
+   "name": "Concours général filles",
+   "site": "Diamniadio",
+   "venue": "Centre des expositions, pavillon E",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Artistic_gymnastics_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Polina Dmitrieva",
+       "c": "RUS",
+       "perf": "",
+       "m": 1
+      },
+      {
+       "n": "Louane Plisson",
+       "c": "FRA",
+       "perf": "",
+       "m": 2
+      },
+      {
+       "n": "Zhong Qi",
+       "c": "CHN",
+       "perf": "",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "artistic-gymnastics-x-mixed-team",
+   "disc": "Gymnastique artistique",
+   "name": "Équipe mixte",
+   "site": "Diamniadio",
+   "venue": "Centre des expositions, pavillon E",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Artistic_gymnastics_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Lanbin / Ziyan",
+       "c": "CHN",
+       "perf": "",
+       "m": 1
+      },
+      {
+       "n": "Nishihara / Minamino",
+       "c": "JPN",
+       "perf": "",
+       "m": 2
+      },
+      {
+       "n": "Tirosh / Shmuely",
+       "c": "ISR",
        "perf": "",
        "m": 3
       }
@@ -2589,13 +5178,13 @@
    "versions": [
     {
      "v": 1,
-     "at": "7 nov.",
+     "at": "11 nov.",
      "by": "Wikipédia",
      "motif": null,
-     "valid": "Source Wikipédia · 7 nov.",
+     "valid": "Source Wikipédia · 11 nov.",
      "pod": [
       {
-       "n": "Wilfredo Grabiel",
+       "n": "Wilfredo Grabiel González",
        "c": "VEN",
        "perf": "",
        "m": 1
@@ -2617,6 +5206,45 @@
    ]
   },
   {
+   "id": "beach-wrestling-m-70-kg",
+   "disc": "Lutte de plage",
+   "name": "70 kg garçons",
+   "site": "Saly",
+   "venue": "Saly Beach West",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Beach_wrestling_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Tunar Guliyev",
+       "c": "AZE",
+       "perf": "",
+       "m": 1
+      },
+      {
+       "n": "Luka Makharadze",
+       "c": "GEO",
+       "perf": "",
+       "m": 2
+      },
+      {
+       "n": "Mykyta Kuzmenko",
+       "c": "UKR",
+       "perf": "",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
    "id": "beach-wrestling-m-80-kg",
    "disc": "Lutte de plage",
    "name": "80 kg garçons",
@@ -2628,10 +5256,10 @@
    "versions": [
     {
      "v": 1,
-     "at": "7 nov.",
+     "at": "11 nov.",
      "by": "Wikipédia",
      "motif": null,
-     "valid": "Source Wikipédia · 7 nov.",
+     "valid": "Source Wikipédia · 11 nov.",
      "pod": [
       {
        "n": "Maguette Diop",
@@ -2640,14 +5268,92 @@
        "m": 1
       },
       {
-       "n": "Konstantinos Mourtzilakis",
-       "c": "GRE",
+       "n": "Nihad Suleymanli",
+       "c": "AZE",
        "perf": "",
        "m": 2
       },
       {
        "n": "Reza Jalilian",
        "c": "IRI",
+       "perf": "",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "beach-wrestling-m-90-kg",
+   "disc": "Lutte de plage",
+   "name": "90 kg garçons",
+   "site": "Saly",
+   "venue": "Saly Beach West",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Beach_wrestling_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Elgun Karimli",
+       "c": "AZE",
+       "perf": "",
+       "m": 1
+      },
+      {
+       "n": "Nuradin Mustafaev",
+       "c": "GEO",
+       "perf": "",
+       "m": 2
+      },
+      {
+       "n": "Ablaye Diouf",
+       "c": "SEN",
+       "perf": "",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "beach-wrestling-w-45-kg",
+   "disc": "Lutte de plage",
+   "name": "45 kg filles",
+   "site": "Saly",
+   "venue": "Saly Beach West",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Beach_wrestling_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Ndeye Anna Diatta",
+       "c": "SEN",
+       "perf": "",
+       "m": 1
+      },
+      {
+       "n": "Karen Rios Silva",
+       "c": "MEX",
+       "perf": "",
+       "m": 2
+      },
+      {
+       "n": "Valery Rubio Torres",
+       "c": "COL",
        "perf": "",
        "m": 3
       }
@@ -2687,6 +5393,84 @@
       {
        "n": "Stephie Ts imba Manzanza",
        "c": "COD",
+       "perf": "",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "beach-wrestling-w-65-kg",
+   "disc": "Lutte de plage",
+   "name": "65 kg filles",
+   "site": "Saly",
+   "venue": "Saly Beach West",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Beach_wrestling_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Yolayni Rosado Valerio",
+       "c": "DOM",
+       "perf": "",
+       "m": 1
+      },
+      {
+       "n": "Graciela Eningo",
+       "c": "ESP",
+       "perf": "",
+       "m": 2
+      },
+      {
+       "n": "Anujin Erkhembaatar",
+       "c": "MGL",
+       "perf": "",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "beach-wrestling-w-75-kg",
+   "disc": "Lutte de plage",
+   "name": "75 kg filles",
+   "site": "Saly",
+   "venue": "Saly Beach West",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Beach_wrestling_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "11 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 11 nov.",
+     "pod": [
+      {
+       "n": "Zhao Min",
+       "c": "CHN",
+       "perf": "",
+       "m": 1
+      },
+      {
+       "n": "Taniya Taniya",
+       "c": "IND",
+       "perf": "",
+       "m": 2
+      },
+      {
+       "n": "Matilda Ann Hruby",
+       "c": "USA",
        "perf": "",
        "m": 3
       }
@@ -2784,13 +5568,13 @@
    "versions": [
     {
      "v": 1,
-     "at": "7 nov.",
+     "at": "11 nov.",
      "by": "Wikipédia",
      "motif": null,
-     "valid": "Source Wikipédia · 7 nov.",
+     "valid": "Source Wikipédia · 11 nov.",
      "pod": [
       {
-       "n": "Jintao / Lili",
+       "n": "Juntao / Lili",
        "c": "CHN",
        "perf": "",
        "m": 1
@@ -2898,423 +5682,9 @@
  ],
  "pending": [
   {
-   "id": "athletics-m-100-m",
-   "disc": "Athlétisme",
-   "name": "100 m garçons",
-   "site": "Dakar",
-   "venue": "Stade Iba Mar Diop",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "athletics-m-200-m",
-   "disc": "Athlétisme",
-   "name": "200 m garçons",
-   "site": "Dakar",
-   "venue": "Stade Iba Mar Diop",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "athletics-m-400-m",
-   "disc": "Athlétisme",
-   "name": "400 m garçons",
-   "site": "Dakar",
-   "venue": "Stade Iba Mar Diop",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "athletics-m-800-m",
-   "disc": "Athlétisme",
-   "name": "800 m garçons",
-   "site": "Dakar",
-   "venue": "Stade Iba Mar Diop",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "athletics-m-1500-m",
-   "disc": "Athlétisme",
-   "name": "1500 m garçons",
-   "site": "Dakar",
-   "venue": "Stade Iba Mar Diop",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "athletics-m-3000-m",
-   "disc": "Athlétisme",
-   "name": "3000 m garçons",
-   "site": "Dakar",
-   "venue": "Stade Iba Mar Diop",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "athletics-m-110-m-hurdles",
-   "disc": "Athlétisme",
-   "name": "110 m haies garçons",
-   "site": "Dakar",
-   "venue": "Stade Iba Mar Diop",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "athletics-m-400-m-hurdles",
-   "disc": "Athlétisme",
-   "name": "400 m haies garçons",
-   "site": "Dakar",
-   "venue": "Stade Iba Mar Diop",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "athletics-m-2000-m-steeplechase",
-   "disc": "Athlétisme",
-   "name": "2000 m steeple garçons",
-   "site": "Dakar",
-   "venue": "Stade Iba Mar Diop",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "athletics-m-5000-m-race-walk",
-   "disc": "Athlétisme",
-   "name": "5000 m marche garçons",
-   "site": "Dakar",
-   "venue": "Stade Iba Mar Diop",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "athletics-m-high-jump",
-   "disc": "Athlétisme",
-   "name": "Saut en hauteur garçons",
-   "site": "Dakar",
-   "venue": "Stade Iba Mar Diop",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "athletics-m-pole-vault",
-   "disc": "Athlétisme",
-   "name": "Saut à la perche garçons",
-   "site": "Dakar",
-   "venue": "Stade Iba Mar Diop",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "athletics-m-long-jump",
-   "disc": "Athlétisme",
-   "name": "Saut en longueur garçons",
-   "site": "Dakar",
-   "venue": "Stade Iba Mar Diop",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "athletics-m-triple-jump",
-   "disc": "Athlétisme",
-   "name": "Triple saut garçons",
-   "site": "Dakar",
-   "venue": "Stade Iba Mar Diop",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "athletics-m-shot-put",
-   "disc": "Athlétisme",
-   "name": "Lancer du poids garçons",
-   "site": "Dakar",
-   "venue": "Stade Iba Mar Diop",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "athletics-m-discus-throw",
-   "disc": "Athlétisme",
-   "name": "Lancer du disque garçons",
-   "site": "Dakar",
-   "venue": "Stade Iba Mar Diop",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "athletics-m-hammer-throw",
-   "disc": "Athlétisme",
-   "name": "Lancer du marteau garçons",
-   "site": "Dakar",
-   "venue": "Stade Iba Mar Diop",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "athletics-m-javelin-throw",
-   "disc": "Athlétisme",
-   "name": "Lancer du javelot garçons",
-   "site": "Dakar",
-   "venue": "Stade Iba Mar Diop",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "athletics-w-100-m",
-   "disc": "Athlétisme",
-   "name": "100 m filles",
-   "site": "Dakar",
-   "venue": "Stade Iba Mar Diop",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "athletics-w-200-m",
-   "disc": "Athlétisme",
-   "name": "200 m filles",
-   "site": "Dakar",
-   "venue": "Stade Iba Mar Diop",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "athletics-w-400-m",
-   "disc": "Athlétisme",
-   "name": "400 m filles",
-   "site": "Dakar",
-   "venue": "Stade Iba Mar Diop",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "athletics-w-800-m",
-   "disc": "Athlétisme",
-   "name": "800 m filles",
-   "site": "Dakar",
-   "venue": "Stade Iba Mar Diop",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "athletics-w-1500-m",
-   "disc": "Athlétisme",
-   "name": "1500 m filles",
-   "site": "Dakar",
-   "venue": "Stade Iba Mar Diop",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "athletics-w-3000-m",
-   "disc": "Athlétisme",
-   "name": "3000 m filles",
-   "site": "Dakar",
-   "venue": "Stade Iba Mar Diop",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "athletics-w-100-m-hurdles",
-   "disc": "Athlétisme",
-   "name": "100 m haies filles",
-   "site": "Dakar",
-   "venue": "Stade Iba Mar Diop",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "athletics-w-400-m-hurdles",
-   "disc": "Athlétisme",
-   "name": "400 m haies filles",
-   "site": "Dakar",
-   "venue": "Stade Iba Mar Diop",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "athletics-w-2000-m-steeplechase",
-   "disc": "Athlétisme",
-   "name": "2000 m steeple filles",
-   "site": "Dakar",
-   "venue": "Stade Iba Mar Diop",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "athletics-w-5000-m-race-walk",
-   "disc": "Athlétisme",
-   "name": "5000 m marche filles",
-   "site": "Dakar",
-   "venue": "Stade Iba Mar Diop",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "athletics-w-high-jump",
-   "disc": "Athlétisme",
-   "name": "Saut en hauteur filles",
-   "site": "Dakar",
-   "venue": "Stade Iba Mar Diop",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "athletics-w-pole-vault",
-   "disc": "Athlétisme",
-   "name": "Saut à la perche filles",
-   "site": "Dakar",
-   "venue": "Stade Iba Mar Diop",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "athletics-w-long-jump",
-   "disc": "Athlétisme",
-   "name": "Saut en longueur filles",
-   "site": "Dakar",
-   "venue": "Stade Iba Mar Diop",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "athletics-w-triple-jump",
-   "disc": "Athlétisme",
-   "name": "Triple saut filles",
-   "site": "Dakar",
-   "venue": "Stade Iba Mar Diop",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "athletics-w-shot-put",
-   "disc": "Athlétisme",
-   "name": "Lancer du poids filles",
-   "site": "Dakar",
-   "venue": "Stade Iba Mar Diop",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "athletics-w-discus-throw",
-   "disc": "Athlétisme",
-   "name": "Lancer du disque filles",
-   "site": "Dakar",
-   "venue": "Stade Iba Mar Diop",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "athletics-w-hammer-throw",
-   "disc": "Athlétisme",
-   "name": "Lancer du marteau filles",
-   "site": "Dakar",
-   "venue": "Stade Iba Mar Diop",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "athletics-w-javelin-throw",
-   "disc": "Athlétisme",
-   "name": "Lancer du javelot filles",
-   "site": "Dakar",
-   "venue": "Stade Iba Mar Diop",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Athletics_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "taekwondo-m-48-kg",
-   "disc": "Taekwondo",
-   "name": "−48 kg garçons",
-   "site": "Dakar",
-   "venue": "Gymnase Iba Mar Diop",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Taekwondo_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "taekwondo-m-55-kg",
-   "disc": "Taekwondo",
-   "name": "−55 kg garçons",
-   "site": "Dakar",
-   "venue": "Gymnase Iba Mar Diop",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Taekwondo_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "taekwondo-m-63-kg",
-   "disc": "Taekwondo",
-   "name": "−63 kg garçons",
-   "site": "Dakar",
-   "venue": "Gymnase Iba Mar Diop",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Taekwondo_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "taekwondo-m-73-kg",
-   "disc": "Taekwondo",
-   "name": "−73 kg garçons",
-   "site": "Dakar",
-   "venue": "Gymnase Iba Mar Diop",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Taekwondo_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "taekwondo-m-plus-73-kg",
-   "disc": "Taekwondo",
-   "name": "+73 kg garçons",
-   "site": "Dakar",
-   "venue": "Gymnase Iba Mar Diop",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Taekwondo_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "taekwondo-w-44-kg",
-   "disc": "Taekwondo",
-   "name": "−44 kg filles",
-   "site": "Dakar",
-   "venue": "Gymnase Iba Mar Diop",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Taekwondo_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "taekwondo-w-49-kg",
-   "disc": "Taekwondo",
-   "name": "−49 kg filles",
-   "site": "Dakar",
-   "venue": "Gymnase Iba Mar Diop",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Taekwondo_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "taekwondo-w-55-kg",
-   "disc": "Taekwondo",
-   "name": "−55 kg filles",
-   "site": "Dakar",
-   "venue": "Gymnase Iba Mar Diop",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Taekwondo_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "taekwondo-w-63-kg",
-   "disc": "Taekwondo",
-   "name": "−63 kg filles",
-   "site": "Dakar",
-   "venue": "Gymnase Iba Mar Diop",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Taekwondo_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "taekwondo-w-plus-63-kg",
-   "disc": "Taekwondo",
-   "name": "+63 kg filles",
-   "site": "Dakar",
-   "venue": "Gymnase Iba Mar Diop",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Taekwondo_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
    "id": "taekwondo-x-mixed-team",
    "disc": "Taekwondo",
-   "name": "Équipes mixte",
+   "name": "Équipe mixte",
    "site": "Dakar",
    "venue": "Gymnase Iba Mar Diop",
    "time": "",
@@ -3341,7 +5711,7 @@
   {
    "id": "breaking-m-b-boys",
    "disc": "Breaking",
-   "name": "B- garçons",
+   "name": "B-Boys",
    "site": "Dakar",
    "venue": "Complexe Tour de l'Œuf",
    "time": "",
@@ -3350,47 +5720,11 @@
   {
    "id": "breaking-w-b-girls",
    "disc": "Breaking",
-   "name": "B- filles",
+   "name": "B-Girls",
    "site": "Dakar",
    "venue": "Complexe Tour de l'Œuf",
    "time": "",
    "url": "https://en.wikipedia.org/wiki/Breaking_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "road-cycling-m-men-s-road-race",
-   "disc": "Cyclisme sur route",
-   "name": "Course en ligne garçons",
-   "site": "Dakar",
-   "venue": "Corniche Ouest",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Road_cycling_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "road-cycling-m-men-s-time-trial",
-   "disc": "Cyclisme sur route",
-   "name": "Contre-la-montre garçons",
-   "site": "Dakar",
-   "venue": "Corniche Ouest",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Road_cycling_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "road-cycling-w-women-s-road-race",
-   "disc": "Cyclisme sur route",
-   "name": "Course en ligne filles",
-   "site": "Dakar",
-   "venue": "Corniche Ouest",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Road_cycling_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "road-cycling-w-women-s-time-trial",
-   "disc": "Cyclisme sur route",
-   "name": "Contre-la-montre filles",
-   "site": "Dakar",
-   "venue": "Corniche Ouest",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Road_cycling_at_the_2026_Summer_Youth_Olympics"
   },
   {
    "id": "futsal-m-men",
@@ -3402,81 +5736,9 @@
    "url": "https://en.wikipedia.org/wiki/Futsal_at_the_2026_Summer_Youth_Olympics"
   },
   {
-   "id": "futsal-w-women",
-   "disc": "Futsal",
-   "name": "Tournoi filles",
-   "site": "Diamniadio",
-   "venue": "Dakar Arena",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Futsal_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "archery-m-boys-singles",
-   "disc": "Tir à l'arc",
-   "name": "' Simple garçons",
-   "site": "Diamniadio",
-   "venue": "Stade Abdoulaye-Wade",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Archery_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "archery-x-girl-s-individual",
-   "disc": "Tir à l'arc",
-   "name": "Girl's Individuel",
-   "site": "Diamniadio",
-   "venue": "Stade Abdoulaye-Wade",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Archery_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "archery-x-mixed-team",
-   "disc": "Tir à l'arc",
-   "name": "Équipes mixte",
-   "site": "Diamniadio",
-   "venue": "Stade Abdoulaye-Wade",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Archery_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "fencing-m-men-s-epee",
-   "disc": "Escrime",
-   "name": "Épée garçons",
-   "site": "Diamniadio",
-   "venue": "Centre des expositions, pavillon A",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Fencing_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "fencing-m-men-s-foil",
-   "disc": "Escrime",
-   "name": "Fleuret garçons",
-   "site": "Diamniadio",
-   "venue": "Centre des expositions, pavillon A",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Fencing_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
    "id": "fencing-m-men-s-sabre",
    "disc": "Escrime",
    "name": "Sabre garçons",
-   "site": "Diamniadio",
-   "venue": "Centre des expositions, pavillon A",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Fencing_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "fencing-w-women-s-epee",
-   "disc": "Escrime",
-   "name": "Épée filles",
-   "site": "Diamniadio",
-   "venue": "Centre des expositions, pavillon A",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Fencing_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "fencing-w-women-s-foil",
-   "disc": "Escrime",
-   "name": "Fleuret filles",
    "site": "Diamniadio",
    "venue": "Centre des expositions, pavillon A",
    "time": "",
@@ -3494,7 +5756,7 @@
   {
    "id": "boxing-m-50-kg",
    "disc": "Boxe",
-   "name": "−50 kg garçons",
+   "name": "50 kg garçons",
    "site": "Diamniadio",
    "venue": "Centre des expositions, pavillon C",
    "time": "",
@@ -3503,7 +5765,7 @@
   {
    "id": "boxing-m-55-kg",
    "disc": "Boxe",
-   "name": "−55 kg garçons",
+   "name": "55 kg garçons",
    "site": "Diamniadio",
    "venue": "Centre des expositions, pavillon C",
    "time": "",
@@ -3512,7 +5774,7 @@
   {
    "id": "boxing-m-60-kg",
    "disc": "Boxe",
-   "name": "−60 kg garçons",
+   "name": "60 kg garçons",
    "site": "Diamniadio",
    "venue": "Centre des expositions, pavillon C",
    "time": "",
@@ -3521,7 +5783,7 @@
   {
    "id": "boxing-m-65-kg",
    "disc": "Boxe",
-   "name": "−65 kg garçons",
+   "name": "65 kg garçons",
    "site": "Diamniadio",
    "venue": "Centre des expositions, pavillon C",
    "time": "",
@@ -3530,7 +5792,7 @@
   {
    "id": "boxing-m-70-kg",
    "disc": "Boxe",
-   "name": "−70 kg garçons",
+   "name": "70 kg garçons",
    "site": "Diamniadio",
    "venue": "Centre des expositions, pavillon C",
    "time": "",
@@ -3539,7 +5801,7 @@
   {
    "id": "boxing-w-48-kg",
    "disc": "Boxe",
-   "name": "−48 kg filles",
+   "name": "48 kg filles",
    "site": "Diamniadio",
    "venue": "Centre des expositions, pavillon C",
    "time": "",
@@ -3548,7 +5810,7 @@
   {
    "id": "boxing-w-51-kg",
    "disc": "Boxe",
-   "name": "−51 kg filles",
+   "name": "51 kg filles",
    "site": "Diamniadio",
    "venue": "Centre des expositions, pavillon C",
    "time": "",
@@ -3557,7 +5819,7 @@
   {
    "id": "boxing-w-54-kg",
    "disc": "Boxe",
-   "name": "−54 kg filles",
+   "name": "54 kg filles",
    "site": "Diamniadio",
    "venue": "Centre des expositions, pavillon C",
    "time": "",
@@ -3566,7 +5828,7 @@
   {
    "id": "boxing-w-57-kg",
    "disc": "Boxe",
-   "name": "−57 kg filles",
+   "name": "57 kg filles",
    "site": "Diamniadio",
    "venue": "Centre des expositions, pavillon C",
    "time": "",
@@ -3575,56 +5837,11 @@
   {
    "id": "boxing-w-60-kg",
    "disc": "Boxe",
-   "name": "−60 kg filles",
+   "name": "60 kg filles",
    "site": "Diamniadio",
    "venue": "Centre des expositions, pavillon C",
    "time": "",
    "url": "https://en.wikipedia.org/wiki/Boxing_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "artistic-gymnastics-m-team",
-   "disc": "Gymnastique artistique",
-   "name": "Équipes garçons",
-   "site": "Diamniadio",
-   "venue": "Centre des expositions, pavillon E",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Artistic_gymnastics_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "artistic-gymnastics-m-all-around",
-   "disc": "Gymnastique artistique",
-   "name": "Concours général garçons",
-   "site": "Diamniadio",
-   "venue": "Centre des expositions, pavillon E",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Artistic_gymnastics_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "artistic-gymnastics-w-team",
-   "disc": "Gymnastique artistique",
-   "name": "Équipes filles",
-   "site": "Diamniadio",
-   "venue": "Centre des expositions, pavillon E",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Artistic_gymnastics_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "artistic-gymnastics-w-all-around",
-   "disc": "Gymnastique artistique",
-   "name": "Concours général filles",
-   "site": "Diamniadio",
-   "venue": "Centre des expositions, pavillon E",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Artistic_gymnastics_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "artistic-gymnastics-x-mixed-team",
-   "disc": "Gymnastique artistique",
-   "name": "Équipes mixte",
-   "site": "Diamniadio",
-   "venue": "Centre des expositions, pavillon E",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Artistic_gymnastics_at_the_2026_Summer_Youth_Olympics"
   },
   {
    "id": "beach-handball-m-men",
@@ -3645,63 +5862,18 @@
    "url": "https://en.wikipedia.org/wiki/Beach_handball_at_the_2026_Summer_Youth_Olympics"
   },
   {
-   "id": "beach-wrestling-m-70-kg",
-   "disc": "Lutte de plage",
-   "name": "70 kg garçons",
-   "site": "Saly",
-   "venue": "Saly Beach West",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Beach_wrestling_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "beach-wrestling-m-90-kg",
-   "disc": "Lutte de plage",
-   "name": "90 kg garçons",
-   "site": "Saly",
-   "venue": "Saly Beach West",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Beach_wrestling_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "beach-wrestling-w-45-kg",
-   "disc": "Lutte de plage",
-   "name": "45 kg filles",
-   "site": "Saly",
-   "venue": "Saly Beach West",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Beach_wrestling_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "beach-wrestling-w-65-kg",
-   "disc": "Lutte de plage",
-   "name": "65 kg filles",
-   "site": "Saly",
-   "venue": "Saly Beach West",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Beach_wrestling_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "beach-wrestling-w-75-kg",
-   "disc": "Lutte de plage",
-   "name": "75 kg filles",
-   "site": "Saly",
-   "venue": "Saly Beach West",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Beach_wrestling_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "sailing-m-men-s-techno-293-plus",
+   "id": "sailing-m-men-s-techno-293",
    "disc": "Voile",
-   "name": "Techno 293+ garçons",
+   "name": "Techno 293 garçons",
    "site": "Saly",
    "venue": "Plan d'eau de Saly",
    "time": "",
    "url": "https://en.wikipedia.org/wiki/Sailing_at_the_2026_Summer_Youth_Olympics"
   },
   {
-   "id": "sailing-w-women-s-techno-293-plus",
+   "id": "sailing-w-women-s-techno-293",
    "disc": "Voile",
-   "name": "Techno 293+ filles",
+   "name": "Techno 293 filles",
    "site": "Saly",
    "venue": "Plan d'eau de Saly",
    "time": "",

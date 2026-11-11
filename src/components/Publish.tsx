@@ -1,6 +1,10 @@
 import { useState, type FormEvent } from 'react';
 import { at, type Place, type PodiumEvent, type Session } from '../data';
-import { ErrBox, Medal, Scene, nocOptions, type ApiError } from './ui';
+import { ChevronDown, PencilLine } from 'lucide-react';
+import { Combo } from './Combo';
+import { ErrBox, MedalCoin, Picto, Scene, nocCombo, type ApiError } from './ui';
+
+const countries = nocCombo();
 
 interface Props {
   events: PodiumEvent[];
@@ -8,13 +12,12 @@ interface Props {
   onPublish: (sessionId: string, pod: Place[]) => void;
 }
 
-const MED = [['Or', 'or'], ['Argent', 'argent'], ['Bronze', 'bronze']];
+const MED = [['Or', 'd’or'], ['Argent', 'd’argent'], ['Bronze', 'de bronze']];
 
 export function Publish({ events, pending, onPublish }: Props) {
-  const items = [
-    ...pending.map((x) => ({ v: x.id, x, done: false })),
-    ...events.map((e) => ({ v: e.id, x: e as Session, done: true })),
-  ];
+  // Seules les épreuves sans podium : une épreuve publiée se modifie depuis sa fiche (« Rectifier le podium »).
+  const published = new Set(events.map((e) => e.id));
+  const items = pending.filter((x) => !published.has(x.id)).map((x) => ({ v: x.id, x }));
   const [pev, setPev] = useState<string>('');
   const [names, setNames] = useState(['', '', '']);
   const [codes, setCodes] = useState(['SEN', 'SEN', 'SEN']);
@@ -29,10 +32,6 @@ export function Publish({ events, pending, onPublish }: Props) {
   const submit = (ev: FormEvent) => {
     ev.preventDefault();
     if (!sel) return;
-    if (sel.done) {
-      setErr({ status: 409, code: 'PODIUM_ALREADY_PUBLISHED', msg: 'Cette épreuve a déjà un podium. Ouvrez-le et rectifiez-le avec un motif.' });
-      return;
-    }
     const n = names.map((x) => x.trim());
     if (n.some((x) => !x)) {
       setErr({ status: 400, code: 'PODIUM_INCOMPLETE', msg: 'Indiquez les trois médaillés.' });
@@ -44,23 +43,30 @@ export function Publish({ events, pending, onPublish }: Props) {
   return (
     <>
       <div className="day"><div><span className="pill">Chef de site</span><h2>Publier un podium</h2></div></div>
+      <p className="pub-hint">
+        <PencilLine size={18} aria-hidden="true" />
+        <span>Seules les épreuves sans podium sont listées. Pour modifier un podium déjà publié, ouvrez-le dans
+          <b> Résultats</b>, puis <b>« Rectifier le podium »</b>.</span>
+      </p>
+      {!items.length ? <p className="empty">Toutes les épreuves ont déjà un podium.</p> : (
       <form id="pubform" className="pub" noValidate onSubmit={submit}>
         <section className="step">
           <span className="stepn">1</span>
           <div className="stepb">
             <label className="lbl" htmlFor="pev">Choisissez l'épreuve</label>
-            <select id="pev" value={selV} onChange={(e) => { setPev(e.target.value); setErr(null); }}>
-              {items.map((o) => (
-                <option key={o.v} value={o.v}>{o.x.disc} · {o.x.name}{at(o.x.time)}{o.done ? ' (déjà publié)' : ''}</option>
-              ))}
-            </select>
+            <Combo id="pev" label="Épreuve" className="combo-lg" value={selV} searchPlaceholder="Rechercher une épreuve, un sport, un lieu…"
+              onChange={(v) => { setPev(v); setErr(null); }}
+              options={items.map((o) => ({
+                value: o.v, label: `${o.x.name}${at(o.x.time)}`, group: o.x.disc,                 icon: <Picto d={o.x.disc} />, keywords: `${o.x.venue} ${o.x.site}`,
+              }))}
+              trigger={sel ? <><span className="combo-ico"><Picto d={sel.x.disc} /></span><span className="combo-val">{sel.x.disc} · {sel.x.name}{at(sel.x.time)}</span><ChevronDown size={18} aria-hidden="true" className="combo-chev" /></> : undefined} />
             {sel && (
               <div className="evprev">
                 <span className="evpic"><Scene d={sel.x.disc} /></span>
                 <div>
                   <b>{sel.x.name}</b>
                   <small>{sel.x.venue}{at(sel.x.time)}</small>
-                  {sel.done ? <span className="badge b-rect">Déjà publié</span> : <span className="badge b-next">Sans podium</span>}
+                  <span className="badge b-next">Sans podium</span>
                 </div>
               </div>
             )}
@@ -74,15 +80,13 @@ export function Publish({ events, pending, onPublish }: Props) {
             <div className="podrows">
               {[0, 1, 2].map((i) => (
                 <div className={`prow g${i + 1}`} key={i}>
-                  <div className="pm"><Medal i={i + 1} /><small>{MED[i][0]}</small></div>
+                  <div className="pm"><MedalCoin i={i + 1} /><small>{MED[i][0]}</small></div>
                   <div className="pf">
-                    <label className="vh" htmlFor={`pn${i}`}>Médaille d'{MED[i][1]}</label>
+                    <label className="vh" htmlFor={`pn${i}`}>Médaille {MED[i][1]}</label>
                     <input id={`pn${i}`} placeholder="Nom de l'athlète ou de l'équipe" autoComplete="off"
                       value={names[i]} onChange={(e) => setAt(names, setNames, i, e.target.value)} />
-                    <label className="vh" htmlFor={`pc${i}`}>Pays</label>
-                    <select id={`pc${i}`} value={codes[i]} onChange={(e) => setAt(codes, setCodes, i, e.target.value)}>
-                      {nocOptions(true)}
-                    </select>
+                    <Combo id={`pc${i}`} label={`Pays, médaille ${MED[i][1]}`} value={codes[i]} options={countries}
+                      searchPlaceholder="Rechercher un pays ou un code (SEN)…" onChange={(v) => setAt(codes, setCodes, i, v)} />
                   </div>
                 </div>
               ))}
@@ -102,6 +106,7 @@ export function Publish({ events, pending, onPublish }: Props) {
           </button>
         </div>
       </form>
+      )}
     </>
   );
 }

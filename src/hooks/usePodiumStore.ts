@@ -2,6 +2,8 @@ import { useCallback, useEffect, useState } from 'react';
 import { SEED_EVENTS, SEED_PENDING, SOURCE, cur, isImport, now, type Place, type PodiumEvent, type Session } from '../data';
 
 const KEY = 'podium-dakar-2026:v2';
+/** Les résultats sont relus sur Wikipédia toutes les 6 heures. */
+const REFRESH_MS = 6 * 60 * 60 * 1000;
 
 interface Data {
   events: PodiumEvent[];
@@ -11,6 +13,22 @@ interface Data {
 
 const seed = (): Data => structuredClone({ events: SEED_EVENTS, pending: SEED_PENDING, importedAt: SOURCE.fetchedAt });
 
+/** Dernière lecture de Wikipédia faite par l'application elle-même. */
+const WIKI_KEY = KEY + ':wiki';
+function loadWiki(): Data | null {
+  try {
+    const d = JSON.parse(localStorage.getItem(WIKI_KEY) ?? 'null') as Data | null;
+    return d && Array.isArray(d.events) && Array.isArray(d.pending) ? d : null;
+  } catch {
+    return null;
+  }
+}
+/** Résultats importés les plus récents : ceux livrés avec l'application ou ceux relus depuis. */
+function base(): Data {
+  const w = loadWiki();
+  return w && (w.importedAt ?? '') > (SOURCE.fetchedAt ?? '') ? w : seed();
+}
+
 /** Un podium touché par un chef de site (publié, validé ou rectifié dans l'application). */
 const isLocal = (e: PodiumEvent) => e.versions.some((v) => !isImport(v));
 
@@ -18,8 +36,7 @@ const isLocal = (e: PodiumEvent) => e.versions.some((v) => !isImport(v));
  * Nouvel import : on repart des données importées, en gardant le travail fait dans l'application
  * (podiums publiés ou rectifiés par un chef de site).
  */
-function merge(old: Data): Data {
-  const fresh = seed();
+function merge(old: Data, fresh: Data = base()): Data {
   const local = new Map(old.events.filter(isLocal).map((e) => [e.id, e]));
   const events = fresh.events.map((e) => local.get(e.id) ?? e);
   for (const [id, e] of local) if (!events.some((x) => x.id === id)) events.push(e);
@@ -32,12 +49,37 @@ function load(): Data {
     const raw = localStorage.getItem(KEY);
     if (raw) {
       const d = JSON.parse(raw) as Data;
-      if (Array.isArray(d.events) && Array.isArray(d.pending)) return d.importedAt === SOURCE.fetchedAt ? d : merge(d);
+      // Toujours fusionner : les corrections des données importées arrivent aussi chez ceux qui ont déjà ouvert l'application.
+      if (Array.isArray(d.events) && Array.isArray(d.pending)) return merge(d);
     }
   } catch {
     /* stockage indisponible : on repart des données importées */
   }
-  return seed();
+  return base();
+}
+
+/** Relit Wikipédia si la dernière lecture date de plus de 6 heures. Renvoie null si rien à faire ou en cas d'échec. */
+let running = false;
+async function refresh(): Promise<Data | null> {
+  const cur = base();
+  const age = Date.now() - new Date(cur.importedAt ?? 0).getTime();
+  if (running || age < REFRESH_MS || !navigator.onLine) return null;
+  running = true;
+  try {
+    const { buildResultats } = await import('../wikipedia.mjs');
+    const r = await buildResultats({ prev: cur });
+    const fresh: Data = { events: r.events, pending: r.pending, importedAt: r.source.fetchedAt };
+    try {
+      localStorage.setItem(WIKI_KEY, JSON.stringify(fresh));
+    } catch {
+      /* ignore */
+    }
+    return fresh;
+  } catch {
+    return null; // Wikipédia injoignable : on garde les résultats actuels, nouvel essai plus tard
+  } finally {
+    running = false;
+  }
 }
 
 /** Données des podiums, conservées hors ligne dans le navigateur. */
@@ -51,6 +93,21 @@ export function usePodiumStore() {
       /* ignore */
     }
   }, [data]);
+
+  // Mise à jour automatique depuis Wikipédia : à l'ouverture, puis toutes les 6 heures.
+  useEffect(() => {
+    const check = () => refresh().then((fresh) => fresh && setData((d) => merge(d, fresh)));
+    check();
+    const t = setInterval(check, 15 * 60 * 1000); // vérifie souvent, ne relit qu'après 6 h
+    const onVisible = () => document.visibilityState === 'visible' && check();
+    document.addEventListener('visibilitychange', onVisible);
+    window.addEventListener('online', check);
+    return () => {
+      clearInterval(t);
+      document.removeEventListener('visibilitychange', onVisible);
+      window.removeEventListener('online', check);
+    };
+  }, []);
 
   /** Publie un nouveau podium (provisoire) pour une épreuve en attente. */
   const publish = useCallback((sessionId: string, pod: Place[]): string | null => {
@@ -95,7 +152,7 @@ export function usePodiumStore() {
     return next;
   }, [data.events]);
 
-  const reset = useCallback(() => setData(seed()), []);
+  const reset = useCallback(() => setData(base()), []);
 
   return { ...data, publish, validate, rectify, reset };
 }

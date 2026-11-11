@@ -63,8 +63,8 @@ export function Programme({ pending, site, q }: { pending: Session[]; site: stri
           )}
 
           <div className="prog">
-            {list.map((x, i) => (
-              <details key={x.d} className={`pg st-${sportTone(x.d)}`} open={searching || i < 2 ? true : undefined}>
+            {list.map((x) => (
+              <details key={x.d} className={`pg st-${sportTone(x.d)}`} open={searching ? true : undefined}>
                 <summary onClick={() => setPick(x.d)}>
                   <SportIcon d={x.d} />
                   <b>{x.d}</b>

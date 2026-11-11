@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { BADGE, NOC, PICTOS, SCENES, sportTone, type Place, type Status } from '../data';
 import { ISO2 } from '../flags';
+import type { ComboOption } from './Combo';
 
 export interface ApiError {
   status: number;
@@ -58,9 +59,17 @@ export const SportIcon = ({ d }: { d: string }) => PICTOS[d] ? (
   <span className="ico mini" aria-hidden="true"><Scene d={d} /></span>
 );
 
+/** Message d'erreur montré à l'utilisateur : une phrase claire, jamais de code technique (status/code restent internes). */
 export const ErrBox = ({ e }: { e: ApiError }) => (
-  <div className="err" role="alert"><code>{e.status} {e.code}</code><span>{e.msg}</span></div>
+  <div className="err" role="alert">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.5" /><path d="M12 7.5v5.5M12 16.5h.01" /></svg>
+    <span>{e.msg}</span>
+  </div>
 );
+
+/** Pays pour les listes avec recherche : drapeau, nom, code (cherchables tous les deux). */
+export const nocCombo = (): ComboOption[] =>
+  Object.keys(NOC).map((k) => ({ value: k, label: NOC[k], hint: k, icon: <Flag c={k} /> }));
 
 export const nocOptions = (labels = false) =>
   Object.keys(NOC).map((k) => <option key={k} value={k}>{labels ? `${k} · ${NOC[k]}` : k}</option>);
@@ -76,7 +85,7 @@ export function Flag({ c }: { c: string }) {
   const iso = ISO2[c];
   if (!iso || !ok) return <span className="flg flg-fb" aria-hidden="true" />;
   return (
-    <img className="flg" alt="" aria-hidden="true" loading="lazy" crossOrigin="anonymous"
+    <img className="flg" alt="" aria-hidden="true" loading="lazy" decoding="async" width={40} height={28} crossOrigin="anonymous"
       src={`https://flagcdn.com/w80/${iso}.png`} srcSet={`https://flagcdn.com/w160/${iso}.png 2x`}
       onError={() => setOk(false)} />
   );
@@ -127,7 +136,10 @@ export function PodiumBig({ pod }: { pod: Place[] }) {
         const m = x.m ?? i + 1;
         return (
           <div className={`pz pz${Math.min(m, 3)}`} key={i}>
-            <span className="pz-medal"><MedalCoin i={m} /></span>
+            <span className="pz-medal">
+              <MedalCoin i={m} />
+              {m === 1 && <><i className="spark s1" aria-hidden="true" /><i className="spark s2" aria-hidden="true" /><i className="spark s3" aria-hidden="true" /></>}
+            </span>
             <Flag c={x.c} />
             <span className="pz-n"><b>{x.n}</b>{x.perf ? <small>{x.perf}</small> : null}</span>
             <span className="pz-c" title={NOC[x.c] || x.c}>{x.c}</span>

@@ -7,16 +7,15 @@ interface Props {
   pending: Session[];
   site: string;
   q: string;
-  isPublic: boolean;
   openId: string | null;
   onOpen: (id: string) => void;
-  onLogin: () => void;
+  importedAt?: string; // dernière lecture de Wikipédia
 }
 
-export function Results({ events, pending, site, q, isPublic, openId, onOpen, onLogin }: Props) {
+export function Results({ events, pending, site, q, openId, onOpen, importedAt = SOURCE.fetchedAt }: Props) {
   const inSite = (x: Session) => site === ALL_SITES || x.site === site;
-  const hitS = (x: Session) => matches(q, x.disc, x.name, x.venue, x.site);
-  const hitE = (e: PodiumEvent) => hitS(e) || cur(e).pod.some((p) => matches(q, p.n, p.c, NOC[p.c] ?? '', ...(p.team ?? [])));
+  const hitS = (x: Session) => hitSession(q, x);
+  const hitE = (e: PodiumEvent) => hitEvent(q, e);
   const list = SPORTS.map((d) => {
     const L = LIVE.filter((x) => x.disc === d && inSite(x) && hitS(x));
     const P = events.filter((e) => e.disc === d && inSite(e) && hitE(e)).sort((a, b) => b.time.localeCompare(a.time));
@@ -97,13 +96,18 @@ export function Results({ events, pending, site, q, isPublic, openId, onOpen, on
 
       <p className="src-note">
         Résultats : <a href={SOURCE.url} target="_blank" rel="noreferrer">{SOURCE.name}</a> ({SOURCE.license}),
-        importés le {new Date(SOURCE.fetchedAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' })}.
+        mis à jour le {new Date(importedAt).toLocaleString('fr-FR', { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' })}
+        {' '}(automatiquement toutes les 6 h).
       </p>
-      {isPublic && <button className="to-resp" onClick={onLogin}>Je suis chef de site</button>}
     </>
   );
 }
 
-/** Dernier podium du site, ouvert par défaut en grand écran. */
-export const latestIn = (events: PodiumEvent[], site: string) =>
-  events.filter((e) => site === ALL_SITES || e.site === site).sort((a, b) => b.time.localeCompare(a.time))[0]?.id ?? null;
+const hitSession = (q: string, x: Session) => matches(q, x.disc, x.name, x.venue, x.site);
+/** Une épreuve correspond à la recherche par son nom, son lieu, ses athlètes ou leurs pays. */
+const hitEvent = (q: string, e: PodiumEvent) =>
+  hitSession(q, e) || cur(e).pod.some((p) => matches(q, p.n, p.c, NOC[p.c] ?? '', ...(p.team ?? [])));
+
+/** Dernier podium du site (et de la recherche), ouvert par défaut en grand écran. */
+export const latestIn = (events: PodiumEvent[], site: string, q = '') =>
+  events.filter((e) => (site === ALL_SITES || e.site === site) && hitEvent(q, e)).sort((a, b) => b.time.localeCompare(a.time))[0]?.id ?? null;

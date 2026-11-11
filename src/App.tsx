@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
-import { CalendarDays, CircleCheck, ChevronDown, Download, House, LogIn, LogOut, MapPin, Menu, RotateCcw, Search, X } from 'lucide-react';
+import { CalendarDays, ChevronDown, Download, House, LogIn, LogOut, MapPin, RotateCcw, Search, ShieldCheck } from 'lucide-react';
 import { ALL_SITES, LIVE, SITES } from './data';
 import { usePodiumStore } from './hooks/usePodiumStore';
 import { usePWAInstall } from './hooks/usePWAInstall';
@@ -7,13 +7,14 @@ import { Results, latestIn } from './components/Results';
 import { Detail } from './components/Detail';
 import { Medals } from './components/Medals';
 import { Programme } from './components/Programme';
+import { Combo } from './components/Combo';
 import { Publish } from './components/Publish';
 import { LoginSheet, RectifySheet, InstallSheet, ConfirmResetSheet } from './components/Sheets';
 import { Onboarding } from './components/Onboarding';
 
 type Role = 'pub' | 'resp';
 type Tab = 'results' | 'programme' | 'medals' | 'publish';
-type Sheet = 'login' | 'rect' | 'menu' | 'install' | 'reset' | null;
+type Sheet = 'login' | 'rect' | 'install' | 'reset' | null;
 
 function useMedia(q: string) {
   const [m, setM] = useState(() => matchMedia(q).matches);
@@ -26,6 +27,10 @@ function useMedia(q: string) {
   return m;
 }
 
+const siteOptions = SITES.map((x) => ({
+  value: x, label: x, hint: x === ALL_SITES ? undefined : 'Site',
+}));
+
 export default function App() {
   const store = usePodiumStore();
   const { events, pending } = store;
@@ -37,6 +42,18 @@ export default function App() {
   const [tab, setTab] = useState<Tab>('results');
   const [site, setSite] = useState(ALL_SITES);
   const [q, setQ] = useState('');
+  const searchRef = useRef<HTMLInputElement>(null);
+  // « / » place le curseur dans la recherche (sauf pendant une saisie).
+  useEffect(() => {
+    const h = (e: KeyboardEvent) => {
+      const t = e.target as HTMLElement | null;
+      if (e.key !== '/' || e.ctrlKey || e.metaKey || e.altKey || t?.closest('input, textarea, select, [contenteditable]')) return;
+      e.preventDefault();
+      searchRef.current?.focus();
+    };
+    addEventListener('keydown', h);
+    return () => removeEventListener('keydown', h);
+  }, []);
   const [open, setOpen] = useState<string | null>(null);
   const [sheet, setSheet] = useState<Sheet>(null);
   const [toastMsg, setToastMsg] = useState<string | null>(null);
@@ -53,7 +70,7 @@ export default function App() {
   useEffect(() => { if (!wide) setOpen(null); }, [wide]);
 
   const split = tab === 'results' && wide;
-  const openId = open && events.some((e) => e.id === open) ? open : split ? latestIn(events, site) : null;
+  const openId = open && events.some((e) => e.id === open) ? open : split ? latestIn(events, site, q) : null;
   const openEvent = events.find((e) => e.id === openId) ?? null;
 
   // Remonte en haut de l'écran à chaque changement de vue.
@@ -88,20 +105,28 @@ export default function App() {
 
   const sideLinks = (cls: string) => (
     <div className={cls}>
-      {!isResp && cls === 'side-links' && <button className="to-resp side" onClick={openLogin}>Je suis chef de site</button>}
-      <button className="restart" onClick={() => setOnb(true)}>Revoir l'accueil</button>
+      {cls === 'm-links' && (isResp ? (
+        <div className="acct-on m-acct">
+          <span className="acct-av" aria-hidden="true"><ShieldCheck size={18} /></span>
+          <span className="acct-txt"><b>Chef de site</b><small>Connecté</small></span>
+          <button type="button" className="acct-out" onClick={logout}><LogOut size={16} aria-hidden="true" /> Se déconnecter</button>
+        </div>
+      ) : (
+        <button type="button" className="acct-in m-acct" onClick={openLogin}><LogIn size={17} aria-hidden="true" /> Espace chef de site</button>
+      ))}
+      <button className="restart" onClick={() => setOnb(true)}><House size={16} aria-hidden="true" /> Revoir l'accueil</button>
       {isInstallable && (
-        <button className="restart" onClick={install}>Installer l'application</button>
+        <button className="restart" onClick={install}><Download size={16} aria-hidden="true" /> Installer l'application</button>
       )}
       {isResp && (
-        <button className="restart" onClick={() => setSheet('reset')}>Réinitialiser la démo</button>
+        <button className="restart" onClick={() => setSheet('reset')}><RotateCcw size={16} aria-hidden="true" /> Réinitialiser la démo</button>
       )}
     </div>
   );
 
   const resultsList = (
-    <Results events={events} pending={pending} site={site} q={q} isPublic={!isResp} openId={openId}
-      onOpen={setOpen} onLogin={openLogin} />
+    <Results importedAt={store.importedAt} events={events} pending={pending} site={site} q={q} openId={openId}
+      onOpen={setOpen} />
   );
   const detail = openEvent && (
     <Detail event={openEvent} isResp={isResp} toast={toast}
@@ -116,12 +141,12 @@ export default function App() {
     body = (
       <>
         <div className="pane">{resultsList}</div>
-        <div className="pane detail">{detail ?? <p className="pick">Choisissez une épreuve.</p>}</div>
+        <div className="pane detail view" key={openId ?? 'none'}>{detail ?? <p className="pick">Choisissez une épreuve.</p>}</div>
       </>
     );
   } else {
     body = (
-      <div className="wrap">
+      <div className="wrap view" key={`${tab}-${openId ?? ''}`}>
         {tab === 'medals' ? <Medals events={events} />
           : tab === 'programme' ? <Programme pending={pending} site={site} q={q} />
           : tab === 'publish' && isResp ? (
@@ -148,11 +173,6 @@ export default function App() {
     <div className="app" id="phone">
       <header className="top gut">
         <div className="flag" aria-hidden="true"><i /><i /><i /></div>
-        <svg className="top-swoosh" viewBox="0 0 700 90" preserveAspectRatio="none" aria-hidden="true">
-          <path d="M250 90C360 70 450 35 520 0h40C480 40 390 75 300 90z" fill="#fdef42" />
-          <path d="M300 90C390 75 480 40 560 0h50C520 45 420 80 360 90z" fill="#00853f" />
-          <path d="M360 90C420 80 520 45 610 0h22C545 48 452 84 400 90z" fill="#e31b23" />
-        </svg>
         <div className="brand">
           <div className="logo">
             <img src="/brand/ayo-head.webp" alt="" className="logo-ayo" />
@@ -161,17 +181,25 @@ export default function App() {
           <label className="search">
             <Search size={18} aria-hidden="true" />
             <span className="vh">Rechercher</span>
-            <input type="search" placeholder="Rechercher une épreuve, un athlète…" value={q}
-              onChange={(e) => { setQ(e.target.value); if (tab !== 'results' && tab !== 'programme') goTab('results'); }} />
+            <input ref={searchRef} type="search" placeholder="Rechercher une épreuve, un athlète…" value={q}
+              onKeyDown={(e) => { if (e.key === 'Escape') { setQ(''); e.currentTarget.blur(); } }}
+              onChange={(e) => { setQ(e.target.value); if (wide) setOpen(null); if (tab !== 'results' && tab !== 'programme') goTab('results'); }} />
+            {!q && <kbd className="search-kbd" aria-hidden="true" title="Raccourci : /">/</kbd>}
           </label>
           <div className="hright">
-            {isResp && <button className="mode" title="Se déconnecter" onClick={logout}>Chef de site <span aria-hidden="true">×</span></button>}
-            <label className="site" hidden={tab !== 'results' && tab !== 'programme'}>
-              <span className="vh">Site</span>
-              <select value={site} onChange={(e) => { setSite(e.target.value); if (wide) setOpen(null); }}>
-                {SITES.map((s) => <option key={s}>{s}</option>)}
-              </select>
-            </label>
+            <div className="site" hidden={tab !== 'results' && tab !== 'programme'}>
+              <Combo label="Site" className="combo-site" value={site} options={siteOptions} searchPlaceholder="Rechercher un site…"
+                onChange={(v) => { setSite(v); if (wide) setOpen(null); }} />
+            </div>
+            {isResp ? (
+              <div className="acct-on">
+                <span className="acct-av" aria-hidden="true"><ShieldCheck size={18} /></span>
+                <span className="acct-txt"><b>Chef de site</b><small>Connecté</small></span>
+                <button type="button" className="acct-out" onClick={logout}><LogOut size={16} aria-hidden="true" /> Se déconnecter</button>
+              </div>
+            ) : (
+              <button type="button" className="acct-in" onClick={openLogin}><LogIn size={17} aria-hidden="true" /> Espace chef de site</button>
+            )}
           </div>
         </div>
       </header>
@@ -183,20 +211,15 @@ export default function App() {
           <path d="M0 0h100C82 24 55 42 28 54S4 80 0 92z" fill="#00853f" />
           <path d="M74 66l3 9h9.5l-7.7 5.6 3 9-7.8-5.6-7.8 5.6 3-9-7.7-5.6H71z" fill="#00853f" />
         </svg>
-        <button className="mt-menu" aria-label="Menu" onClick={() => setSheet('menu')}><Menu size={24} /></button>
         <div className="mt-brand">
           <img src="/brand/ayo-head.webp" alt="" className="mt-ayo" />
           <div><b>JOJ</b><b className="mt-d">DAKAR 2026</b><small>Jeux Olympiques<br />de la Jeunesse</small></div>
         </div>
-        <label className="mt-site" hidden={tab !== 'results' && tab !== 'programme'}>
-          <MapPin size={18} aria-hidden="true" />
-          <span>{site === ALL_SITES ? 'Podium Dakar' : site}</span>
-          <ChevronDown size={16} aria-hidden="true" />
-          <select aria-label="Site" value={site} onChange={(e) => { setSite(e.target.value); if (wide) setOpen(null); }}>
-            {SITES.map((x) => <option key={x}>{x}</option>)}
-          </select>
-        </label>
-        {isResp && <span className="mt-role">Chef de site</span>}
+        <div className="mt-site-wrap" hidden={tab !== 'results' && tab !== 'programme'}>
+          <Combo label="Site" className="mt-site" value={site} options={siteOptions} searchPlaceholder="Rechercher un site…"
+            onChange={(v) => { setSite(v); if (wide) setOpen(null); }}
+            trigger={<><MapPin size={18} aria-hidden="true" /><span>{site === ALL_SITES ? 'Tous les sites' : site}</span><ChevronDown size={16} aria-hidden="true" /></>} />
+        </div>
         <img src="/brand/ayo.webp" alt="" className="mt-mascot" aria-hidden="true" />
       </header>
 
@@ -215,9 +238,17 @@ export default function App() {
           </div>
           <div className="stats">
             <b className="stats-h"><CalendarDays size={16} aria-hidden="true" /> Aujourd'hui</b>
-            <div className="stat live"><strong>{LIVE.length}</strong><span>en direct</span></div>
-            <div className="stat done"><strong>{events.length}</strong><span><CircleCheck size={14} aria-hidden="true" /> terminées</span></div>
-            <div className="stat next"><strong>{pending.length}</strong><span>à venir</span></div>
+            {([
+              ['live', LIVE.length, 'en direct', 'results'],
+              ['done', events.length, 'terminées', 'results'],
+              ['next', pending.length, 'à venir', 'programme'],
+            ] as const).map(([k, n, label, to]) => (
+              <button key={k} type="button" className={`stat ${k}`} disabled={n === 0}
+                title={n === 0 ? `Aucune épreuve ${label}` : `Voir les épreuves ${label}`}
+                onClick={() => { setQ(''); goTab(to); }}>
+                <strong>{n}</strong><span>{label}</span>
+              </button>
+            ))}
           </div>
           {sideLinks('side-links')}
         </div>
@@ -234,21 +265,6 @@ export default function App() {
             setSheet(null);
             toast(`Version ${v} publiée, l'ancienne reste visible`);
           }} />
-      )}
-      {sheet === 'menu' && (
-        <div className="scrim" onClick={(e) => { if (e.target === e.currentTarget) setSheet(null); }}>
-          <div className="sheet menu" role="dialog" aria-modal="true" aria-label="Menu">
-            <div className="menu-h"><h3>Menu</h3><button aria-label="Fermer" onClick={() => setSheet(null)}><X size={20} /></button></div>
-            <button onClick={() => { setSheet(null); setOnb(true); }}><House size={20} />Revoir l'accueil</button>
-            {isResp
-              ? <button onClick={logout}><LogOut size={20} />Se déconnecter (chef de site)</button>
-              : <button onClick={() => setSheet('login')}><LogIn size={20} />Je suis chef de site</button>}
-            {isResp && (
-              <button onClick={() => setSheet('reset')}><RotateCcw size={20} />Réinitialiser la démo</button>
-            )}
-            {isInstallable && <button onClick={() => { setSheet(null); install(); }}><Download size={20} />Installer l'application</button>}
-          </div>
-        </div>
       )}
       {sheet === 'install' && (
         <InstallSheet isIOS={isIOS} onClose={() => setSheet(null)} onInstall={triggerInstall} />

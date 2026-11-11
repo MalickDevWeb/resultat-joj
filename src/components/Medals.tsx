@@ -51,7 +51,7 @@ export function Medals({ events }: { events: PodiumEvent[] }) {
       <div className="mx-head">
         <div className="mx-title">
           <Trophy size={40} aria-hidden="true" className="mx-cup" />
-          <div><h2>Tableau des médailles</h2><p>Classement des nations</p></div>
+          <div><h2>Tableau des médailles</h2><p>Classement des nations<span className="mx-p-n"> · {events.length} épreuves</span></p></div>
         </div>
         <span className="mx-count"><CalendarDays size={18} aria-hidden="true" /> {events.length} épreuves</span>
       </div>
@@ -75,7 +75,7 @@ export function Medals({ events }: { events: PodiumEvent[] }) {
           {ranked.map(({ c, m, rank }) => (
             <tr key={c} className={c === 'SEN' ? 'sen' : ''}>
               <td><span className={`rk rk${rank <= 3 ? rank : 0}`}>{rank}</span></td>
-              <td><span className="cty"><Flag c={c} /><span>{NOC[c] || c}</span></span></td>
+              <td><span className="cty" title={NOC[c] || c}><Flag c={c} /><span>{NOC[c] || c}</span></span></td>
               <td>{m[0]}</td><td>{m[1]}</td><td>{m[2]}</td>
               <td><span className="tot">{m[0] + m[1] + m[2]}</span></td>
             </tr>
