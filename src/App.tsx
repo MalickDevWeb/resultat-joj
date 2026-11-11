@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import { CalendarDays, ChevronDown, Download, House, LogIn, LogOut, MapPin, RotateCcw, Search, ShieldCheck } from 'lucide-react';
-import { ALL_SITES, LIVE, SITES } from './data';
+import { ALL_SITES, SITES } from './data';
 import { usePodiumStore } from './hooks/usePodiumStore';
+import { useLive } from './hooks/useLive';
 import { usePWAInstall } from './hooks/usePWAInstall';
 import { Results, latestIn } from './components/Results';
 import { Detail } from './components/Detail';
@@ -33,6 +34,7 @@ const siteOptions = SITES.map((x) => ({
 
 export default function App() {
   const store = usePodiumStore();
+  const { live } = useLive();
   const { events, pending } = store;
   const { isInstallable, isIOS, triggerInstall } = usePWAInstall();
 
@@ -125,7 +127,7 @@ export default function App() {
   );
 
   const resultsList = (
-    <Results importedAt={store.importedAt} events={events} pending={pending} site={site} q={q} openId={openId}
+    <Results live={live} importedAt={store.importedAt} events={events} pending={pending} site={site} q={q} openId={openId}
       onOpen={setOpen} />
   );
   const detail = openEvent && (
@@ -239,7 +241,7 @@ export default function App() {
           <div className="stats">
             <b className="stats-h"><CalendarDays size={16} aria-hidden="true" /> Aujourd'hui</b>
             {([
-              ['live', LIVE.length, 'en direct', 'results'],
+              ['live', live.length, 'en direct', 'results'],
               ['done', events.length, 'terminées', 'results'],
               ['next', pending.length, 'à venir', 'programme'],
             ] as const).map(([k, n, label, to]) => (

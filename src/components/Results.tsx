@@ -1,5 +1,5 @@
 import { CalendarDays } from 'lucide-react';
-import { ALL_SITES, LIVE, NOC, SOURCE, SPORTS, at, cur, matches, sportTone, today, type PodiumEvent, type Session } from '../data';
+import { ALL_SITES, NOC, SOURCE, SPORTS, at, cur, matches, sportTone, today, type PodiumEvent, type Session } from '../data';
 import { Badge, Scene, SportIcon } from './ui';
 
 interface Props {
@@ -10,14 +10,15 @@ interface Props {
   openId: string | null;
   onOpen: (id: string) => void;
   importedAt?: string; // dernière lecture de Wikipédia
+  live?: Session[]; // épreuves en cours (programme officiel)
 }
 
-export function Results({ events, pending, site, q, openId, onOpen, importedAt = SOURCE.fetchedAt }: Props) {
+export function Results({ events, pending, site, q, openId, onOpen, importedAt = SOURCE.fetchedAt, live = [] }: Props) {
   const inSite = (x: Session) => site === ALL_SITES || x.site === site;
   const hitS = (x: Session) => hitSession(q, x);
   const hitE = (e: PodiumEvent) => hitEvent(q, e);
   const list = SPORTS.map((d) => {
-    const L = LIVE.filter((x) => x.disc === d && inSite(x) && hitS(x));
+    const L = live.filter((x) => x.disc === d && inSite(x) && hitS(x));
     const P = events.filter((e) => e.disc === d && inSite(e) && hitE(e)).sort((a, b) => b.time.localeCompare(a.time));
     const U = pending.filter((x) => x.disc === d && inSite(x) && hitS(x));
     return { d, L, P, U, total: L.length + P.length + U.length };
@@ -48,11 +49,12 @@ export function Results({ events, pending, site, q, openId, onOpen, importedAt =
             const target = x.P[0]?.id;
             return (
               <button key={x.d} className="sport" aria-current={!!target && openId === target}
-                onClick={() => target && onOpen(target)}>
+                onClick={() => (target ? onOpen(target) : x.L[0].url && window.open(x.L[0].url, '_blank', 'noopener'))}>
                 <div className="pic"><Scene d={x.d} /><div className="chip-on"><span className="badge live">En direct</span></div></div>
                 <div className="txt">
                   <h3>{x.d}</h3>
                   <div className="line">{x.L[0].name} · {x.L[0].venue}</div>
+                  {x.L.length > 1 && <div className="line">+ {x.L.length - 1} autre{x.L.length > 2 ? 's' : ''} en cours</div>}
                 </div>
               </button>
             );

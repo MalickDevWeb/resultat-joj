@@ -2,7 +2,18 @@ import react from '@vitejs/plugin-react';
 import basicSsl from '@vitejs/plugin-basic-ssl';
 import { VitePWA } from 'vite-plugin-pwa';
 import path from 'path';
-import { defineConfig } from 'vite';
+import { defineConfig, type Plugin } from 'vite';
+
+/** En développement, sert les fonctions Vercel du dossier api/ (ex. /api/live). */
+const vercelApi = (): Plugin => ({
+  name: 'vercel-api',
+  configureServer(server) {
+    server.middlewares.use('/api/live', async (req, res) => {
+      const { default: handler } = await server.ssrLoadModule('/api/live.js');
+      await handler(req, res);
+    });
+  },
+});
 
 export default defineConfig(({ mode }) => {
   // HTTPS (certificat auto-signé) uniquement sur demande : `HTTPS=1 npm run dev`,
@@ -12,6 +23,7 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [
       react(),
+      vercelApi(),
       ...(useHttps ? [basicSsl()] : []),
       VitePWA({
         strategies: 'injectManifest',

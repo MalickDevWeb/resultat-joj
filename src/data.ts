@@ -47,8 +47,6 @@ export const SEED_EVENTS = resultats.events as PodiumEvent[];
 export const SEED_PENDING = resultats.pending as Session[];
 /** Tableau des médailles général de Wikipédia : { CNO: [or, argent, bronze] }. */
 export const SEED_MEDALS = ((resultats as { medals?: Record<string, number[]> }).medals ?? null);
-/** Wikipédia ne donne pas les épreuves en cours : aucune épreuve « en direct ». */
-export const LIVE: Session[] = [];
 
 /** Une version issue de l'import (et non saisie par un chef de site). */
 export const isImport = (v: Version) => v.by === SOURCE.name;
