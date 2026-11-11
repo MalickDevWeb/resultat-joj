@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { SEED_EVENTS, SEED_PENDING, SOURCE, cur, isImport, now, type Place, type PodiumEvent, type Session } from '../data';
+import { SEED_EVENTS, SEED_MEDALS, SEED_PENDING, SOURCE, cur, isImport, now, type Place, type PodiumEvent, type Session } from '../data';
 
 const KEY = 'podium-dakar-2026:v2';
 /** Les résultats sont relus sur Wikipédia toutes les 6 heures. */
@@ -9,9 +9,10 @@ interface Data {
   events: PodiumEvent[];
   pending: Session[];
   importedAt?: string; // date de l'import Wikipédia sur lequel reposent ces données
+  medals?: Record<string, number[]> | null; // tableau des médailles général de Wikipédia
 }
 
-const seed = (): Data => structuredClone({ events: SEED_EVENTS, pending: SEED_PENDING, importedAt: SOURCE.fetchedAt });
+const seed = (): Data => structuredClone({ events: SEED_EVENTS, pending: SEED_PENDING, importedAt: SOURCE.fetchedAt, medals: SEED_MEDALS });
 
 /** Dernière lecture de Wikipédia faite par l'application elle-même. */
 const WIKI_KEY = KEY + ':wiki';
@@ -68,7 +69,7 @@ async function refresh(): Promise<Data | null> {
   try {
     const { buildResultats } = await import('../wikipedia.mjs');
     const r = await buildResultats({ prev: cur });
-    const fresh: Data = { events: r.events, pending: r.pending, importedAt: r.source.fetchedAt };
+    const fresh: Data = { events: r.events, pending: r.pending, importedAt: r.source.fetchedAt, medals: r.medals };
     try {
       localStorage.setItem(WIKI_KEY, JSON.stringify(fresh));
     } catch {
@@ -113,8 +114,9 @@ export function usePodiumStore() {
   const publish = useCallback((sessionId: string, pod: Place[]): string | null => {
     const src = data.pending.find((x) => x.id === sessionId);
     if (!src) return null;
+    const { pod: _partial, ...session } = src; // le podium saisi remplace les médailles partielles
     const e: PodiumEvent = {
-      ...src,
+      ...session,
       id: src.id, // même identifiant que l'épreuve : un import ultérieur la retrouve
       status: 'prov',
       versions: [{ v: 1, at: now(), by: 'Vous (chef de site)', motif: null, valid: null, pod }],

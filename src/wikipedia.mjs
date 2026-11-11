@@ -57,6 +57,7 @@ UAE AE UGA UG UKR UA URU UY USA US UZB UZ VAN VU VEN VE VIE VN VIN VC YEM YE ZAM
   .split(/\s+/).reduce((a, x, i, arr) => (i % 2 ? a : [...a, [x, arr[i + 1]]]), []));
 const NOC_OVERRIDE = { AIN: 'Athlètes individuels neutres', EOR: 'Équipe olympique des réfugiés', TPE: 'Taipei chinois', KOS: 'Kosovo' };
 const regionFr = new Intl.DisplayNames(['fr'], { type: 'region' });
+const isNoc = (c) => c in IOC_ISO || c in NOC_OVERRIDE;
 const nocName = (c) => NOC_OVERRIDE[c] ?? (IOC_ISO[c] ? regionFr.of(IOC_ISO[c]) : c);
 
 /* Traduction des intitulés d'épreuves (le reste est conservé tel quel). */
@@ -86,14 +87,44 @@ const tr = (s) => TR.reduce((x, [re, to]) => x.replace(re, to), s);
 const GENDER = [[/\b(men|boys)\b/i, 'garçons', 'm'], [/\b(women|girls)\b/i, 'filles', 'w'], [/\bmixed\b/i, 'mixte', 'x'], [/\bopen\b/i, 'open', 'o']];
 const genderOf = (s) => GENDER.find(([re]) => re.test(s)) ?? null;
 
-async function wikitext(title, headers) {
-  // origin=* : autorise l'appel depuis le navigateur (CORS).
-  const q = new URLSearchParams({ action: 'parse', page: title, prop: 'wikitext', format: 'json', formatversion: '2', redirects: '1', origin: '*' });
-  const r = await fetch(`${API}?${q}`, { headers });
-  if (!r.ok) throw new Error(`${title}: HTTP ${r.status}`);
-  const d = await r.json();
-  if (d.error) throw new Error(`${title}: ${d.error.info}`);
-  return d.parse.wikitext;
+const MAIN_PAGE = '2026 Summer Youth Olympics';
+const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+
+/**
+ * Lit plusieurs pages en UNE seule requête (bien moins de risque d'être limité par Wikipédia).
+ * Réessaie si Wikipédia demande de patienter (429) ou a un souci passager (5xx).
+ * Renvoie { titre demandé: wikitexte } ; une page absente ne figure pas dans le résultat.
+ */
+async function fetchPages(titles, headers) {
+  const q = new URLSearchParams({
+    action: 'query', prop: 'revisions', rvprop: 'content', rvslots: 'main', titles: titles.join('|'),
+    redirects: '1', format: 'json', formatversion: '2', maxlag: '5',
+    origin: '*', // autorise l'appel depuis le navigateur (CORS)
+  });
+  // Identifie l'application auprès de Wikipédia (le navigateur interdit de changer User-Agent).
+  const h = { 'Api-User-Agent': 'PodiumDakar/1.0 (https://resultat-joj-jugu.vercel.app)', ...headers };
+  let d;
+  for (let i = 0; ; i++) {
+    const r = await fetch(`${API}?${q}`, { headers: h }).catch(() => null);
+    if (r?.ok) {
+      d = await r.json();
+      if (!d.error) break;
+      if (d.error.code !== 'maxlag' || i >= 3) throw new Error(d.error.info);
+    } else if (i >= 3 || (r && r.status !== 429 && r.status < 500)) {
+      throw new Error(r ? `HTTP ${r.status}` : 'pas de réseau');
+    }
+    const retry = Number(r?.headers.get('retry-after')) || 0;
+    await wait(Math.max(retry * 1000, 2000 * 2 ** i)); // 2 s, 4 s, 8 s
+  }
+  // Retrouve le titre demandé à partir du titre final (normalisation + redirections).
+  const back = new Map(titles.map((t) => [t, t]));
+  for (const { from, to } of [...(d.query.normalized ?? []), ...(d.query.redirects ?? [])]) back.set(to, back.get(from) ?? from);
+  const out = {};
+  for (const p of d.query.pages ?? []) {
+    const text = p.revisions?.[0]?.slots?.main?.content;
+    if (text) out[back.get(p.title) ?? p.title] = text;
+  }
+  return out;
 }
 
 /** Remplace les « | » à l'intérieur de {{ }} et [[ ]] pour pouvoir découper les cellules. */
@@ -137,7 +168,9 @@ function splitAttr(cell) {
 /** Un médaillé (ou une équipe) à partir d'une cellule. null si la cellule est vide. */
 function medalist(cell, perf) {
   const raw = unmask(cell);
-  const tpl = raw.match(/\{\{\s*(flagIOC\w*)\s*\|([^{}]*)\}\}/i);
+  // {{flagIOC…|…}}, ou un modèle d'équipe de sport dont le 1er argument est un code pays : {{3x3|SEN}}, {{3x3w|POL}}, {{fb|BRA}}…
+  const tpl = raw.match(/\{\{\s*(flagIOC\w*)\s*\|([^{}]*)\}\}/i)
+    ?? [...raw.matchAll(/\{\{\s*([\w-]+)\s*\|\s*([A-Z]{3})\s*(?:\|[^{}]*)?\}\}/g)].find((m) => isNoc(m[2]));
   if (!tpl) return null;
   const name = tpl[1].toLowerCase();
   const args = maskPipes(tpl[2]).split('|').map((x) => unmask(x).trim());
@@ -217,6 +250,17 @@ function parseSport(text, [en, disc, site, venue]) {
   return events;
 }
 
+/** Tableau des médailles général (page principale des Jeux), souvent en avance sur les pages de sport. */
+function medalTotals(w) {
+  const m = w?.match(/\{\{\s*Medals table[\s\S]*?\n\}\}/i);
+  if (!m) return null;
+  const t = {};
+  for (const [, k, c, n] of m[0].matchAll(/\b(gold|silver|bronze)_([A-Z]{3})\s*=\s*(\d+)/g)) {
+    (t[c] ??= [0, 0, 0])[['gold', 'silver', 'bronze'].indexOf(k)] = Number(n);
+  }
+  return Object.keys(t).length ? t : null;
+}
+
 /**
  * Récupère tous les sports et construit les résultats.
  * prev : résultats précédents (secours pour un sport injoignable, dates d'origine conservées).
@@ -234,13 +278,13 @@ export async function buildResultats({ prev = null, headers = {}, log = () => {}
 
   const prevById = new Map((prev?.events ?? []).map((e) => [e.id, e]));
 
+  const pages = await fetchPages([MAIN_PAGE, ...SPORTS.map((s) => s[0] + SUFFIX)], headers);
+
   for (const s of SPORTS) {
     const title = s[0] + SUFFIX;
-    let text;
-    try {
-      text = await wikitext(title, headers);
-    } catch (e) {
-      log(`! ${e.message}`);
+    const text = pages[title];
+    if (!text) {
+      log(`! ${title} : page introuvable`);
       failed.add(s[1]);
       continue;
     }
@@ -261,15 +305,17 @@ export async function buildResultats({ prev = null, headers = {}, log = () => {}
         });
         done++;
       } else {
-        pending.push(session);
+        // Médailles déjà attribuées (ex. les deux bronzes en boxe avant la finale) : comptées au tableau.
+        pending.push(pod.length ? { ...session, pod } : session);
       }
     }
     sports.push({ disc: s[1], site: s[2], venue: s[3] });
     log(`${s[1].padEnd(24)} ${String(done).padStart(3)} podiums, ${String(list.length - done).padStart(3)} à venir`);
-    await new Promise((r) => setTimeout(r, 150)); // reste poli avec l'API
   }
 
   if (failed.size === SPORTS.length) throw new Error('Wikipédia injoignable');
+  const medals = medalTotals(pages[MAIN_PAGE]) ?? prev?.medals ?? null;
+  if (!pages[MAIN_PAGE]) log('! Tableau des médailles introuvable : ancien tableau conservé');
   // Sport non récupéré cette fois : on reprend ses anciennes données plutôt que de les perdre.
   if (prev && failed.size) {
     for (const s of SPORTS.filter((x) => failed.has(x[1]))) {
@@ -303,10 +349,11 @@ export async function buildResultats({ prev = null, headers = {}, log = () => {}
     noc,
     events,
     pending,
+    medals, // { CNO: [or, argent, bronze] } du tableau général, ou null
   };
   return out;
 }
 
 /** Mêmes podiums et mêmes épreuves à venir ? */
 export const sameResults = (a, b) =>
-  !!a && !!b && JSON.stringify([a.events, a.pending]) === JSON.stringify([b.events, b.pending]);
+  !!a && !!b && JSON.stringify([a.events, a.pending, a.medals]) === JSON.stringify([b.events, b.pending, b.medals]);

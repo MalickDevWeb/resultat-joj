@@ -147,7 +147,7 @@ export default function App() {
   } else {
     body = (
       <div className="wrap view" key={`${tab}-${openId ?? ''}`}>
-        {tab === 'medals' ? <Medals events={events} />
+        {tab === 'medals' ? <Medals events={events} pending={pending} official={store.medals} />
           : tab === 'programme' ? <Programme pending={pending} site={site} q={q} />
           : tab === 'publish' && isResp ? (
             <Publish events={events} pending={pending} onPublish={(sid, pod) => {

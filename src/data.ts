@@ -28,6 +28,7 @@ export interface Session {
   venue: string;
   time: string; // heure locale, vide si inconnue
   url?: string; // page source
+  pod?: Place[]; // épreuve à venir : médailles déjà attribuées (ex. bronzes de boxe avant la finale)
 }
 
 export interface PodiumEvent extends Session {
@@ -44,6 +45,8 @@ export const NOC: Record<string, string> = resultats.noc;
 export const SPORTS: string[] = resultats.sports.map((s) => s.disc);
 export const SEED_EVENTS = resultats.events as PodiumEvent[];
 export const SEED_PENDING = resultats.pending as Session[];
+/** Tableau des médailles général de Wikipédia : { CNO: [or, argent, bronze] }. */
+export const SEED_MEDALS = ((resultats as { medals?: Record<string, number[]> }).medals ?? null);
 /** Wikipédia ne donne pas les épreuves en cours : aucune épreuve « en direct ». */
 export const LIVE: Session[] = [];
 
@@ -74,9 +77,28 @@ export const today = () => {
 };
 
 /** Tableau des médailles calculé depuis la version actuelle de chaque podium. */
-export function medalTable(events: PodiumEvent[]): [string, number[]][] {
+export function medalTable(
+  events: PodiumEvent[],
+  pending: Session[] = [],
+  official: Record<string, number[]> | null = null,
+): [string, number[]][] {
   const t: Record<string, number[]> = {};
-  events.forEach((e) => cur(e).pod.forEach((x, i) => { (t[x.c] ??= [0, 0, 0])[(x.m ?? i + 1) - 1]++; }));
+  const add = (pod: Place[], k = 1) => pod.forEach((x, i) => { (t[x.c] ??= [0, 0, 0])[(x.m ?? i + 1) - 1] += k; });
+  if (official) {
+    // Tableau officiel de Wikipédia, corrigé des podiums publiés ou rectifiés dans l'application.
+    for (const [c, m] of Object.entries(official)) t[c] = [...m];
+    for (const e of events) {
+      if (!e.versions.some((v) => !isImport(v))) continue;
+      const imported = e.versions.find(isImport);
+      if (imported) add(imported.pod, -1);
+      else { const s = pending.find((p) => p.id === e.id) ?? SEED_PENDING.find((p) => p.id === e.id); if (s?.pod) add(s.pod, -1); }
+      add(cur(e).pod);
+    }
+    for (const c in t) if (t[c].every((n) => n <= 0)) delete t[c];
+  } else {
+    events.forEach((e) => add(cur(e).pod));
+    pending.forEach((s) => s.pod && add(s.pod));
+  }
   return Object.entries(t).sort(
     (a, b) => b[1][0] - a[1][0] || b[1][1] - a[1][1] || b[1][2] - a[1][2] || a[0].localeCompare(b[0]),
   );

@@ -7,7 +7,9 @@ export interface Resultats {
   noc: Record<string, string>;
   events: PodiumEvent[];
   pending: Session[];
+  medals: Medals | null;
 }
+export type Medals = Record<string, number[]>;
 
 export const SPORTS: [string, string, string, string][];
 export function buildResultats(opts?: {

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { CalendarDays, Star, Trophy } from 'lucide-react';
-import { NOC, SOURCE, medalTable, type PodiumEvent } from '../data';
+import { NOC, SOURCE, medalTable, type PodiumEvent, type Session } from '../data';
 import { Flag } from './ui';
 
 type Sort = 'all' | 0 | 1 | 2;
@@ -19,9 +19,15 @@ const MiniMedal = ({ k, ribbon = true }: { k: number; ribbon?: boolean }) => {
   );
 };
 
-export function Medals({ events }: { events: PodiumEvent[] }) {
+interface Props {
+  events: PodiumEvent[];
+  pending?: Session[];
+  official?: Record<string, number[]> | null; // tableau général de Wikipédia
+}
+
+export function Medals({ events, pending = [], official = null }: Props) {
   const [sort, setSort] = useState<Sort>('all');
-  const rows = medalTable(events);
+  const rows = medalTable(events, pending, official);
   const sorted = sort === 'all' ? rows : [...rows].sort((a, b) =>
     b[1][sort] - a[1][sort] || (b[1][0] + b[1][1] + b[1][2]) - (a[1][0] + a[1][1] + a[1][2]) || a[0].localeCompare(b[0]));
   const shown = sort === 'all' ? sorted : sorted.filter(([, m]) => m[sort] > 0);
