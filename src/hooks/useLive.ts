@@ -57,15 +57,19 @@ const toSession = (x: LiveItem): LiveSession => {
   };
 };
 
-/** Épreuves en cours selon le programme officiel, rafraîchies chaque minute. */
-export function useLive() {
+/**
+ * Épreuves en cours selon le programme officiel, rafraîchies chaque minute.
+ * `enArrierePlan` : continuer aussi quand l'application est cachée (notifications activées, spec 009).
+ */
+export function useLive(enArrierePlan = false) {
   const [live, setLive] = useState<LiveSession[]>([]);
   const [next, setNext] = useState<LiveSession[]>([]);
+  const [lu, setLu] = useState(false);
 
   useEffect(() => {
     let stop = false;
     const load = async () => {
-      if (document.visibilityState === 'hidden' || !navigator.onLine) return;
+      if ((document.visibilityState === 'hidden' && !enArrierePlan) || !navigator.onLine) return;
       try {
         const r = await fetch('/api/live');
         if (!r.ok) return;
@@ -73,6 +77,7 @@ export function useLive() {
         if (stop || !estObjet(d) || !Array.isArray(d.live)) return;
         setLive(epreuves(d.live).map(toSession));
         setNext(epreuves(d.next).map(toSession));
+        setLu(true);
       } catch {
         /* hors ligne ou programme indisponible : on garde l'affichage actuel */
       }
@@ -88,7 +93,7 @@ export function useLive() {
       document.removeEventListener('visibilitychange', onVisible);
       window.removeEventListener('online', load);
     };
-  }, []);
+  }, [enArrierePlan]);
 
-  return { live, next };
+  return { live, next, lu };
 }

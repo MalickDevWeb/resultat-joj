@@ -22,6 +22,7 @@ import {
   Volume2,
 } from 'lucide-react';
 import { useLecture } from '../hooks/useVoix';
+import type { EtatNotifications } from '../notifications';
 
 export interface ArticleActu {
   id: string;
@@ -669,11 +670,13 @@ export const ARTICLES_LIST: ArticleActu[] = [
 interface NewsProps {
   onOpenAssistant?: () => void;
   onToast?: (msg: string) => void;
+  /** Les vraies notifications du téléphone (spec 009). */
+  notifications?: { etat: EtatNotifications; basculer: () => Promise<string> };
 }
 
-export function News({ onOpenAssistant, onToast }: NewsProps) {
+export function News({ onOpenAssistant, onToast, notifications }: NewsProps) {
   const [selectedFilter, setSelectedFilter] = useState<'une' | 'sports' | 'evenements' | 'infos' | 'galerie'>('une');
-  const [notifActive, setNotifActive] = useState(false);
+  const notifActive = notifications?.etat === 'actives';
   const [articleOuvert, setArticleOuvert] = useState<ArticleActu | null>(null);
   const topRef = useRef<HTMLDivElement>(null);
 
@@ -686,12 +689,10 @@ export function News({ onOpenAssistant, onToast }: NewsProps) {
     { id: 'galerie' as const, label: 'Galerie', icon: '🖼️' },
   ];
 
-  const toggleNotifs = () => {
-    const next = !notifActive;
-    setNotifActive(next);
-    if (onToast) {
-      onToast(next ? '🔔 Notifications activées : alertes médailles et temps forts !' : 'Notifications désactivées');
-    }
+  const toggleNotifs = async () => {
+    if (!notifications) return;
+    const phrase = await notifications.basculer();
+    onToast?.(phrase);
   };
 
   const scrollToTop = () => {
@@ -729,11 +730,12 @@ export function News({ onOpenAssistant, onToast }: NewsProps) {
         <button
           type="button"
           className={`actu-btn-notif ${notifActive ? 'is-active' : ''}`}
-          onClick={toggleNotifs}
-          aria-label="Activer les notifications des Jeux"
+          onClick={() => void toggleNotifs()}
+          aria-pressed={notifActive}
+          hidden={!notifications}
         >
           <Bell size={14} className="actu-bell-icon" aria-hidden="true" fill={notifActive ? '#fff' : 'none'} />
-          <span>{notifActive ? 'Notifications ON' : 'Activer les notifications'}</span>
+          <span>{notifActive ? 'Notifications activées' : 'Activer les notifications'}</span>
         </button>
       </section>
 

@@ -3,6 +3,7 @@ import { CalendarDays, ChevronDown, Download, House, LogIn, LogOut, MapPin, Mess
 import { ALL_SITES, SITES } from './data';
 import { usePodiumStore } from './hooks/usePodiumStore';
 import { useLive } from './hooks/useLive';
+import { useAlertes, useNotifications } from './hooks/useNotifications';
 import { usePWAInstall } from './hooks/usePWAInstall';
 import { useAssistant } from './hooks/useAssistant';
 import { Results, latestIn } from './components/Results';
@@ -41,8 +42,10 @@ const siteOptions = SITES.map((x) => ({
 
 export default function App() {
   const store = usePodiumStore();
-  const { live } = useLive();
+  const notifications = useNotifications();
+  const { live, lu: directLu } = useLive(notifications.etat === 'actives');
   const { events, pending } = store;
+  useAlertes(notifications.etat === 'actives', live, directLu, events);
   const { isInstallable, isIOS, triggerInstall } = usePWAInstall();
   const conversation = useAssistant();
   const assistRef = useRef<HTMLButtonElement>(null);
@@ -183,7 +186,7 @@ export default function App() {
                 toast('Podium publié en provisoire');
               }} />
             ) : (
-              <News onOpenAssistant={() => setSheet('assistant')} onToast={toast} />
+              <News onOpenAssistant={() => setSheet('assistant')} onToast={toast} notifications={notifications} />
             )
           ) : detail ?? resultsList}
         {!detail && tab !== 'publish' && sideLinks('m-links')}

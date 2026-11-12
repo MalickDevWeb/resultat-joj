@@ -54,9 +54,13 @@ Le supporter, téléphone en main au stade, dicte sa recherche ou sa question à
 
 Dans le tableau des médailles, le supporter touche un pays et voit tout sur lui : son rang, ses médailles, ses médaillés (sport, épreuve, site), ses meilleurs sports et un résumé simple qu'il peut écouter, puis peut interroger l'assistant sur ce pays (décision de l'humain). Règles : tout vient des données de l'application, sans appel à Claude ; les comptes de la fiche sont ceux du tableau ; les médailles que Wikipédia compte mais ne détaille pas encore sont signalées, jamais inventées.
 
+### TR9 — Les notifications (spec 009)
+
+Le supporter active les notifications d'un toucher, et son téléphone le prévient quand une épreuve passe en direct et quand le Sénégal gagne une médaille (décision de l'humain). Règles : rien sans sa permission ; rien pour ce qui existait déjà au moment de l'activation ; une seule alerte par chose ; le texte vient des données de l'application. Premier temps : l'application ouverte ou en arrière-plan ; l'envoi application fermée (push serveur) demande des clés et un stockage des abonnements, à décider.
+
 ## Hors périmètre
 
-- Les comptes réels des chefs de site (compte de démonstration), le partage des podiums saisis entre appareils, les notifications, le direct point par point.
+- Les comptes réels des chefs de site (compte de démonstration), le partage des podiums saisis entre appareils, le direct point par point.
 
 ## Hypothèses et risques
 
