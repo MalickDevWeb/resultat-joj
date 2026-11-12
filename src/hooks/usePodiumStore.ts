@@ -5,7 +5,7 @@ const KEY = 'podium-dakar-2026:v2';
 /** Les résultats sont relus sur Wikipédia toutes les 6 heures. */
 const REFRESH_MS = 6 * 60 * 60 * 1000;
 
-interface Data {
+export interface Data {
   events: PodiumEvent[];
   pending: Session[];
   importedAt?: string; // date de l'import Wikipédia sur lequel reposent ces données
@@ -37,7 +37,7 @@ const isLocal = (e: PodiumEvent) => e.versions.some((v) => !isImport(v));
  * Nouvel import : on repart des données importées, en gardant le travail fait dans l'application
  * (podiums publiés ou rectifiés par un chef de site).
  */
-function merge(old: Data, fresh: Data = base()): Data {
+export function merge(old: Data, fresh: Data = base()): Data {
   const local = new Map(old.events.filter(isLocal).map((e) => [e.id, e]));
   const events = fresh.events.map((e) => local.get(e.id) ?? e);
   for (const [id, e] of local) if (!events.some((x) => x.id === id)) events.push(e);
