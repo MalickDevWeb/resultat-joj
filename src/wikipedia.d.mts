@@ -1,4 +1,4 @@
-import type { PodiumEvent, Session } from './data';
+import type { Place, PodiumEvent, Session } from './data';
 
 export interface Resultats {
   source: { name: string; url: string; license: string; fetchedAt: string };
@@ -18,3 +18,7 @@ export function buildResultats(opts?: {
   log?: (msg: string) => void;
 }): Promise<Resultats>;
 export function sameResults(a: Partial<Resultats> | null, b: Partial<Resultats> | null): boolean;
+export function parseSport(
+  text: string,
+  sport: [string, string, string, string],
+): (Omit<PodiumEvent, 'status' | 'versions' | 'time' | 'url'> & { pod: Place[]; complete: boolean })[];

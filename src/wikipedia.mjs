@@ -189,7 +189,7 @@ function medalist(cell, perf) {
 const slug = (s) => s.replace(/\+/g, ' plus ').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
 /** Extrait les épreuves des tableaux MedalistTable d'une page. */
-function parseSport(text, [en, disc, site, venue]) {
+export function parseSport(text, [en, disc, site, venue]) {
   const events = [];
   const re = /\{\|\s*\{\{\s*MedalistTable[^}]*\}\}([\s\S]*?)\n\|\}/g;
   let m;
@@ -323,7 +323,7 @@ export async function buildResultats({ prev = null, headers = {}, log = () => {}
       pending.push(...(prev.pending ?? []).filter((e) => e.disc === s[1]));
       const ps = (prev.sports ?? []).find((x) => x.disc === s[1]);
       if (ps) sports.push(ps);
-      events.filter((e) => e.disc === s[1]).forEach((e) => e.versions.at(-1).pod.forEach((p) => used.add(p.c)));
+      events.filter((e) => e.disc === s[1]).forEach((e) => e.versions?.at(-1)?.pod?.forEach((p) => used.add(p.c)));
       log(`  ${s[1]} : anciennes données conservées`);
     }
     const rank = (d) => SPORTS.findIndex((x) => x[1] === d);
