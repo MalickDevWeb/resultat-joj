@@ -18,6 +18,7 @@ Au stade, le supporter a une main prise et peu de temps : taper « Sénégal lut
 
 - **Quand** le visiteur touche le micro de la recherche et dit « Sénégal lutte »
 - **Alors** la recherche contient « Sénégal lutte » et les résultats se filtrent, comme s'il l'avait tapé
+- Sur téléphone, où la recherche n'est pas affichée, la voix passe par l'assistant (AS2)
 
 ### AS2 — Dicter une question à l'assistant, sans l'envoyer
 
@@ -31,7 +32,7 @@ Au stade, le supporter a une main prise et peu de temps : taper « Sénégal lut
 ### AS4 — Une dictée impossible est expliquée
 
 - **Quand** le micro est refusé, absent, n'entend rien, ou que le réseau manque
-- **Alors** une phrase claire en français : « Autorisez le micro pour dicter. », « Aucun micro n'a été trouvé. », « Je n'ai rien entendu. Réessayez. », « La dictée a besoin d'internet. »
+- **Alors** une phrase claire en français : « Autorisez le micro pour dicter. », « Aucun micro n'a été trouvé. », « Je n'ai rien entendu. Réessayez. », « La dictée a besoin d'internet. » ; toute autre erreur : « La dictée n'a pas fonctionné. Réessayez. »
 
 ### AS5 — Écouter une réponse et le résumé du jour
 
