@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { NOC } from '../data';
 import { ErrBox, type ApiError } from './ui';
+import { BoutonEcouter } from './Voix';
+import { arreterLecture, lectureDisponible } from '../hooks/useVoix';
 
 /** Réponse de /api/resume (spec 005). */
-interface Resume {
+export interface Resume {
   jour: string;
   titre: string;
   paragraphes: string[];
@@ -19,12 +21,19 @@ interface Medaille {
 }
 
 const MEDAILLE = ['', '🥇', '🥈', '🥉'];
+const MEDAILLE_LUE = ['', 'Or', 'Argent', 'Bronze'];
+
+/** « Grenyelis Garcia (Venezuela) », ou pour une équipe « Ukraine », en français. */
+const medaille = (p: Medaille) => {
+  const pays = NOC[p.c] ?? p.c;
+  return p.equipe ? pays : `${p.n} (${pays})`;
+};
 
 /** « 🥇 Grenyelis Garcia (Venezuela) », ou pour une équipe « 🥇 Ukraine », en français. */
-export const medailleLisible = (p: Medaille) => {
-  const pays = NOC[p.c] ?? p.c;
-  return `${MEDAILLE[p.m] ?? ''} ${p.equipe ? pays : `${p.n} (${pays})`}`.trim();
-};
+export const medailleLisible = (p: Medaille) => `${MEDAILLE[p.m] ?? ''} ${medaille(p)}`.trim();
+
+/** « Or, Grenyelis Garcia (Venezuela) » : la médaille dite en mots, pour la lecture à voix haute. */
+const medailleLue = (p: Medaille) => [MEDAILLE_LUE[p.m], medaille(p)].filter(Boolean).join(', ');
 const ERREUR_RESEAU: ApiError = { status: 0, code: 'RESEAU', msg: 'Impossible de joindre le serveur. Vérifiez votre connexion, puis rouvrez le résumé.' };
 
 const DEBUT = '2026-10-31';
@@ -48,6 +57,16 @@ const PAS_ENCORE: ApiError = { status: 404, code: 'AUCUN_PODIUM', msg: 'Pas enco
 const libelleJour = (jour: string) =>
   new Date(`${jour}T12:00:00Z`).toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'UTC' });
 
+/** Ce qui est lu à voix haute, phrase par phrase : titre, jour, paragraphes, puis chaque épreuve et son podium. */
+export function texteDuResume(r: Resume): string[] {
+  return [
+    r.titre,
+    libelleJour(r.jour),
+    ...r.paragraphes,
+    ...r.epreuves.map((e) => `${e.disc} · ${e.event} : ${e.podium.map(medailleLue).join(' ; ')}.`),
+  ];
+}
+
 const estObjet = (x: unknown): x is Record<string, unknown> => typeof x === 'object' && x !== null;
 const texte = (x: unknown): x is string => typeof x === 'string';
 
@@ -68,6 +87,9 @@ async function lireResume(jour: string): Promise<Resume | ApiError> {
     msg: estObjet(corps) && texte(corps.message) ? corps.message : ERREUR_RESEAU.msg,
   };
 }
+
+/** Identifiant de la lecture du résumé. */
+const LECTURE = 'resume-du-jour';
 
 const estErreur = (x: Resume | ApiError): x is ApiError => 'msg' in x;
 
@@ -97,7 +119,7 @@ export function DaySummary() {
 
   return (
     <div className="acc">
-      <details onToggle={(e) => e.currentTarget.open && charger()}>
+      <details onToggle={(e) => (e.currentTarget.open ? charger() : arreterLecture(LECTURE))}>
         <summary>
           <span className="ico picto t-y" aria-hidden="true">
             <svg viewBox="0 0 24 24"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3zM9 9h6M9 13h6M9 17h3" /></svg>
@@ -118,6 +140,11 @@ export function DaySummary() {
               <strong>{resume.titre}</strong>
               <small>{libelleJour(resume.jour)}</small>
             </div>
+            {lectureDisponible && (
+              <div className="ev ev-ecouter">
+                <BoutonEcouter id={LECTURE} phrases={texteDuResume(resume)} nom="Écouter le résumé du jour" />
+              </div>
+            )}
             {resume.paragraphes.map((p, i) => <div key={i} className="ev"><span>{p}</span></div>)}
             {resume.epreuves.map((e) => (
               <div key={e.id} className="ev">

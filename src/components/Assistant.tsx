@@ -2,6 +2,9 @@ import { useEffect, useRef, useState, type FormEvent, type KeyboardEvent } from 
 import { X } from 'lucide-react';
 import { Scrim } from './Sheets';
 import { ErrBox } from './ui';
+import { MENTION, RIEN_ENTENDU, nettoyerDictee } from '../hooks/voix';
+import { useDictee } from '../hooks/useVoix';
+import { BoutonEcouter, BoutonMicro } from './Voix';
 
 /** Un message du fil : la question du visiteur ou la réponse de l'assistant (spec 006). */
 export interface Message {
@@ -44,6 +47,19 @@ export function verifierQuestion(texte: string): string | null {
   const n = longueur(texte.trim());
   if (n === 0) return VIDE;
   return n > QUESTION_MAX ? TROP_LONGUE : null;
+}
+
+/**
+ * Question dictée, prête à relire : première lettre en majuscule, « ? » à la fin, au plus 500 caractères.
+ * Null si rien n'a été dit.
+ */
+export function questionDictee(dicte: string): string | null {
+  const texte = nettoyerDictee(dicte);
+  if (!texte) return null;
+  const [premiere = '', ...suite] = [...texte];
+  const phrase = premiere.toLocaleUpperCase('fr-FR') + suite.join('');
+  const question = phrase.endsWith('?') ? phrase : `${phrase} ?`;
+  return [...question].slice(0, QUESTION_MAX).join('');
 }
 
 /** « 432 / 500 » au-delà de 400 caractères, sinon rien. */
@@ -96,12 +112,15 @@ export interface Conversation {
   recommencer: () => void;
 }
 
-function Bulle({ m }: { m: Message }) {
+/** Une bulle du fil ; une réponse de l'assistant (`lecture`) a son bouton « Écouter ». */
+function Bulle({ m, lecture }: { m: Message; lecture?: string }) {
   const visiteur = m.role === 'visiteur';
+  const lignes = paragraphes(m.texte);
   return (
     <div className={`assist-msg ${visiteur ? 'assist-moi' : 'assist-lui'}`}>
       <span className="vh">{visiteur ? 'Vous : ' : 'Assistant : '}</span>
-      {paragraphes(m.texte).map((p, i) => <p key={i}>{p}</p>)}
+      {lignes.map((p, i) => <p key={i}>{p}</p>)}
+      {lecture && <BoutonEcouter id={lecture} phrases={lignes} nom="Écouter la réponse" />}
     </div>
   );
 }
@@ -127,6 +146,25 @@ export function AssistantSheet({ conversation, onClose }: { conversation: Conver
   const enLigne = useEnLigne();
   const champ = useRef<HTMLTextAreaElement>(null);
   const filRef = useRef<HTMLDivElement>(null);
+  const curseurALaFin = useRef(false);
+  const dictee = useDictee({
+    surTexte: (dicte) => {
+      const texte = questionDictee(dicte);
+      if (texte === null) return setErreur(RIEN_ENTENDU);
+      curseurALaFin.current = true;
+      setQuestion(texte);
+    },
+    surErreur: setErreur,
+  });
+
+  // Après une dictée, le visiteur relit : focus dans le champ, curseur à la fin. Rien n'est envoyé.
+  useEffect(() => {
+    const el = champ.current;
+    if (!curseurALaFin.current || !el) return;
+    curseurALaFin.current = false;
+    el.focus();
+    el.setSelectionRange(el.value.length, el.value.length);
+  }, [question]);
 
   // Le dernier message reste visible.
   useEffect(() => {
@@ -135,6 +173,7 @@ export function AssistantSheet({ conversation, onClose }: { conversation: Conver
   }, [fil.length, enAttente]);
 
   const poser = async (texte: string) => {
+    dictee.annuler();
     const refus = verifierQuestion(texte);
     setErreur(refus);
     if (refus) {
@@ -155,6 +194,7 @@ export function AssistantSheet({ conversation, onClose }: { conversation: Conver
   const bloque = enAttente !== null || quota;
   const submit = (ev: FormEvent) => {
     ev.preventDefault();
+    dictee.annuler();
     if (!bloque && enLigne) void poser(question);
   };
   const entree = (ev: KeyboardEvent<HTMLTextAreaElement>) => {
@@ -166,6 +206,10 @@ export function AssistantSheet({ conversation, onClose }: { conversation: Conver
     champ.current?.focus();
   };
   const restant = compteur(question);
+  const dicter = () => {
+    if (!dictee.ecoute) setErreur(null);
+    dictee.basculer();
+  };
 
   return (
     <Scrim label="Assistant des Jeux" className="sheet-assist" onClose={onClose}>
@@ -200,7 +244,7 @@ export function AssistantSheet({ conversation, onClose }: { conversation: Conver
                 </div>
               </div>
             ) : <ErrBox e={{ status: 0, code: 'HORS_CONNEXION', msg: HORS_CONNEXION }} />)}
-            {fil.map((m, i) => <Bulle key={i} m={m} />)}
+            {fil.map((m, i) => <Bulle key={i} m={m} lecture={m.role === 'assistant' ? `reponse-${i}` : undefined} />)}
             {enAttente !== null && (
               <>
                 <Bulle m={{ role: 'visiteur', texte: enAttente }} />
@@ -213,12 +257,17 @@ export function AssistantSheet({ conversation, onClose }: { conversation: Conver
 
           <div className="assist-bas">
             {erreur && <ErrBox e={{ status: 0, code: 'ASSISTANT', msg: erreur }} />}
-            <form className="assist-form" noValidate onSubmit={submit}>
+            {dictee.ecoute && <span className="badge live assist-ecoute" role="status">J’écoute…</span>}
+            {dictee.mention && <p className="meta assist-mention">{MENTION}</p>}
+            <form className={`assist-form${dictee.disponible ? ' avec-micro' : ''}`} noValidate onSubmit={submit}>
               <label className="vh" htmlFor="assist-question">Votre question</label>
               <textarea id="assist-question" ref={champ} rows={2} autoFocus value={question} disabled={quota}
                 placeholder="Ex. : le Sénégal a gagné quoi en lutte ?"
                 aria-describedby={restant ? 'assist-compteur' : undefined}
                 onChange={(e) => setQuestion(e.target.value)} onKeyDown={entree} />
+              {dictee.disponible && (
+                <BoutonMicro nom="Dicter votre question" ecoute={dictee.ecoute} disabled={bloque} onClick={dicter} />
+              )}
               <button className="btn" type="submit" disabled={bloque || !enLigne}>Envoyer</button>
             </form>
             {restant && <p className="meta assist-compteur" id="assist-compteur">{restant}</p>}

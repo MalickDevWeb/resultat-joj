@@ -14,6 +14,9 @@ import { Publish } from './components/Publish';
 import { LoginSheet, RectifySheet, InstallSheet, ConfirmResetSheet } from './components/Sheets';
 import { Onboarding } from './components/Onboarding';
 import { AssistantSheet } from './components/Assistant';
+import { BoutonMicro } from './components/Voix';
+import { useDictee } from './hooks/useVoix';
+import { MENTION, nettoyerDictee } from './hooks/voix';
 
 type Role = 'pub' | 'resp';
 type Tab = 'results' | 'programme' | 'medals' | 'publish';
@@ -66,10 +69,10 @@ export default function App() {
   const toastTimer = useRef<number>(undefined);
   const screenRef = useRef<HTMLElement>(null);
 
-  const toast = useCallback((m: string) => {
+  const toast = useCallback((m: string, duree = 2600) => {
     setToastMsg(m);
     clearTimeout(toastTimer.current);
-    toastTimer.current = window.setTimeout(() => setToastMsg(null), 2600);
+    toastTimer.current = window.setTimeout(() => setToastMsg(null), duree);
   }, []);
 
   // En repassant sur petit écran, on revient à la liste.
@@ -83,6 +86,17 @@ export default function App() {
   useEffect(() => { if (!split && screenRef.current) screenRef.current.scrollTop = 0; }, [tab, openId, split]);
 
   const goTab = (t: Tab) => { setTab(t); setOpen(null); };
+  /** Une recherche, tapée ou dictée : on revient aux résultats si besoin. */
+  const chercher = (texte: string) => {
+    setQ(texte);
+    if (wide) setOpen(null);
+    if (tab !== 'results' && tab !== 'programme') goTab('results');
+  };
+  const dictee = useDictee({
+    surTexte: (dicte) => chercher(nettoyerDictee(dicte)),
+    surErreur: (phrase) => toast(phrase),
+    surPrevenir: () => toast(MENTION, 6000),
+  });
   const openLogin = () => setSheet('login');
   const logout = () => {
     toast('Déconnecté');
@@ -187,10 +201,17 @@ export default function App() {
           <label className="search">
             <Search size={18} aria-hidden="true" />
             <span className="vh">Rechercher</span>
-            <input ref={searchRef} type="search" placeholder="Rechercher une épreuve, un athlète…" value={q}
-              onKeyDown={(e) => { if (e.key === 'Escape') { setQ(''); e.currentTarget.blur(); } }}
-              onChange={(e) => { setQ(e.target.value); if (wide) setOpen(null); if (tab !== 'results' && tab !== 'programme') goTab('results'); }} />
-            {!q && <kbd className="search-kbd" aria-hidden="true" title="Raccourci : /">/</kbd>}
+            <input ref={searchRef} type="search" value={q}
+              placeholder={dictee.ecoute ? 'J’écoute…' : 'Rechercher une épreuve, un athlète…'}
+              onKeyDown={(e) => { if (e.key === 'Escape') { dictee.annuler(); setQ(''); e.currentTarget.blur(); } }}
+              onChange={(e) => chercher(e.target.value)} />
+            {!q && !dictee.ecoute && <kbd className="search-kbd" aria-hidden="true" title="Raccourci : /">/</kbd>}
+            {dictee.disponible && (
+              <>
+                <BoutonMicro nom="Dicter votre recherche" ecoute={dictee.ecoute} onClick={dictee.basculer} />
+                {dictee.ecoute && <span className="vh" role="status">J’écoute…</span>}
+              </>
+            )}
           </label>
           <div className="hright">
             <div className="site" hidden={tab !== 'results' && tab !== 'programme'}>

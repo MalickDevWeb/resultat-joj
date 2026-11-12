@@ -1623,3 +1623,25 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
 .assist-form .btn{min-height:44px}
 .assist-compteur{margin:0;text-align:right;font-variant-numeric:tabular-nums}
 .assist-mention{margin:0}
+
+/* ---------- La voix (spec 007) ---------- */
+.micro{
+  flex:none;display:inline-grid;place-items:center;width:44px;height:44px;padding:0;border-radius:50%;
+  border:1.5px solid var(--line);background:var(--paper);color:var(--muted);cursor:pointer;
+  transition:background .15s,border-color .15s,color .15s;
+}
+.micro svg{width:20px;height:20px}
+.micro:hover:not(:disabled){color:var(--ink)}
+.micro.micro-ecoute,.micro.micro-ecoute:hover{background:var(--rect-bg);border-color:var(--rect);color:var(--rect)}
+.micro:disabled{opacity:.45;cursor:not-allowed}
+/* Dans la pilule de recherche (44px de haut) : un rond de 36px, la zone de toucher garde 44px. */
+.search .micro{position:relative;width:36px;height:36px;margin-right:-12px}
+.search .micro svg{width:18px;height:18px}
+.search .micro::after{content:"";position:absolute;inset:-4px;border-radius:50%}
+.assist-form.avec-micro{grid-template-columns:minmax(0,1fr) auto auto}
+.assist-ecoute{justify-self:start}
+.ecouter{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:8px 14px;font-size:13px}
+.ecouter svg{width:16px;height:16px;flex:none}
+.assist-msg .ecouter{margin-top:8px}
+.acc .ev.ev-ecouter{cursor:default;padding-block:8px}
+.acc .ev .ecouter{justify-self:start}

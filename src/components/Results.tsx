@@ -109,9 +109,12 @@ export function Results({ events, pending, site, q, openId, onOpen, importedAt =
 }
 
 const hitSession = (q: string, x: Session) => matches(q, x.disc, x.name, x.venue, x.site);
-/** Une épreuve correspond à la recherche par son nom, son lieu, ses athlètes ou leurs pays. */
-const hitEvent = (q: string, e: PodiumEvent) =>
-  hitSession(q, e) || cur(e).pod.some((p) => matches(q, p.n, p.c, NOC[p.c] ?? '', ...(p.team ?? [])));
+/**
+ * Une épreuve correspond à la recherche par son nom, son lieu, ses athlètes ou leurs pays,
+ * mots mêlés : « Sénégal lutte » trouve une épreuve de lutte dont un médaillé est sénégalais.
+ */
+export const hitEvent = (q: string, e: PodiumEvent) =>
+  hitSession(q, e) || cur(e).pod.some((p) => matches(q, e.disc, e.name, e.venue, e.site, p.n, p.c, NOC[p.c] ?? '', ...(p.team ?? [])));
 
 /** Dernier podium du site (et de la recherche), ouvert par défaut en grand écran. */
 export const latestIn = (events: PodiumEvent[], site: string, q = '') =>
