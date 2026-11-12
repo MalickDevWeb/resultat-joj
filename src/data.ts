@@ -92,7 +92,10 @@ export function medalTable(
       else { const s = pending.find((p) => p.id === e.id) ?? SEED_PENDING.find((p) => p.id === e.id); if (s?.pod) add(s.pod, -1); }
       add(cur(e).pod);
     }
-    for (const c in t) if (t[c].every((n) => n <= 0)) delete t[c];
+    for (const c in t) {
+      t[c] = t[c].map((n) => Math.max(0, n)); // Wikipédia peut avoir un temps de retard : jamais de total négatif
+      if (t[c].every((n) => n === 0)) delete t[c];
+    }
   } else {
     events.forEach((e) => add(cur(e).pod));
     pending.forEach((s) => s.pod && add(s.pod));
