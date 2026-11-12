@@ -40,6 +40,32 @@ Les tests n'appellent jamais le réseau ni Claude : Wikipédia, le site officiel
 
 Cinq agents, définis dans `.claude/agents/`, construisent chaque tranche, chacun dans son périmètre :
 
+```mermaid
+flowchart TD
+    H(["Humain : valide la spec"]) --> UX
+
+    subgraph B["Construire : agents qui écrivent, chacun dans son périmètre"]
+        UX["ux-design<br/>design/*.md<br/>textes exacts, états, accessibilité"]
+        BE["backend<br/>api/, src/wikipedia.mjs, vercel.json<br/>test d'abord, un commit par tâche"]
+        FE["frontend<br/>src/components, src/hooks, CSS<br/>test d'abord, un commit par tâche"]
+    end
+
+    subgraph C["Contrôler : agents en lecture seule, ils ne valident jamais leur propre travail"]
+        SEC["securite<br/>failles, chacune avec sa preuve"]
+        REL["relecteur<br/>contexte vierge : Converged ou écarts"]
+    end
+
+    UX -- "note de design" --> FE
+    UX --> BE
+    BE -- "contrat de l'API" --> FE
+    BE --> SEC
+    FE --> SEC
+    SEC --> REL
+    REL -- "écart bloquant : nouvelle tâche" --> BE
+    REL -- "écart bloquant : nouvelle tâche" --> FE
+    REL -- "Converged" --> P(["Humain : pousse sur GitHub"])
+```
+
 | Agent | Rôle | Seul à modifier |
 | --- | --- | --- |
 | `ux-design` | note de design de l'écran (textes exacts, états, accessibilité) | `design/*.md` |

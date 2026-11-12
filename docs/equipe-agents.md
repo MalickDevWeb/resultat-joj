@@ -20,14 +20,30 @@ Podium Dakar se construit avec cinq agents Claude Code, définis dans `.claude/a
 
 ## Le déroulé d'une tranche
 
-```
-PRD (specs/prd-podium-dakar.md) ── une tranche
-   └─ spec (specs/NNN-nom/spec.md) ── l'humain la valide
-        ├─ 1. ux-design → design/NNN-nom.md         l'humain relit la note
-        ├─ 2. backend   → api/, tests/NNN-nom        un commit par tâche, contrat de l'API
-        ├─ 3. frontend  → src/components, src/hooks  un commit par tâche
-        ├─ 4. securite  → rapport de failles         avant de pousser une route ou un en-tête
-        └─ 5. relecteur → Converged, ou retour en 2 ou 3
+```mermaid
+flowchart TD
+    H(["Humain : valide la spec"]) --> UX
+
+    subgraph B["Construire : agents qui écrivent, chacun dans son périmètre"]
+        UX["ux-design<br/>design/*.md<br/>textes exacts, états, accessibilité"]
+        BE["backend<br/>api/, src/wikipedia.mjs, vercel.json<br/>test d'abord, un commit par tâche"]
+        FE["frontend<br/>src/components, src/hooks, CSS<br/>test d'abord, un commit par tâche"]
+    end
+
+    subgraph C["Contrôler : agents en lecture seule, ils ne valident jamais leur propre travail"]
+        SEC["securite<br/>failles, chacune avec sa preuve"]
+        REL["relecteur<br/>contexte vierge : Converged ou écarts"]
+    end
+
+    UX -- "note de design" --> FE
+    UX --> BE
+    BE -- "contrat de l'API" --> FE
+    BE --> SEC
+    FE --> SEC
+    SEC --> REL
+    REL -- "écart bloquant : nouvelle tâche" --> BE
+    REL -- "écart bloquant : nouvelle tâche" --> FE
+    REL -- "Converged" --> P(["Humain : pousse sur GitHub"])
 ```
 
 L'ordre compte : une API d'abord, un écran ensuite, et pas d'écran sans sa note de design. La spec 005 (résumé du jour par Claude) a été construite et durcie ainsi : la relecture indépendante y a trouvé un contournement du cache qui aurait pu vider les crédits de l'API, corrigé test d'abord.
