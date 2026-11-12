@@ -33,7 +33,7 @@
 - **006-AS8** (`ASSISTANT_INDISPONIBLE`) : « L'assistant n'est pas disponible pour le moment. Réessayez dans un instant. » La question reste dans le champ.
 - **006-AS9** — L'écran vérifie la forme de la réponse avant de l'afficher. Réponse illisible : « La réponse de l'assistant n'a pas pu être lue. Réessayez. » Les autres refus (`QUESTION_INVALIDE`, `HISTORIQUE_INVALIDE`, `REQUETE_INVALIDE`, code inconnu) : « Cette question n'a pas pu être envoyée. Commencez une nouvelle conversation, puis réessayez. »
 
-Chaque erreur s'affiche dans `ErrBox`, au-dessus du champ ; la phrase vient de cette note selon le code, jamais le code lui-même. Elle disparaît au prochain envoi.
+Chaque erreur s'affiche dans `ErrBox`, au-dessus du champ ; la phrase est le `message` du serveur (décision de l'humain, comme dans DaySummary) ; les phrases de cette note ne servent que si le serveur ne répond pas ou renvoie un corps illisible ; jamais le code lui-même. Elle disparaît au prochain envoi.
 
 ## États
 
