@@ -48,7 +48,16 @@ Cinq agents, définis dans `.claude/agents/`, construisent chaque tranche, chacu
 | `securite` | audit des failles, avec preuve | rien (lecture seule) |
 | `relecteur` | verdict indépendant sur la spec | rien (lecture seule) |
 
-Celui qui produit ne valide pas. Le déroulé, les garde-fous et l'essai réel de l'équipe sont dans [`docs/equipe-agents.md`](docs/equipe-agents.md) ; `tests/agents.test.ts` vérifie ces garde-fous à chaque `npm run check`.
+Celui qui produit ne valide pas : `securite` et `relecteur` n'ont aucun outil d'écriture.
+
+**Essai réel (12 novembre 2026)**, dans une copie isolée du dépôt :
+
+- `backend` et `frontend` ont chacun fait leur tâche test d'abord, un commit chacun, et **refusé** une demande glissée hors de leur périmètre.
+- `ux-design` a relevé trois défauts d'accessibilité, dont un contraste de 2,4:1 sur la médaille d'or.
+- `securite` a trouvé **une faille haute, preuve à l'appui** : 20 requêtes simultanées faisaient 20 appels payants à Claude. Elle est corrigée (test `005-AS10`) et revérifiée.
+- `relecteur` a bloqué un fichier hors périmètre glissé dans le changement.
+
+Le détail est dans [`docs/equipe-agents.md`](docs/equipe-agents.md) ; `tests/agents.test.ts` vérifie les garde-fous de chaque agent à chaque `npm run check`.
 
 ## Claude dans l'application
 

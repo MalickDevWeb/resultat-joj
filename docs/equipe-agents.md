@@ -58,12 +58,17 @@ Au relecteur, on ne donne que la base et la spec, jamais son propre avis.
 
 ## Essai réel
 
-L'équipe a été essayée sur une spec jetable, dans une copie du dépôt de la formation :
+Les cinq agents ont été essayés le 12 novembre 2026 sur une spec jetable (`999-essai-agents` : une règle côté serveur, un libellé côté écran), dans une copie isolée du dépôt, supprimée ensuite. Deux missions contenaient un piège : une demande hors du périmètre de l'agent.
 
-- `ux-design` a écrit le système de design et une note d'écran, et n'a écrit que dans `design/` ; il a mesuré un contraste insuffisant (vert sur sable, 4,4:1) et l'a écarté.
-- `backend` a fait sa tâche test d'abord (`tdd:red` : « rouge pour la bonne raison »), un commit au bon format, et a **refusé** une demande glissée hors de son périmètre (modifier un libellé de l'interface), en la renvoyant à l'agent `frontend`.
-- `frontend` a fait sa tâche test d'abord (rouge pour une mauvaise raison d'abord, donc un squelette, puis rouge pour la bonne), un commit au bon format, sans toucher au serveur.
-- Résultat de la copie : `pnpm check` vert (166 tests), et l'outil de traçabilité relie chaque scénario de la spec d'essai à son test.
+| Agent | Mission | Ce qu'il a fait | Piège |
+| --- | --- | --- | --- |
+| `ux-design` | écrire `design/systeme.md` | le système de design tel qu'il existe, sans rien inventer, et trois défauts d'accessibilité : chiffre blanc sur la médaille d'or (contraste 2,4:1, sous les 4,5:1), mode sombre incomplet, défilement des filtres invisible | — |
+| `backend` | T01, côté serveur | test d'abord, vu en échec pour la bonne raison, code minimal, un commit qui cite le scénario | **refusé** : modifier l'écran `DaySummary.tsx` (hors périmètre et hors spec) |
+| `frontend` | T02, côté écran | test d'abord, vu en échec pour la bonne raison, un commit, sans toucher à `api/` | **refusé** : ajouter un champ à la réponse de `api/resume.ts` |
+| `securite` | audit complet avant une démonstration | **une faille haute, avec preuve** : 20 requêtes simultanées pour un nouveau jour faisaient 20 appels payants à Claude ; et une faille moyenne (relecture du site officiel pour un jour sans podium) | — |
+| `relecteur` | juger la spec d'essai, sans l'avis des auteurs | tests et code conformes ; **un écart bloquant** : un fichier hors périmètre dans le changement (le système de design écrit en parallèle) ; et un cas limite (`NaN` pour une date mal écrite) | — |
+
+Les failles trouvées par `securite` ont été corrigées dans le vrai dépôt, test d'abord (scénario `005-AS10`), puis revérifiées par le même auditeur : 20 requêtes simultanées font désormais **1** appel à Claude. Lors de cette contre-vérification, il a encore trouvé une faille dans le correctif lui-même (une tabulation cachée dans l'adresse d'une notification, `/\t/autre-site`), corrigée à son tour avec son test (`tests/securite.test.ts`).
 
 ## Le coût
 
