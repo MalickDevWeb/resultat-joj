@@ -10,11 +10,13 @@ interface Props {
   q: string;
   openId: string | null;
   onOpen: (id: string) => void;
+  onGoProgramme?: () => void;
+  onOpenAssistant?: () => void;
   importedAt?: string; // dernière lecture de Wikipédia
   live?: Session[]; // épreuves en cours (programme officiel)
 }
 
-export function Results({ events, pending, site, q, openId, onOpen, importedAt = SOURCE.fetchedAt, live = [] }: Props) {
+export function Results({ events, pending, site, q, openId, onOpen, onGoProgramme, onOpenAssistant, importedAt = SOURCE.fetchedAt, live = [] }: Props) {
   const inSite = (x: Session) => site === ALL_SITES || x.site === site;
   const hitS = (x: Session) => hitSession(q, x);
   const hitE = (e: PodiumEvent) => hitEvent(q, e);
@@ -37,14 +39,23 @@ export function Results({ events, pending, site, q, openId, onOpen, importedAt =
 
   return (
     <>
-      <div className="day">
-        <div>
-          <span className="pill"><CalendarDays size={14} aria-hidden="true" /> {nLive ? `${nLive} en direct` : "Aujourd'hui"}</span>
-          <h2>{today()}</h2>
+      {q.trim() && (
+        <div className="day">
+          <div>
+            <span className="pill"><CalendarDays size={14} aria-hidden="true" /> {nLive ? `${nLive} en direct` : "Aujourd'hui"}</span>
+            <h2>{today()}</h2>
+          </div>
         </div>
-      </div>
+      )}
 
-      {!q.trim() && <DaySummary />}
+      {!q.trim() && (
+        <DaySummary
+          onOpenAssistant={onOpenAssistant}
+          onGoProgramme={onGoProgramme}
+          onOpenEvent={onOpen}
+          site={site}
+        />
+      )}
 
       {n ? (
         <div className={`sports ${gridCls}`}>

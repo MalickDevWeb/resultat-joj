@@ -50,15 +50,14 @@ export function FichePays({ fiche, onClose, onAsk, onVoirEpreuves, onVoirProgram
               </header>
 
               <div className="fp-id">
-                <div className="fp-flagpole" aria-hidden="true">
-                  <span className="fp-pole" />
-                  <span className="fp-cloth"><Flag c={fiche.code} /></span>
+                <div className="fp-flag-wrap" aria-hidden="true">
+                  <Flag c={fiche.code} />
                 </div>
                 <div className="fp-name">
                   <h3>{fiche.nom}</h3>
                   <p className="fp-tag">{devise(fiche.code)}</p>
                   <p className="fp-rankpill">
-                    <Trophy size={18} aria-hidden="true" />
+                    <Trophy size={16} aria-hidden="true" />
                     <span><b>{rang}</b> Position{fiche.exAequo ? ' ex aequo' : ''} au classement général</span>
                   </p>
                 </div>
@@ -67,7 +66,18 @@ export function FichePays({ fiche, onClose, onAsk, onVoirEpreuves, onVoirProgram
               <ul className="fp-cards" aria-label="Ses médailles">
                 {enMedailles.map((n, k) => (
                   <li key={k} className={`fp-card fp-card${k}`}>
-                    {k < 3 ? <MiniMedal k={k} /> : <MedalIcon size={30} aria-hidden="true" />}
+                    {k < 3 ? (
+                      <MiniMedal k={k} />
+                    ) : (
+                      <svg viewBox="0 0 28 32" className="fp-card-total-ico" aria-hidden="true">
+                        <path d="M6 2 L11 13 L9 13 L4 2 Z" fill="#bef264" />
+                        <path d="M22 2 L17 13 L19 13 L24 2 Z" fill="#bef264" />
+                        <path d="M10 2 L14 10 L18 2 Z" fill="#a3e635" opacity="0.7" />
+                        <circle cx="14" cy="20" r="9" fill="none" stroke="#bef264" strokeWidth="2" />
+                        <circle cx="14" cy="20" r="6" fill="none" stroke="#bef264" strokeWidth="1" strokeDasharray="2 2" opacity="0.75" />
+                        <polygon points="14,15 15.5,18.5 19.2,18.8 16.3,21.2 17.2,25 14,22.8 10.8,25 11.7,21.2 8.8,18.8 12.5,18.5" fill="#bef264" />
+                      </svg>
+                    )}
                     <b>{n}</b>
                     <span>{k < 3 ? METAUX[k] : 'Total'}</span>
                   </li>
@@ -81,17 +91,43 @@ export function FichePays({ fiche, onClose, onAsk, onVoirEpreuves, onVoirProgram
                     <thead>
                       <tr>
                         <th scope="col" className="fp-th-sport">
-                          <span className="fp-th-title" id="fp-details"><BarChart3 size={22} aria-hidden="true" /> Détails des médailles</span>
+                          <span className="fp-th-title" id="fp-details">
+                            <BarChart3 size={20} aria-hidden="true" /> Détails des médailles
+                          </span>
                         </th>
-                        {METAUX.map((l, k) => <th key={l} scope="col"><MiniMedal k={k} ribbon={false} /><span>{l}</span></th>)}
-                        <th scope="col"><Trophy size={18} aria-hidden="true" className="fp-th-cup" /><span>Total</span></th>
+                        <th scope="col" className="fp-th-col">
+                          <div className="fp-th-col-inner">
+                            <span className="fp-col-dot fp-col-dot-or" aria-hidden="true" />
+                            <span>Or</span>
+                          </div>
+                        </th>
+                        <th scope="col" className="fp-th-col">
+                          <div className="fp-th-col-inner">
+                            <span className="fp-col-dot fp-col-dot-arg" aria-hidden="true" />
+                            <span>Argent</span>
+                          </div>
+                        </th>
+                        <th scope="col" className="fp-th-col">
+                          <div className="fp-th-col-inner">
+                            <span className="fp-col-dot fp-col-dot-brz" aria-hidden="true" />
+                            <span>Bronze</span>
+                          </div>
+                        </th>
+                        <th scope="col" className="fp-th-col">
+                          <div className="fp-th-col-inner">
+                            <Trophy size={16} aria-hidden="true" className="fp-col-trophy" />
+                            <span>Total</span>
+                          </div>
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
                       {fiche.sports.map((s) => (
                         <tr key={s.disc}>
                           <th scope="row"><span className="fp-sport"><Picto d={s.disc} />{s.disc}</span></th>
-                          <td>{s.medailles[0]}</td><td>{s.medailles[1]}</td><td>{s.medailles[2]}</td>
+                          <td>{s.medailles[0]}</td>
+                          <td>{s.medailles[1]}</td>
+                          <td>{s.medailles[2]}</td>
                           <td><span className="fp-tot">{s.total}</span></td>
                         </tr>
                       ))}
@@ -103,7 +139,7 @@ export function FichePays({ fiche, onClose, onAsk, onVoirEpreuves, onVoirProgram
 
               <div className="fp-duo">
                 <section className="fp-panel" aria-labelledby="fp-champions">
-                  <h4 className="fp-band" id="fp-champions"><span aria-hidden="true">🏅</span> Nos champions</h4>
+                  <h4 className="fp-band" id="fp-champions"><MedalIcon size={18} aria-hidden="true" /> Nos champions</h4>
                   {champions.length > 0 ? (
                     <ul className="fp-champs">
                       {champions.map((x, i) => (
@@ -126,10 +162,16 @@ export function FichePays({ fiche, onClose, onAsk, onVoirEpreuves, onVoirProgram
                 </section>
 
                 <section className="fp-panel" aria-labelledby="fp-infos">
-                  <h4 className="fp-band" id="fp-infos"><CalendarDays size={20} aria-hidden="true" /> Informations clés</h4>
+                  <h4 className="fp-band" id="fp-infos"><CalendarDays size={18} aria-hidden="true" /> Informations clés</h4>
                   <dl className="fp-keys">
-                    <div><dt><CalendarDays size={18} aria-hidden="true" /> Classement actuel</dt><dd className="fp-big">{rang} <small>/ {fiche.nations}</small><span className="vh"> nations</span></dd></div>
-                    <div><dt><Trophy size={18} aria-hidden="true" className="fp-gold" /> Total médailles</dt><dd>{fiche.total}</dd></div>
+                    <div>
+                      <dt><CalendarDays size={17} aria-hidden="true" /> Classement actuel</dt>
+                      <dd className="fp-rank-val"><b>{rang}</b> <small>/ {fiche.nations}</small><span className="vh"> nations</span></dd>
+                    </div>
+                    <div>
+                      <dt><Trophy size={17} aria-hidden="true" className="fp-gold" /> Total médailles</dt>
+                      <dd className="fp-total-val">{fiche.total}</dd>
+                    </div>
                     {METAUX.map((l, k) => (
                       <div key={l}><dt><MiniMedal k={k} /> {l}</dt><dd>{fiche.medailles[k]}</dd></div>
                     ))}

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
-import { CalendarDays, ChevronDown, Download, House, LogIn, LogOut, MapPin, MessageCircle, RotateCcw, Search, ShieldCheck } from 'lucide-react';
+import { CalendarDays, ChevronDown, Download, House, LogIn, LogOut, MapPin, MessageCircle, Mic, RotateCcw, Search, ShieldCheck } from 'lucide-react';
 import { ALL_SITES, SITES } from './data';
 import { usePodiumStore } from './hooks/usePodiumStore';
 import { useLive } from './hooks/useLive';
@@ -11,9 +11,11 @@ import { Medals } from './components/Medals';
 import { Programme } from './components/Programme';
 import { Combo } from './components/Combo';
 import { Publish } from './components/Publish';
+import { News } from './components/News';
 import { LoginSheet, RectifySheet, InstallSheet, ConfirmResetSheet } from './components/Sheets';
 import { Onboarding } from './components/Onboarding';
 import { AssistantSheet } from './components/Assistant';
+import { BanniereAnimee } from './components/BanniereAnimee';
 import { BoutonMicro } from './components/Voix';
 import { useDictee } from './hooks/useVoix';
 import { MENTION, nettoyerDictee } from './hooks/voix';
@@ -46,8 +48,8 @@ export default function App() {
   const assistRef = useRef<HTMLButtonElement>(null);
 
   const wide = useMedia('(min-width:1024px)');
-  const [onb, setOnb] = useState(true);
   const [role, setRole] = useState<Role>('pub');
+  const [onb, setOnb] = useState(true);
   const [tab, setTab] = useState<Tab>('results');
   const [site, setSite] = useState(ALL_SITES);
   const [q, setQ] = useState('');
@@ -86,7 +88,10 @@ export default function App() {
   // Remonte en haut de l'écran à chaque changement de vue.
   useEffect(() => { if (!split && screenRef.current) screenRef.current.scrollTop = 0; }, [tab, openId, split]);
 
-  const goTab = (t: Tab) => { setTab(t); setOpen(null); };
+  const goTab = (t: Tab) => {
+    setTab(t);
+    setOpen(null);
+  };
   /** Une recherche, tapée ou dictée : on revient aux résultats si besoin. */
   const chercher = (texte: string) => {
     setQ(texte);
@@ -139,15 +144,13 @@ export default function App() {
       {isInstallable && (
         <button className="restart" onClick={install}><Download size={16} aria-hidden="true" /> Installer l'application</button>
       )}
-      {isResp && (
-        <button className="restart" onClick={() => setSheet('reset')}><RotateCcw size={16} aria-hidden="true" /> Réinitialiser la démo</button>
-      )}
+      <button className="restart" onClick={() => setSheet('reset')}><RotateCcw size={16} aria-hidden="true" /> Restaurer les données officielles</button>
     </div>
   );
 
   const resultsList = (
     <Results live={live} importedAt={store.importedAt} events={events} pending={pending} site={site} q={q} openId={openId}
-      onOpen={setOpen} />
+      onOpen={setOpen} onGoProgramme={() => goTab('programme')} onOpenAssistant={() => setSheet('assistant')} />
   );
   const detail = openEvent && (
     <Detail event={openEvent} isResp={isResp} toast={toast}
@@ -171,13 +174,17 @@ export default function App() {
         {tab === 'medals' ? <Medals events={events} pending={pending} official={store.medals} onAsk={(q) => { setQuestionPrete(q); setSheet('assistant'); }}
           onVoirEpreuves={chercher} onVoirProgramme={() => goTab('programme')} />
           : tab === 'programme' ? <Programme pending={pending} site={site} q={q} />
-          : tab === 'publish' && isResp ? (
-            <Publish events={events} pending={pending} onPublish={(sid, pod) => {
-              const id = store.publish(sid, pod);
-              setTab('results');
-              setOpen(id);
-              toast('Podium publié en provisoire');
-            }} />
+          : tab === 'publish' ? (
+            isResp ? (
+              <Publish events={events} pending={pending} onPublish={(sid, pod) => {
+                const id = store.publish(sid, pod);
+                setTab('results');
+                setOpen(id);
+                toast('Podium publié en provisoire');
+              }} />
+            ) : (
+              <News onOpenAssistant={() => setSheet('assistant')} onToast={toast} />
+            )
           ) : detail ?? resultsList}
         {!detail && tab !== 'publish' && sideLinks('m-links')}
       </div>
@@ -188,7 +195,19 @@ export default function App() {
     { id: 'results', label: 'Résultats', icon: <path d="M6 20V11M12 20V5M18 20v-6" strokeWidth="3.2" strokeLinecap="round" /> },
     { id: 'programme', label: 'Programme', icon: <><rect x="3.5" y="5" width="17" height="15" rx="2.5" /><path d="M3.5 10h17M8 3v4M16 3v4M8 14h.01M12 14h.01M16 14h.01M8 17h.01M12 17h.01" strokeLinecap="round" /></> },
     { id: 'medals', label: 'Médailles', icon: <><circle cx="12" cy="15" r="5.5" /><path d="M8 3l4 6.5L16 3M12 13v4" strokeLinecap="round" /></> },
-    { id: 'publish', label: 'Publier', icon: <path d="M12 5v14M5 12h14" />, hidden: !isResp },
+    {
+      id: 'publish',
+      label: isResp ? 'Publier' : 'Actualités',
+      icon: isResp ? (
+        <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6M18 9h1.5a2.5 2.5 0 0 0 0-5H18M4 22h16M10 14.66V17c0 .55-.45 1-1 1H8c-.55 0-1 .45-1 1v1h10v-1c0-.55-.45-1-1-1h-1c-.55 0-1-.45-1-1v-2.34M6 4h12v5a6 6 0 0 1-12 0V4z" />
+      ) : (
+        <>
+          <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2" />
+          <path d="M18 14h-8M15 18h-5M10 6h8v4h-8V6Z" />
+        </>
+      ),
+      hidden: false,
+    },
   ];
 
   return (
@@ -233,23 +252,13 @@ export default function App() {
         </div>
       </header>
 
-      <header className="mtop">
-        <svg className="mt-flag" viewBox="0 0 200 170" preserveAspectRatio="xMinYMin meet" aria-hidden="true">
-          <path d="M0 0h200c-30 40-80 70-130 90S10 140 0 170z" fill="#e31b23" />
-          <path d="M0 0h150c-25 32-65 55-105 70S6 112 0 132z" fill="#fdef42" />
-          <path d="M0 0h100C82 24 55 42 28 54S4 80 0 92z" fill="#00853f" />
-          <path d="M74 66l3 9h9.5l-7.7 5.6 3 9-7.8-5.6-7.8 5.6 3-9-7.7-5.6H71z" fill="#00853f" />
-        </svg>
-        <div className="mt-brand">
-          <img src="/brand/ayo-head.webp" alt="" className="mt-ayo" />
-          <div><b>JOJ</b><b className="mt-d">DAKAR 2026</b><small>Jeux Olympiques<br />de la Jeunesse</small></div>
-        </div>
+      <header className="mtop mtop-maquette">
+        <BanniereAnimee src="/brand/hero-resume.webp" alt="JOJ Dakar 2026" className="mtop-hero-banner" />
         <div className="mt-site-wrap" hidden={tab !== 'results' && tab !== 'programme'}>
           <Combo label="Site" className="mt-site" value={site} options={siteOptions} searchPlaceholder="Rechercher un site…"
             onChange={(v) => { setSite(v); if (wide) setOpen(null); }}
             trigger={<><MapPin size={18} aria-hidden="true" /><span>{site === ALL_SITES ? 'Tous les sites' : site}</span><ChevronDown size={16} aria-hidden="true" /></>} />
         </div>
-        <img src="/brand/ayo.webp" alt="" className="mt-mascot" aria-hidden="true" />
       </header>
 
       <main className={`screen gut${split ? ' split' : ''}`} ref={screenRef}>{body}</main>
@@ -309,9 +318,21 @@ export default function App() {
       {sheet === 'assistant' && (
         <AssistantSheet conversation={conversation} questionInitiale={questionPrete} onClose={() => { setSheet(null); setQuestionPrete(''); assistRef.current?.focus(); }} />
       )}
-      {!onb && (sheet === null || sheet === 'assistant') && (
-        <button type="button" ref={assistRef} className="assist-fab" aria-haspopup="dialog" onClick={() => setSheet('assistant')}>
-          <MessageCircle size={20} aria-hidden="true" /> Une question ?
+      {!onb && (sheet === null || sheet === 'assistant') && tab !== 'publish' && (
+        <button
+          type="button"
+          ref={assistRef}
+          className="assist-fab-voice"
+          aria-haspopup="dialog"
+          onClick={() => setSheet('assistant')}
+          aria-label="Posez votre question à notre assistant vocal"
+          title="Assistant des Jeux"
+        >
+          <span className="assist-fab-ring assist-fab-ring-1" aria-hidden="true" />
+          <span className="assist-fab-ring assist-fab-ring-2" aria-hidden="true" />
+          <span className="assist-fab-btn" aria-hidden="true">
+            <Mic size={24} />
+          </span>
         </button>
       )}
       {toastMsg && <div className="toast" role="status">{toastMsg}</div>}
@@ -319,6 +340,7 @@ export default function App() {
       {onb && <Onboarding canInstall={isInstallable} onInstall={install}
         onGuest={() => enter('pub')}
         onLogin={() => { enter('resp'); toast('Connecté : onglet Publier disponible'); }} />}
+
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from 'react';
 import { at, type Place, type PodiumEvent, type Session } from '../data';
+import { isTestOrInvalidName } from '../hooks/usePodiumStore';
 import { ChevronDown, PencilLine } from 'lucide-react';
 import { Combo } from './Combo';
 import { ErrBox, MedalCoin, Picto, Scene, nocCombo, type ApiError } from './ui';
@@ -35,6 +36,10 @@ export function Publish({ events, pending, onPublish }: Props) {
     const n = names.map((x) => x.trim());
     if (n.some((x) => !x)) {
       setErr({ status: 400, code: 'PODIUM_INCOMPLETE', msg: 'Indiquez les trois médaillés.' });
+      return;
+    }
+    if (n.some((x) => isTestOrInvalidName(x))) {
+      setErr({ status: 400, code: 'INVALID_ATHLETE_NAME', msg: "Indiquez des noms d'athlètes valides (au moins 2 lettres, sans saisie de test comme « fffffff »)." });
       return;
     }
     onPublish(sel.v, n.map((x, i) => ({ n: x, c: codes[i], perf: '' })));

@@ -1,9 +1,31 @@
 import { useCallback, useEffect, useState } from 'react';
 import { SEED_EVENTS, SEED_MEDALS, SEED_PENDING, SOURCE, cur, isImport, now, type Place, type PodiumEvent, type Session } from '../data';
 
-const KEY = 'podium-dakar-2026:v2';
+const KEY = 'podium-dakar-2026:v3';
 /** Les résultats sont relus sur Wikipédia toutes les 6 heures. */
 const REFRESH_MS = 6 * 60 * 60 * 1000;
+
+// Nettoie automatiquement les anciens stockages de test
+if (typeof localStorage !== 'undefined') {
+  try {
+    localStorage.removeItem('podium-dakar-2026:v2');
+    localStorage.removeItem('podium-dakar-2026:v1');
+    localStorage.removeItem('podium-dakar-2026:v2:wiki');
+  } catch {
+    /* ignore */
+  }
+}
+
+/** Détecte les saisies fictives ou de test (ex: fffffff, aaaa, test, asdf) */
+export const isTestOrInvalidName = (n: string): boolean => {
+  if (!n) return false;
+  const t = n.trim();
+  // Saisie avec répétition d'une même lettre (ex: fffffff, aaaaa, zzzz)
+  if (/^([a-zA-Z])\1{2,}$/i.test(t)) return true;
+  // Noms de test fréquents
+  if (/^(test|dummy|fake|asdf|qwerty|toto|titi|tata|azerty)$/i.test(t)) return true;
+  return false;
+};
 
 export interface Data {
   events: PodiumEvent[];
@@ -154,7 +176,17 @@ export function usePodiumStore() {
     return next;
   }, [data.events]);
 
-  const reset = useCallback(() => setData(base()), []);
+  const reset = useCallback(() => {
+    try {
+      localStorage.removeItem(KEY);
+      localStorage.removeItem(WIKI_KEY);
+      localStorage.removeItem('podium-dakar-2026:v2');
+      localStorage.removeItem('podium-dakar-2026:v1');
+    } catch {
+      /* ignore */
+    }
+    setData(seed());
+  }, []);
 
   return { ...data, publish, validate, rectify, reset };
 }

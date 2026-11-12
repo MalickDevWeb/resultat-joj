@@ -3,6 +3,7 @@ import {
   Check, CheckCircle2, Download, MoreVertical, RotateCcw, Share, Smartphone, Sparkles, SquarePlus, X, Zap
 } from 'lucide-react';
 import { DEMO_ACCOUNT, cur, type Place, type PodiumEvent } from '../data';
+import { isTestOrInvalidName } from '../hooks/usePodiumStore';
 import { Combo } from './Combo';
 import { ErrBox, Medal, nocCombo, type ApiError } from './ui';
 
@@ -190,6 +191,11 @@ export function RectifySheet({ event, onClose, onSubmit }: {
     if (!m) {
       setErr({ status: 422, code: 'CORRECTION_REASON_REQUIRED', msg: "Une rectification exige un motif. Le podium n'a pas été modifié." });
       motifRef.current?.focus();
+      return;
+    }
+    const cleanNames = [0, 1, 2].map((i) => names[i]?.trim() || c.pod[i]?.n || '');
+    if (cleanNames.some((x) => isTestOrInvalidName(x))) {
+      setErr({ status: 400, code: 'INVALID_ATHLETE_NAME', msg: "Indiquez des noms d'athlètes valides (au moins 2 lettres, sans saisie de test comme « fffffff »)." });
       return;
     }
     onSubmit([0, 1, 2].map((i): Place => {

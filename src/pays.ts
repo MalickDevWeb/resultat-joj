@@ -1,5 +1,6 @@
 // La fiche d'un pays (spec 008) : rang, médailles, médaillés et sports, calculés sans navigateur ni Claude.
 import { NOC, cur, medalTable, type Place, type PodiumEvent, type Session } from './data';
+import { isTestOrInvalidName } from './hooks/usePodiumStore';
 
 /** Une médaille du pays : qui, dans quel sport, quelle épreuve, quel site. */
 export interface MedailleDuPays {
@@ -77,7 +78,7 @@ export function ficheDuPays(
   const sessions: Session[] = [...events.map((e) => ({ ...e, pod: cur(e).pod })), ...pending.filter((s) => !events.some((e) => e.id === s.id))];
   const liste = sessions
     .flatMap((s) => (s.pod ?? []).map((p, i) => ({ p, m: medailleDe(p, i), s })))
-    .filter(({ p }) => p.c === code)
+    .filter(({ p }) => p.c === code && !isTestOrInvalidName(p.n))
     .map(({ p, m, s }): MedailleDuPays => ({ m, nom: p.n, equipe: Boolean(p.team?.length), disc: s.disc, epreuve: s.name, site: s.site }))
     .sort((a, b) => a.m - b.m || a.disc.localeCompare(b.disc, 'fr') || a.epreuve.localeCompare(b.epreuve, 'fr'));
 
