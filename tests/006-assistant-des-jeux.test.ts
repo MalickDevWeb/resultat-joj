@@ -8,6 +8,15 @@ import gestionnaireReel, {
   type ReponseDeClaude,
 } from '../api/assistant.js';
 import type { Resultats } from '../src/wikipedia.mjs';
+import {
+  compteur,
+  estReponse,
+  historiqueAEnvoyer,
+  lireIssue,
+  paragraphes,
+  verifierQuestion,
+  type Message,
+} from '../src/components/Assistant';
 
 /** Le 12 novembre 2026 à 15 h, heure de Dakar. */
 const MIDI = new Date('2026-11-12T15:00:00Z');
@@ -251,5 +260,74 @@ describe('006 — L’assistant des Jeux, rédigé par Claude', () => {
       expect(fetch).not.toHaveBeenCalled();
       vi.unstubAllGlobals();
     });
+  });
+});
+
+/** n échanges affichés dans le fil : question du visiteur n° i, puis réponse n° i. */
+const fil = (n: number, texte = (i: number) => `Message ${i}`): Message[] =>
+  Array.from({ length: n }, (_, i): Message[] => [{ role: 'visiteur', texte: `${texte(i)} ?` }, { role: 'assistant', texte: texte(i) }]).flat();
+
+describe('006 — L’écran de l’assistant', () => {
+  it('006-AS9: an empty or blank question is refused in the browser', () => {
+    expect(verifierQuestion('')).toBe('Écrivez votre question avant de l’envoyer.');
+    expect(verifierQuestion('   \n ')).toBe('Écrivez votre question avant de l’envoyer.');
+  });
+
+  it('006-AS9: a question longer than 500 characters is refused, spaces around it are not counted', () => {
+    expect(verifierQuestion('é'.repeat(501))).toBe('Votre question dépasse 500 caractères. Raccourcissez-la.');
+    expect(verifierQuestion(`  ${'é'.repeat(500)}  `)).toBeNull();
+    expect(verifierQuestion('🥇'.repeat(500))).toBeNull();
+    expect(verifierQuestion('Combien de médailles pour le Sénégal ?')).toBeNull();
+  });
+
+  it('006-AS9: the counter appears beyond 400 characters', () => {
+    expect(compteur('a'.repeat(400))).toBeNull();
+    expect(compteur('a'.repeat(432))).toBe('432 / 500');
+    expect(compteur(`  ${'a'.repeat(501)} `)).toBe('501 / 500');
+  });
+
+  it('006-AS4: the browser sends at most the last 6 complete exchanges, each text cut to 1000 characters', () => {
+    expect(historiqueAEnvoyer([])).toEqual([]);
+    const envoye = historiqueAEnvoyer(fil(8));
+    expect(envoye).toHaveLength(12);
+    expect(envoye[0]).toEqual({ role: 'visiteur', texte: 'Message 2 ?' });
+    expect(envoye[11]).toEqual({ role: 'assistant', texte: 'Message 7' });
+    const long = historiqueAEnvoyer(fil(1, () => '🥇'.repeat(1200)));
+    expect(long.map((m) => [...m.texte].length)).toEqual([1000, 1000]);
+  });
+
+  it('006-AS9: only an answer of the expected shape is accepted', () => {
+    expect(estReponse({ reponse: 'Le Sénégal compte 10 médailles.', horsSujet: false })).toBe(true);
+    expect(estReponse({ reponse: 'Le Sénégal compte 10 médailles.' })).toBe(false);
+    expect(estReponse({ reponse: 42, horsSujet: false })).toBe(false);
+    expect(estReponse({ reponse: '   ', horsSujet: false })).toBe(false);
+    expect(estReponse('<b>Bonjour</b>')).toBe(false);
+    expect(estReponse(null)).toBe(false);
+  });
+
+  it('006-AS9: a valid answer is shown, an unreadable one gives a clear sentence', () => {
+    expect(lireIssue(200, { reponse: 'Dix médailles.', horsSujet: false })).toEqual({ reponse: 'Dix médailles.' });
+    expect(lireIssue(200, { texte: 'Dix médailles.' })).toEqual({ erreur: 'La réponse de l’assistant n’a pas pu être lue. Réessayez.', quota: false });
+    expect(lireIssue(200, null)).toEqual({ erreur: 'La réponse de l’assistant n’a pas pu être lue. Réessayez.', quota: false });
+  });
+
+  it('006-AS9: a refusal shows the sentence of the server, never its code', () => {
+    const issue = lireIssue(429, { code: 'TROP_DE_QUESTIONS', message: 'Vous avez posé beaucoup de questions. Patientez.' });
+    expect(issue).toEqual({ erreur: 'Vous avez posé beaucoup de questions. Patientez.', quota: false });
+    expect(lireIssue(429, { code: 'QUOTA_DU_JOUR', message: 'Revenez demain.' })).toEqual({ erreur: 'Revenez demain.', quota: true });
+  });
+
+  it('006-AS9: without a readable refusal, the screen uses its own sentence, by code then by status', () => {
+    expect(lireIssue(429, { code: 'QUOTA_DU_JOUR' })).toEqual({ erreur: 'L’assistant a répondu à toutes les questions possibles aujourd’hui. Revenez demain.', quota: true });
+    expect(lireIssue(429, { code: 'TROP_DE_QUESTIONS', message: '' })).toMatchObject({ erreur: 'Vous avez posé beaucoup de questions. Réessayez dans quelques minutes.' });
+    expect(lireIssue(503, null)).toMatchObject({ erreur: 'L’assistant n’est pas disponible pour le moment. Réessayez dans un instant.' });
+    expect(lireIssue(504, '<html>Timeout</html>')).toMatchObject({ erreur: 'L’assistant n’est pas disponible pour le moment. Réessayez dans un instant.' });
+    expect(lireIssue(400, { code: 'HISTORIQUE_INVALIDE' })).toMatchObject({ erreur: 'Cette question n’a pas pu être envoyée. Commencez une nouvelle conversation, puis réessayez.' });
+    expect(lireIssue(418, { code: 'INCONNU', message: 42 })).toMatchObject({ erreur: 'Cette question n’a pas pu être envoyée. Commencez une nouvelle conversation, puis réessayez.' });
+  });
+
+  it('006-AS9: the answer is shown as text, one paragraph per line', () => {
+    expect(paragraphes('Dix médailles.\n\n  Cinq en or.  \n')).toEqual(['Dix médailles.', 'Cinq en or.']);
+    expect(paragraphes('<script>alert(1)</script>')).toEqual(['<script>alert(1)</script>']);
   });
 });

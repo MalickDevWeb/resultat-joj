@@ -8,7 +8,8 @@ import { ErrBox, Medal, nocCombo, type ApiError } from './ui';
 
 const countries = nocCombo();
 
-function Scrim({
+/** Fond et fenêtre (feuille du bas sur téléphone) : Échap, toucher le fond ou glisser vers le bas ferment. */
+export function Scrim({
   label,
   className = '',
   onClose,
@@ -47,7 +48,8 @@ function Scrim({
   const onTouchStart = (e: React.TouchEvent) => {
     const el = sheetRef.current;
     if (el && el.scrollTop > 0) return;
-    const scrollEl = el?.querySelector('.inst-scroll') as HTMLElement | null;
+    // Une zone qui défile ne ferme la fenêtre que si elle est en haut.
+    const scrollEl = el?.querySelector<HTMLElement>('.inst-scroll, .assist-fil');
     if (scrollEl && scrollEl.scrollTop > 0) return;
 
     startYRef.current = e.touches[0].clientY;

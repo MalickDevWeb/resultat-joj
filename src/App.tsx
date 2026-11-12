@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
-import { CalendarDays, ChevronDown, Download, House, LogIn, LogOut, MapPin, RotateCcw, Search, ShieldCheck } from 'lucide-react';
+import { CalendarDays, ChevronDown, Download, House, LogIn, LogOut, MapPin, MessageCircle, RotateCcw, Search, ShieldCheck } from 'lucide-react';
 import { ALL_SITES, SITES } from './data';
 import { usePodiumStore } from './hooks/usePodiumStore';
 import { useLive } from './hooks/useLive';
 import { usePWAInstall } from './hooks/usePWAInstall';
+import { useAssistant } from './hooks/useAssistant';
 import { Results, latestIn } from './components/Results';
 import { Detail } from './components/Detail';
 import { Medals } from './components/Medals';
@@ -12,10 +13,11 @@ import { Combo } from './components/Combo';
 import { Publish } from './components/Publish';
 import { LoginSheet, RectifySheet, InstallSheet, ConfirmResetSheet } from './components/Sheets';
 import { Onboarding } from './components/Onboarding';
+import { AssistantSheet } from './components/Assistant';
 
 type Role = 'pub' | 'resp';
 type Tab = 'results' | 'programme' | 'medals' | 'publish';
-type Sheet = 'login' | 'rect' | 'install' | 'reset' | null;
+type Sheet = 'login' | 'rect' | 'install' | 'reset' | 'assistant' | null;
 
 function useMedia(q: string) {
   const [m, setM] = useState(() => matchMedia(q).matches);
@@ -37,6 +39,8 @@ export default function App() {
   const { live } = useLive();
   const { events, pending } = store;
   const { isInstallable, isIOS, triggerInstall } = usePWAInstall();
+  const conversation = useAssistant();
+  const assistRef = useRef<HTMLButtonElement>(null);
 
   const wide = useMedia('(min-width:1024px)');
   const [onb, setOnb] = useState(true);
@@ -278,6 +282,14 @@ export default function App() {
           setSheet(null);
           toast('Données de démo restaurées');
         }} />
+      )}
+      {sheet === 'assistant' && (
+        <AssistantSheet conversation={conversation} onClose={() => { setSheet(null); assistRef.current?.focus(); }} />
+      )}
+      {!onb && (sheet === null || sheet === 'assistant') && (
+        <button type="button" ref={assistRef} className="assist-fab" aria-haspopup="dialog" onClick={() => setSheet('assistant')}>
+          <MessageCircle size={20} aria-hidden="true" /> Une question ?
+        </button>
       )}
       {toastMsg && <div className="toast" role="status">{toastMsg}</div>}
 
