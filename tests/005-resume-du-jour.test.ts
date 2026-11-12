@@ -108,6 +108,16 @@ describe('005 — Résumé de la journée rédigé par Claude', () => {
     expect(rediger).not.toHaveBeenCalled();
   });
 
+  it('005-AS11: the cause of a failure is logged privately, without any key, while the visitor sees a clear sentence', async () => {
+    const log = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    const fausseCle = `sk-ant-${'z9y8'.repeat(10)}`;
+    const { gerer } = monter(FINALES, vi.fn(async () => { throw Object.assign(new Error(`invalid x-api-key ${fausseCle}`), { name: 'AuthenticationError', status: 401 }); }));
+    const r = await appeler(gerer, '/api/resume?jour=2026-11-11');
+    expect(r.json.code).toBe('RESUME_INDISPONIBLE');
+    expect(log).toHaveBeenCalledWith('[resume:claude] AuthenticationError 401 : invalid x-api-key sk-ant-…');
+    log.mockRestore();
+  });
+
   it('005-AS6: when Claude fails, the answer is 503 with a clear French sentence', async () => {
     const { gerer } = monter(FINALES, vi.fn(async () => { throw new Error('clé absente'); }));
     const r = await appeler(gerer, '/api/resume?jour=2026-11-11');

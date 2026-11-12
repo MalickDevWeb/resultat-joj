@@ -61,6 +61,11 @@ Le journaliste qui écrit à 18 h doit résumer les finales du jour à partir de
 - **Quand** le même jour est redemandé, par n'importe quelle adresse, ou que Claude vient d'échouer
 - **Alors** Claude n'est pas rappelé : le résumé est gardé 24 h (jour passé) ou 30 min (jour même), un échec 60 s
 
+### AS11 — La cause d'un échec est notée, sans secret
+
+- **Quand** Claude ou le site officiel échoue
+- **Alors** le visiteur reçoit la phrase claire ; la cause (type d'erreur, statut, message court, clé masquée) est notée dans les journaux privés de Vercel
+
 ## Hors périmètre
 
 - Choisir le ton ou la longueur du résumé, le traduire, l'envoyer par e-mail.
