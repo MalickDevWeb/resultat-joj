@@ -1,6 +1,7 @@
 /// <reference lib="webworker" />
 declare const self: ServiceWorkerGlobalScope;
 
+import { pageDeNotification } from './pageDeNotification';
 import { precacheAndRoute, cleanupOutdatedCaches } from 'workbox-precaching';
 import { registerRoute } from 'workbox-routing';
 import { NetworkFirst, CacheFirst } from 'workbox-strategies';
@@ -43,8 +44,8 @@ self.addEventListener('push', (event) => {
     icon: '/icons/icon-192.png',
     badge: '/icons/icon-192.png',
     vibrate: [200, 100, 200],
-    // Seulement une page du site lui-même (« /… ») : jamais une adresse d'un autre site.
-    data: typeof data.url === 'string' && /^\/(?![/\\])/.test(data.url) ? data.url : '/',
+    // Seulement une page du site lui-même : jamais une adresse d'un autre site (tests/securite.test.ts).
+    data: pageDeNotification(data.url, self.location.origin),
     actions: [
       { action: 'open', title: 'Ouvrir' },
       { action: 'close', title: 'Ignorer' },
