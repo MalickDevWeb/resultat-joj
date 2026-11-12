@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
 import { ArrowLeft, ArrowRight, BarChart3, CalendarDays, MapPin, Medal as MedalIcon, Mic, PersonStanding, Trophy } from 'lucide-react';
 import type { FicheDuPays } from '../pays';
+import { BanniereAnimee } from './BanniereAnimee';
 import { Scrim } from './Sheets';
 import { Flag, MiniMedal, Picto } from './ui';
 import { BarreVocale } from './Voix';
@@ -42,7 +43,7 @@ export function FichePays({ fiche, onClose, onAsk, onVoirEpreuves, onVoirProgram
           <div className="fp">
             <div className="fp-scroll">
               <header className="fp-hero">
-                <img src="/brand/hero-banner-resume.webp" alt="" className="fp-banner" />
+                <BanniereAnimee src="/brand/hero-banner-resume.webp" />
                 <button type="button" className="fp-back" onClick={close} aria-label="Retour au tableau des médailles">
                   <ArrowLeft size={24} strokeWidth={2.6} aria-hidden="true" />
                 </button>
