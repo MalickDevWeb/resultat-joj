@@ -11,6 +11,7 @@
  * - Limites : 10 questions par visiteur en 10 minutes, 300 par jour pour l'application (par instance du serveur).
  * - La clé ANTHROPIC_API_KEY vient des variables d'environnement de Vercel, jamais du code.
  */
+import { noterErreur } from './journal.js';
 import Anthropic from '@anthropic-ai/sdk';
 import { betaZodOutputFormat } from '@anthropic-ai/sdk/helpers/beta/zod';
 import { z } from 'zod';
@@ -261,7 +262,8 @@ export function creerGestionnaire({ rediger, maintenant, contexte }: Dependances
     let reponse: ReponseDeClaude;
     try {
       reponse = await rediger({ question, historique, contexte, aujourdhui: jourEnToutesLettres(date) });
-    } catch {
+    } catch (e) {
+      noterErreur('assistant:claude', e);
       throw INDISPONIBLE;
     }
     if (reponse.horsSujet) return { statut: 200, corps: { reponse: HORS_SUJET, horsSujet: true } };

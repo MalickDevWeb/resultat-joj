@@ -12,6 +12,7 @@
 import Anthropic from '@anthropic-ai/sdk';
 import { betaZodOutputFormat } from '@anthropic-ai/sdk/helpers/beta/zod';
 import { z } from 'zod';
+import { noterErreur } from './journal.js';
 import { dakarDay, lireProgramme as lireProgrammeOfficiel, parseSchedule } from './live.js';
 
 /** Un médaillé officiel : 1 or, 2 argent, 3 bronze. */
@@ -111,7 +112,8 @@ export function creerGestionnaire({ lireProgramme, rediger, maintenant }: Depend
     let finales: Finale[];
     try {
       finales = finalesDuJour(await lireProgramme(versOfficiel(jour)));
-    } catch {
+    } catch (e) {
+      noterErreur('resume:programme', e);
       return echec(503, INDISPONIBLE);
     }
     if (!finales.length) {
@@ -120,7 +122,8 @@ export function creerGestionnaire({ lireProgramme, rediger, maintenant }: Depend
     let redaction: Redaction;
     try {
       redaction = await rediger(finales);
-    } catch {
+    } catch (e) {
+      noterErreur('resume:claude', e);
       return echec(503, INDISPONIBLE);
     }
     // Règle de l'application : seules les finales du jour existent, une épreuve inventée est écartée.
