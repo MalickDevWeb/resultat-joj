@@ -47,6 +47,11 @@ Wikipédia ne dit pas ce qui se joue en ce moment. Le programme officiel (webres
 - **Étant donné** une épreuve dont le lien ne commence pas par « / »
 - **Alors** elle n'a pas de lien
 
+### AS9 — Une seule adresse
+
+- **Quand** /api/live reçoit un paramètre ou une méthode autre que GET
+- **Alors** 400 `PARAMETRE_INCONNU` ou 405 `METHODE_INTERDITE`, sans lire le site officiel : le cache n'est pas contourné
+
 ## Hors périmètre
 
 - Le direct point par point, les notifications.

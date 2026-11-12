@@ -23,6 +23,17 @@ export interface LiveSession extends Session {
 
 const REFRESH_MS = 60 * 1000;
 
+const estObjet = (x: unknown): x is Record<string, unknown> => typeof x === 'object' && x !== null;
+const texte = (x: unknown): x is string => typeof x === 'string';
+
+/** Vérifie la forme d'une épreuve reçue plutôt que de la croire sur parole. */
+function estEpreuve(x: unknown): x is LiveItem {
+  return estObjet(x) && ['id', 'disc', 'event', 'time', 'status', 'venue', 'location', 'site'].every((k) => texte(x[k]))
+    && (x.url === null || texte(x.url))
+    && Array.isArray(x.teams) && x.teams.every((t) => estObjet(t) && texte(t.c) && texte(t.n) && texte(t.score));
+}
+const epreuves = (x: unknown): LiveItem[] => (Array.isArray(x) ? x.filter(estEpreuve) : []);
+
 /** « Espagne 2–1 Sénégal » pour un match, « Popa contre Diop » sans score. */
 function versus(teams: LiveItem['teams']) {
   if (teams.length !== 2) return '';
@@ -58,10 +69,10 @@ export function useLive() {
       try {
         const r = await fetch('/api/live');
         if (!r.ok) return;
-        const d = (await r.json()) as { live?: LiveItem[]; next?: LiveItem[] };
-        if (stop || !Array.isArray(d.live)) return;
-        setLive(d.live.map(toSession));
-        setNext((d.next ?? []).map(toSession));
+        const d: unknown = await r.json();
+        if (stop || !estObjet(d) || !Array.isArray(d.live)) return;
+        setLive(epreuves(d.live).map(toSession));
+        setNext(epreuves(d.next).map(toSession));
       } catch {
         /* hors ligne ou programme indisponible : on garde l'affichage actuel */
       }

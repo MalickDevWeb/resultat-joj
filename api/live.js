@@ -143,6 +143,20 @@ export async function getLive() {
 
 /** Gestionnaire HTTP (Vercel, et le serveur de dev de Vite). */
 export default async function handler(req, res) {
+  const json = (statut, corps, cache) => {
+    res.statusCode = statut;
+    res.setHeader('Content-Type', 'application/json; charset=utf-8');
+    res.setHeader('Cache-Control', cache);
+    res.end(JSON.stringify(corps));
+  };
+  // Une seule adresse possible : sinon « /api/live?1 », « ?2 »… contourneraient le cache et liraient le site officiel à chaque fois.
+  if (req.method !== 'GET') {
+    res.setHeader('Allow', 'GET');
+    return json(405, { code: 'METHODE_INTERDITE', message: 'Seule la lecture est possible.' }, 'public, s-maxage=60');
+  }
+  if ((req.url ?? '').includes('?')) {
+    return json(400, { code: 'PARAMETRE_INCONNU', message: 'Cette adresse ne prend aucun paramètre.' }, 'public, s-maxage=60');
+  }
   try {
     const data = await getLive();
     res.statusCode = 200;

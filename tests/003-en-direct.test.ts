@@ -55,7 +55,7 @@ describe('003 — Épreuves en direct (programme officiel)', () => {
   it('003-AS6: /api/live answers the live events, cached one minute', async () => {
     vi.stubGlobal('fetch', vi.fn(async () => new Response(withStatus('Running'))));
     const res = fakeResponse();
-    await handler({}, res);
+    await handler({ method: 'GET', url: '/api/live' }, res);
     const body = JSON.parse(res.body);
     expect(res.statusCode).toBe(200);
     expect(res.headers['cache-control']).toContain('s-maxage=60');
@@ -63,10 +63,22 @@ describe('003 — Épreuves en direct (programme officiel)', () => {
     expect(body.done).toBe(1);
   });
 
+  it.each([
+    ['a query string', 'GET', '/api/live?1'],
+    ['another method', 'POST', '/api/live'],
+  ])('003-AS9: /api/live refuses %s, so the official site is read at most once a minute', async (_cas, method, url) => {
+    const fetch = vi.fn(async () => new Response(PAGE));
+    vi.stubGlobal('fetch', fetch);
+    const res = fakeResponse();
+    await handler({ method, url }, res);
+    expect(res.statusCode).toBe(method === 'GET' ? 400 : 405);
+    expect(fetch).not.toHaveBeenCalled();
+  });
+
   it('003-AS7: when the official schedule is unavailable, /api/live answers 502 with a clear message', async () => {
     vi.stubGlobal('fetch', vi.fn(async () => new Response('', { status: 503 })));
     const res = fakeResponse();
-    await handler({}, res);
+    await handler({ method: 'GET', url: '/api/live' }, res);
     expect(res.statusCode).toBe(502);
     expect(JSON.parse(res.body)).toEqual({ error: 'Programme officiel momentanément indisponible.' });
   });
