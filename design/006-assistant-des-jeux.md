@@ -47,3 +47,18 @@ Chaque erreur s'affiche dans `ErrBox`, au-dessus du champ ; la phrase est le `me
 - Le fil `role="log"` annonce chaque nouvelle réponse ; les erreurs ont `role="alert"` (`ErrBox`).
 - Contrastes, clair et sombre, au moins 4,5:1 : `--ink` sur `--ocean-soft` et `--sand`, `--ocean-ink` sur `--ocean`, `--muted` sur `--paper`.
 - Le bouton « Envoyer » montre son texte (pas une icône seule). Cibles tactiles d'au moins 44 px.
+
+## Refonte « comme WhatsApp », d'après la maquette (décision de l'humain)
+
+Référence obligatoire : `design/maquette-assistant.png`. L'écran doit lui ressembler **exactement**, sauf les éléments marqués ❌. Texte et voix seulement : aucun envoi de fichier.
+
+- **En-tête** : fond de nuit (dégradé bleu nuit → violet, petites étincelles), à gauche « DAKAR 2026 / Jeux Olympiques de la Jeunesse » en blanc gras, à droite Ayo en grand (`/brand/ayo.webp`), bandes ondulées vert-jaune-rouge en bas de l'en-tête, bouton de fermeture rond blanc avec ✕.
+- **Carte de la conversation** : blanche, coins très arrondis, qui chevauche l'en-tête. En haut : avatar rond d'Ayo (`/brand/ayo-head.webp`) cerclé, avec une pastille verte « en ligne » ; « Assistant des Jeux » en gras avec un badge vert ✓ (au toucher : « Répond à partir des données officielles de l'application ») ; « ✦ Rédigé par Claude » ; pendant l'attente, « écrit… » ; le bouton pilule « ★ Nouvelle conversation ».
+- **Bulles** : à gauche, bulle gris très clair avec l'avatar d'Ayo à côté ; à droite, bulle vert clair (#dcf8c6 ou le vert doux des jetons) avec un avatar rond vert (silhouette blanche). Coins arrondis, petite « queue » côté avatar, ombre légère. En bas à droite de chaque bulle : l'heure (HH:MM) et, pour les messages du visiteur, ✓ (envoyée) puis ✓✓ bleu (Ayo a répondu).
+- **Réponse d'Ayo** : une médaille 🏅 en tête si la réponse parle de médailles ; les nombres en **gras** (seulement `**…**` transformé en `<strong>`, jamais de HTML) ; un bandeau pilule « 🏆 Vive le Sénégal ! 🇸🇳 » sous la réponse quand elle parle du Sénégal.
+- **Barre « message vocal »** sous chaque réponse : bouton ▶︎ rond vert, ondes vertes (animées pendant la lecture), durée estimée (≈ 15 caractères par seconde, « 00:12 »). ❌ pas de bouton de téléchargement.
+- **Puces de raccourcis** au-dessus du champ, défilantes : « 🏆 Palmarès », « 📅 Dates », « 🏟️ Sites », « 🥇 Médailles », et « › » ; chacune envoie une question toute prête.
+- **Barre du bas** : bouton rond ⌨️ (met le curseur dans le champ), champ arrondi « Écrivez votre message… » (❌ pas de trombone), grand bouton rond vert 🎤 avec halo, et l'infobulle verte « 🎤 Appuyez pour parler ». Dès qu'il y a du texte, le 🎤 devient ➤ (envoyer), comme WhatsApp.
+- **Pied** : bandes vert-jaune-rouge et silhouette blanche de Dakar (SVG simple dessiné dans le code), « Dakar 2026 » en écriture manuscrite.
+- **Fond de la conversation** : très clair, avec un motif discret (comme le papier peint de WhatsApp).
+- Tous les textes, rôles accessibles, phrases d'erreur, limites (500 caractères, quota) et la mention « Réponses rédigées par Claude… » de la note ci-dessus restent valables.
