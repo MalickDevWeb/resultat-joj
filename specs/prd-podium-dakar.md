@@ -46,6 +46,10 @@ Toutes les 6 heures, sans redéploiement ; le travail des chefs de site est gard
 
 Le visiteur pose une question en français sur les JOJ Dakar 2026 et le Sénégal ; l'assistant répond à partir des vrais résultats de l'application. Règles : il ne parle que des Jeux, et refuse poliment tout autre sujet ; un visiteur ne peut pas envoyer de questions sans limite, et l'application a un plafond par jour. Pourquoi l'IA : comprendre une question libre (« le Sénégal a gagné quoi en lutte ? ») est ce qu'aucun filtre ne fait.
 
+### TR7 — La voix : dicter et écouter (spec 007)
+
+Le supporter, téléphone en main au stade, dicte sa recherche ou sa question à l'assistant, et écoute les réponses et le résumé du jour en français. Règles : le micro ne s'allume que sur un geste du visiteur et s'arrête seul ; une question dictée n'est jamais envoyée sans que le visiteur la valide ; sans voix dans le navigateur, rien ne change.
+
 ## Hors périmètre
 
 - Les comptes réels des chefs de site (compte de démonstration), le partage des podiums saisis entre appareils, les notifications, le direct point par point.

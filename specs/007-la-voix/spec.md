@@ -1,0 +1,60 @@
+# 007 — La voix : dicter et écouter
+
+**Statut** : Validée
+**PRD** : specs/prd-podium-dakar.md, TR7
+
+## Contexte
+
+Au stade, le supporter a une main prise et peu de temps : taper « Sénégal lutte de plage » sur un téléphone est lent. Le navigateur sait transcrire la voix et lire un texte en français, sans serveur ni crédit. La voix complète la recherche et l'assistant ; elle ne les remplace pas.
+
+## User stories
+
+- En tant que supporter, je veux dicter ma recherche ou ma question, afin d'aller plus vite qu'au clavier.
+- En tant que supporter, je veux écouter une réponse ou le résumé du jour, afin de suivre sans regarder l'écran.
+
+## Scénarios d'acceptation
+
+### AS1 — Dicter une recherche
+
+- **Quand** le visiteur touche le micro de la recherche et dit « Sénégal lutte »
+- **Alors** la recherche contient « Sénégal lutte » et les résultats se filtrent, comme s'il l'avait tapé
+
+### AS2 — Dicter une question à l'assistant, sans l'envoyer
+
+- **Quand** le visiteur dicte « combien de médailles pour le Sénégal »
+- **Alors** le champ contient « Combien de médailles pour le Sénégal ? » (majuscule, point d'interrogation), et rien n'est envoyé tant qu'il n'a pas touché « Envoyer » ; une dictée de plus de 500 caractères est coupée à 500
+
+### AS3 — Le micro ne s'allume que sur un geste, et s'arrête seul
+
+- **Alors** le micro ne démarre qu'au toucher du bouton, montre « J'écoute… » tant qu'il écoute, et s'arrête à la fin de la phrase, au second toucher, ou en quittant l'écran
+
+### AS4 — Une dictée impossible est expliquée
+
+- **Quand** le micro est refusé, absent, n'entend rien, ou que le réseau manque
+- **Alors** une phrase claire en français : « Autorisez le micro pour dicter. », « Aucun micro n'a été trouvé. », « Je n'ai rien entendu. Réessayez. », « La dictée a besoin d'internet. »
+
+### AS5 — Écouter une réponse et le résumé du jour
+
+- **Quand** le visiteur touche « Écouter » sur une réponse de l'assistant ou sur le résumé du jour
+- **Alors** le texte est lu en français ; le bouton devient « Arrêter » ; une seule lecture à la fois
+
+### AS6 — Sans voix dans le navigateur, rien ne change
+
+- **Alors** sans reconnaissance vocale, aucun bouton micro ; sans synthèse vocale, aucun bouton « Écouter » ; la recherche et l'assistant restent utilisables au clavier
+
+### AS7 — Le micro est autorisé pour le site seulement
+
+- **Alors** l'en-tête `Permissions-Policy` autorise le micro pour le site lui-même (`microphone=(self)`) et toujours pas la caméra ni la position ; la première dictée prévient que le navigateur peut transcrire la voix sur ses serveurs
+
+## Tâches
+
+- [ ] T01 [007-AS1…AS7] (ux-design) Écrire `design/007-la-voix.md`
+- [ ] T02 [007-AS1…AS7] (frontend) Écrire d'abord `tests/007-la-voix.test.ts` (règles pures : transcription, phrases d'erreur, disponibilité, en-tête), puis le micro et « Écouter », d'après la note de design ; `vercel.json` pour AS7
+
+## Hors périmètre
+
+- Les commandes vocales (« ouvre les médailles »), la lecture automatique sans geste, l'enregistrement ou l'envoi du son à notre serveur, les autres langues que le français.
+
+## Questions ouvertes
+
+- Hypothèse : on utilise la reconnaissance et la synthèse vocales du navigateur (Web Speech API) ; dans Chrome, la transcription passe par les serveurs de Google, ce que le visiteur est prévenu.
