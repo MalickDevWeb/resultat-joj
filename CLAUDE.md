@@ -12,8 +12,9 @@ Podium Dakar 2026 : une PWA React + Vite qui affiche les vrais résultats des JO
 ## Architecture
 
 - `src/wikipedia.mjs` lit Wikipédia ; il sert au navigateur et à `scripts/import-wikipedia.mjs`. Toutes les pages en une seule requête.
-- `api/live.js` est la seule partie serveur : le site officiel ne se lit pas depuis le navigateur. En développement, `vite.config.ts` la sert sur `/api/live`.
-- Les règles de calcul sont des fonctions pures, testées sans navigateur : `parseSport`, `buildResultats`, `medalTable`, `parseSchedule`, `merge`.
+- `api/` contient les seules parties serveur (fonctions Vercel) : `live.js` lit le site officiel, qui ne se lit pas depuis le navigateur ; `resume.ts` fait rédiger le résumé du jour par Claude. En développement, `vite.config.ts` les sert sur `/api/...`.
+- Claude est derrière une dépendance injectée (`rediger` dans `creerGestionnaire`) : les tests passent un faux, seul l'export par défaut utilise le SDK. Modèle `claude-opus-5-5`, réponse JSON validée par Zod.
+- Les règles de calcul sont des fonctions pures, testées sans navigateur : `parseSport`, `buildResultats`, `medalTable`, `parseSchedule`, `merge`, `finalesDuJour`.
 - Les écrans (`src/components/`) affichent, ils ne calculent pas. Le design ne change pas sans demande explicite.
 
 ## Concepts appréciés
@@ -25,7 +26,9 @@ Podium Dakar 2026 : une PWA React + Vite qui affiche les vrais résultats des JO
 ## Bonnes pratiques
 
 - Les tests n'appellent jamais le réseau : `fetch` est remplacé (`vi.stubGlobal`), et les pages réelles sont des extraits dans `tests/fixtures/`.
-- Aucun secret dans le code. Le compte du chef de site est un compte de démonstration.
+- Aucun secret dans le code : `ANTHROPIC_API_KEY` vient des variables d'environnement de Vercel. Le compte du chef de site est un compte de démonstration.
+- Claude ne reçoit jamais un texte venu d'une requête : seulement des données officielles lues côté serveur. Toute entrée d'une fonction `api/` est validée, et ses refus ont un code stable en majuscules (`JOUR_INVALIDE`).
+- Les en-têtes de sécurité (CSP, HSTS…) sont dans `vercel.json` : une nouvelle source externe doit y être ajoutée explicitement.
 - Un message d'erreur montré à l'utilisateur est une phrase claire en français, jamais un code technique.
 - On respecte les sources : une requête Wikipédia par mise à jour, au plus une lecture du site officiel par minute (cache Vercel).
 
