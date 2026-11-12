@@ -6,7 +6,7 @@
 
 1. Le visiteur touche le micro (recherche ou assistant). La première fois, la mention de confidentialité s'affiche ; le navigateur demande l'accès au micro.
 2. Il parle ; « J'écoute… » reste visible. À la fin de sa phrase, le micro s'arrête seul et le texte arrive dans le champ.
-3. Recherche : les résultats se filtrent aussitôt. Assistant : il relit, corrige au clavier s'il veut, puis touche « Envoyer ».
+3. Recherche : les résultats se filtrent aussitôt. Assistant : la question dictée part aussitôt, comme une recherche directe ; elle apparaît dans le fil comme si elle avait été tapée.
 4. Sur une réponse de l'assistant ou sur le résumé du jour, il touche « Écouter » ; le bouton devient « Arrêter » jusqu'à la fin de la lecture.
 
 ## Structure
@@ -39,3 +39,15 @@
 - « J'écoute… » en `role="status"` ; erreurs de l'assistant en `role="alert"` (`ErrBox`) ; toast en `role="status"`.
 - Contrastes clair et sombre ≥ 4,5:1 : `--rect` sur `--rect-bg` (badge et micro en écoute), `--ink` sur `--paper` (« Écouter »), `--muted` sur `--paper` et `--sand` (mention, icône au repos).
 - Pulsation de la pastille seulement si `prefers-reduced-motion: no-preference` (règle existante de `.live`).
+
+## Pendant que le visiteur parle (décision de l'humain)
+
+- Les mots entendus s'écrivent en direct dans le champ ; l'espace réservé devient « Parlez, je vous écoute… ».
+- Le micro reste rouge et respire tant qu'il écoute (il ne devient pas ➤, même avec du texte) ; chaque mot entendu lance une onde autour de lui et fait sauter les barres de l'infobulle « J'écoute… ».
+- À la fin de la phrase (ou au second toucher), la question part aussitôt, comme une recherche directe (007-AS2). Mouvement réduit : rien ne bouge, le texte s'écrit quand même.
+
+## On répond comme on a demandé (007-AS8, décision de l'humain)
+
+- Question dictée : la réponse s'écrit dans le fil **et** se lit aussitôt ; sa barre vocale passe en lecture (■, ondes animées). Toucher ■ l'arrête.
+- Question tapée ou raccourci touché : réponse écrite seulement, ▶︎ disponible.
+- La voix lit le texte sans les `**` du gras ni les emojis.

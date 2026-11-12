@@ -1580,49 +1580,260 @@ input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus
   font:inherit;font-weight:700;cursor:pointer;box-shadow:0 8px 20px -8px rgba(0,0,0,.35);
 }
 @media (min-width:760px){.assist-fab{right:24px;bottom:24px}}
+/* ---------- Assistant des Jeux : comme WhatsApp, d'après design/maquette-assistant.png ---------- */
+/* Sur téléphone, plein écran ; sur grand écran, un téléphone posé au centre. */
+.scrim:has(.sheet-assist){padding:0}
 .sheet.sheet-assist{
   display:flex;flex-direction:column;padding:0 !important;overflow:hidden !important;
-  height:92vh;max-height:92vh;
+  height:100dvh;max-height:100dvh;border-radius:0;background:#0b1233;
 }
-@media (min-width:760px){.sheet.sheet-assist{max-width:520px;height:min(90vh,640px)}}
-.assist-top{padding:14px 18px 0;flex-shrink:0;position:relative;border-bottom:1px solid var(--line)}
-.assist-head{margin:0 40px 12px 0}
-.assist-head .btn.ghost{grid-column:2;justify-self:start}
-@media (min-width:760px){.assist-head{grid-template-columns:44px minmax(0,1fr) auto}.assist-head .btn.ghost{grid-column:auto}}
-.assist-head h3{margin:0 0 4px}
-.assist-head .btn.ghost{padding:10px 12px;min-height:44px;font-size:13px}
-.assist-ayo{width:44px;height:44px;border-radius:12px;background:var(--ocean-soft);object-fit:contain}
-.assist-fil{flex:1 1 auto;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px 18px;display:flex;flex-direction:column;gap:10px}
-.assist-msg{max-width:85%;border-radius:16px;padding:10px 13px;color:var(--ink);overflow-wrap:anywhere}
-.assist-msg p{margin:0}
-.assist-msg p+p{margin-top:6px}
-.assist-moi{align-self:flex-end;background:var(--ocean-soft)}
-.assist-lui{align-self:flex-start;background:var(--sand)}
-.assist-sugg{display:grid;gap:6px}
-.assist-sugg .meta{margin:4px 0 0}
-.assist-sugg .chips{flex-wrap:wrap;justify-content:flex-start}
-.assist-sugg .chips button{min-height:44px;text-align:left;white-space:normal}
-.assist-sugg .chips button:disabled{opacity:.45;cursor:not-allowed}
+@media (min-width:760px){
+  .scrim:has(.sheet-assist){padding:20px}
+  .sheet.sheet-assist{
+    max-width:430px;height:min(94vh,880px) !important;max-height:min(94vh,880px) !important;border-radius:36px !important;margin:auto;
+    box-shadow:0 24px 60px -12px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.1);
+  }
+}
+
+.wa-app-card{
+  --wa-green:#0b8a43;--wa-green-d:#06702f;--wa-ink:#141a2e;--wa-mut:#5c6378;
+  display:flex;flex-direction:column;height:100%;width:100%;overflow:hidden;position:relative;
+  background:#f6f7fb;color:var(--wa-ink);
+}
+
+/* 1. En-tête de nuit */
+.wa-hero{
+  position:relative;flex-shrink:0;height:clamp(150px,24vh,200px);overflow:hidden;
+  padding:calc(18px + env(safe-area-inset-top,0px)) 18px 0;
+  background:
+    radial-gradient(120% 80% at 70% 110%,rgba(255,160,90,.55) 0%,rgba(150,70,140,.35) 35%,transparent 65%),
+    linear-gradient(180deg,#0a1a4a 0%,#1d2a6b 45%,#4b2a72 80%,#7a3a6e 100%);
+}
+.wa-hero-decor{position:absolute;inset:0;width:100%;height:100%}
+.wa-fireworks line{stroke:#fff6c8;stroke-width:1.3;stroke-linecap:round;opacity:.75}
+.wa-fireworks g:nth-child(2) line{stroke:#ffd27a}
+.wa-fireworks g:nth-child(4) line{stroke:#ffb3c7}
+.wa-stadium-bowl{fill:#1a1f45;stroke:#c9d4ff;stroke-width:1.2;opacity:.9}
+.wa-stadium-roof{fill:none;stroke:#e7ecff;stroke-width:3;opacity:.85}
+.wa-stadium-lights{fill:none;stroke:#ffe9a8;stroke-width:2;stroke-dasharray:2 5;stroke-linecap:round}
+.wa-stadium-glow{fill:rgba(255,226,150,.35);filter:blur(4px)}
+
+.wa-brand{position:relative;z-index:2;display:flex;align-items:center;gap:10px}
+.wa-emblem{width:clamp(48px,14vw,62px);height:auto;flex-shrink:0;filter:drop-shadow(0 2px 4px rgba(0,0,0,.35))}
+.wa-brand-text{display:flex;flex-direction:column;gap:4px}
+.wa-brand-title{font-family:var(--display);font-size:clamp(22px,7vw,30px);font-weight:800;line-height:1;color:#fff;letter-spacing:-.01em}
+.wa-brand-sub{font-size:clamp(11px,3.3vw,13px);font-weight:500;line-height:1.2;color:#fff}
+
+/* Ayo en grand, à mi-corps, à droite. */
+.wa-hero-ayo{
+  position:absolute;z-index:2;right:clamp(54px,17vw,84px);bottom:-6px;width:clamp(116px,34vw,150px);
+  height:calc(100% - 6px);overflow:hidden;pointer-events:none;
+}
+.wa-hero-ayo img{width:100%;height:auto;display:block;filter:drop-shadow(0 6px 12px rgba(0,0,0,.45))}
+
+.wa-close-btn{
+  position:absolute;z-index:6;right:16px;top:calc(clamp(150px,24vh,200px) - 52px);
+  width:52px;height:52px;border-radius:50%;border:0;background:#fff;color:var(--wa-ink);
+  display:grid;place-items:center;cursor:pointer;box-shadow:0 6px 18px rgba(10,20,60,.28);
+  transition:transform .15s;
+}
+.wa-close-btn:active{transform:scale(.92)}
+
+/* 2. Carte blanche qui chevauche l'en-tête */
+.wa-chat-header{
+  position:relative;z-index:4;flex-shrink:0;margin-top:-26px;padding:16px 18px 12px;
+  background:#fff;border-radius:28px 28px 0 0;overflow:hidden;
+  display:grid;grid-template-columns:minmax(0,1fr);justify-items:center;gap:8px;
+}
+.wa-card-ribbon{position:absolute;top:0;right:0;width:20%;height:92px;z-index:0;pointer-events:none;opacity:.95}
+.wa-profile{position:relative;z-index:1;justify-self:stretch;display:flex;align-items:center;gap:14px;min-width:0;padding-right:14%}
+.wa-avatar-ring{
+  position:relative;width:68px;height:68px;flex-shrink:0;border-radius:50%;padding:3px;
+  background:conic-gradient(#e31b23 0 33%,#fdef42 0 66%,#00853f 0);
+}
+.wa-profile-avatar{width:100%;height:100%;border-radius:50%;object-fit:cover;background:#fff;border:2px solid #fff;display:block}
+.wa-online-pill{position:absolute;bottom:2px;right:0;width:16px;height:16px;border-radius:50%;background:#22c55e;border:3px solid #fff}
+.wa-profile-meta{display:flex;flex-direction:column;gap:3px;min-width:0}
+.wa-name-row{display:flex;align-items:center;gap:6px;min-width:0}
+.sheet .wa-name-row h3{margin:0;white-space:nowrap;font-size:clamp(16px,4.7vw,20px);font-weight:800;line-height:1.15;color:var(--wa-ink)}
+.wa-verified{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:#16a34a;color:#fff;flex-shrink:0}
+.wa-status-text{margin:0;font-size:14px;color:var(--wa-mut)}
+.wa-sparkle{color:#f5a400}
+.wa-typing{color:#16a34a;font-weight:700}
+
+.wa-btn-restart{
+  position:relative;z-index:1;display:inline-flex;align-items:center;gap:8px;min-height:44px;
+  border:0;background:#f4f6f8;color:var(--wa-ink);font:inherit;font-size:15px;font-weight:700;
+  padding:8px 20px 8px 10px;border-radius:999px;cursor:pointer;white-space:nowrap;
+  box-shadow:0 2px 8px rgba(20,30,60,.12);transition:transform .15s;
+}
+.wa-restart-star{display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:#22a447;color:#fff}
+.wa-btn-restart:active:not(:disabled){transform:scale(.96)}
+.wa-btn-restart:disabled{opacity:.45;cursor:not-allowed}
+
+/* 3. Le fil */
+.wa-fil{
+  flex:1 1 auto;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:12px 14px 8px;
+  display:flex;flex-direction:column;gap:14px;
+  background:
+    radial-gradient(rgba(60,80,140,.05) 1.2px,transparent 1.4px) 0 0/22px 22px,
+    linear-gradient(180deg,#f6f7fb 0%,#eef1f8 100%);
+}
+.wa-notice{
+  align-self:center;max-width:86%;margin:0;padding:4px 10px;border-radius:8px;
+  background:rgba(255,247,214,.9);color:#6b5a1e;font-size:11px;line-height:1.35;text-align:center;
+}
+.wa-row{display:flex;align-items:flex-start;gap:10px;max-width:94%}
+.wa-row-lui{align-self:flex-start}
+.wa-row-moi{align-self:flex-end}
+.wa-col{display:flex;flex-direction:column;gap:8px;min-width:0}
+
+.wa-avatar{width:42px;height:42px;border-radius:50%;flex-shrink:0;display:grid;place-items:center}
+.wa-avatar-ayo{padding:2px;background:conic-gradient(#e31b23 0 33%,#fdef42 0 66%,#00853f 0)}
+.wa-avatar-ayo img{width:100%;height:100%;border-radius:50%;object-fit:cover;background:#fff;border:1.5px solid #fff}
+.wa-avatar-user{background:#22a447;color:#fff;align-self:center}
+
+.wa-bubble{
+  position:relative;padding:12px 16px 8px;border-radius:22px;font-size:clamp(15px,4.3vw,17px);line-height:1.4;
+  box-shadow:0 3px 10px rgba(30,40,80,.08);overflow-wrap:anywhere;
+}
+.wa-bubble-lui{background:#eef1f9;border-top-left-radius:6px;color:var(--wa-ink)}
+.wa-bubble-moi{background:#d9f5d3;border-top-right-radius:6px;color:var(--wa-ink)}
+.wa-bubble p{margin:0}
+.wa-bubble p + p{margin-top:10px}
+.wa-bubble strong{font-weight:800}
+.wa-medal-lead{margin-right:2px}
+
+.wa-bubble-meta{display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:6px;margin-top:6px}
+.wa-time{margin-left:auto;font-size:12.5px;color:#6b7280;font-variant-numeric:tabular-nums}
+.wa-checks{display:inline-flex}
+.wa-check-blue{color:#2f7cf6}
+.wa-check-gray{color:#9ca3af}
+.wa-senegal-pill{
+  display:inline-flex;align-items:center;gap:6px;background:#dff5e3;color:#0b7a3b;
+  font-size:15px;font-weight:800;padding:6px 14px;border-radius:999px;
+}
+.wa-bubble-thinking{color:var(--wa-mut);font-style:italic}
+
 .assist-points{display:inline-flex;gap:3px;margin-left:6px;vertical-align:middle}
-.assist-points i{display:none;width:5px;height:5px;border-radius:50%;background:var(--muted)}
+.assist-points i{display:none;width:5px;height:5px;border-radius:50%;background:var(--wa-green)}
 @media (prefers-reduced-motion:no-preference){
   .assist-points i{display:block;animation:assist-point 1.2s ease-in-out infinite}
   .assist-points i:nth-child(2){animation-delay:.2s}
   .assist-points i:nth-child(3){animation-delay:.4s}
   @keyframes assist-point{50%{opacity:.2}}
 }
-.assist-bas{
-  flex-shrink:0;display:grid;gap:8px;padding:10px 18px calc(14px + env(safe-area-inset-bottom,0px));
-  background:var(--paper);border-top:1px solid var(--line);
+
+/* Barre « message vocal » sous la réponse et dans les modales */
+.wa-voice-player{
+  display:flex;align-items:center;gap:12px;background:#ffffff;border:1.5px solid #a7f3d0;border-radius:999px;
+  padding:5px 16px 5px 5px;box-shadow:0 3px 12px rgba(0,133,63,.10);
 }
-.assist-form{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:end}
-.assist-form textarea{
-  resize:none;min-height:44px;max-height:120px;border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;
-  font:inherit;background:var(--paper);color:var(--ink);
+.wa-play-btn{
+  width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#10b981 0%,#00853f 100%) !important;
+  color:#ffffff !important;border:0;display:grid;place-items:center;cursor:pointer;flex-shrink:0;
+  box-shadow:0 4px 12px rgba(0,133,63,.40);transition:transform .15s ease,box-shadow .15s ease;
 }
-.assist-form .btn{min-height:44px}
-.assist-compteur{margin:0;text-align:right;font-variant-numeric:tabular-nums}
-.assist-mention{margin:0}
+.wa-play-btn:hover{transform:scale(1.06);box-shadow:0 6px 16px rgba(0,133,63,.50)}
+.wa-play-btn:active{transform:scale(.92)}
+.wa-waveform{flex:1;display:flex;align-items:center;justify-content:space-between;gap:2px;height:32px;min-width:0;overflow:hidden}
+.wa-wave-bar{width:3.5px;flex-shrink:0;border-radius:99px;background:#00853f;transform-origin:center}
+@media (prefers-reduced-motion:no-preference){
+  .wa-voice-player.is-playing .wa-wave-bar{animation:wa-wave .75s ease-in-out infinite alternate}
+}
+@keyframes wa-wave{from{transform:scaleY(.4)}to{transform:scaleY(1.2)}}
+.wa-voice-duration{font-size:14px;font-weight:800;color:#064e3b;font-variant-numeric:tabular-nums;font-family:var(--mono)}
+
+/* 4. Le bas */
+.wa-bottom{flex-shrink:0;display:grid;gap:8px;padding:8px 14px 10px;background:#eef1f8}
+.wa-shortcuts-container{display:flex;align-items:center;gap:8px;min-width:0}
+.wa-shortcuts{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;flex:1;padding:4px 2px 6px;-webkit-overflow-scrolling:touch}
+.wa-shortcuts::-webkit-scrollbar{display:none}
+.wa-chip{
+  flex-shrink:0;min-height:44px;border:0;background:#fff;border-radius:999px;padding:8px 16px;
+  font:inherit;font-size:15px;font-weight:600;color:var(--wa-ink);white-space:nowrap;cursor:pointer;
+  box-shadow:0 2px 8px rgba(20,30,60,.10);transition:transform .15s;
+}
+.wa-chip:active:not(:disabled){transform:scale(.95)}
+.wa-chip:disabled{opacity:.45;cursor:not-allowed}
+.wa-chip-arrow{
+  width:44px;height:44px;border-radius:50%;background:#fff;border:0;flex-shrink:0;
+  display:grid;place-items:center;color:var(--wa-ink);cursor:pointer;box-shadow:0 2px 8px rgba(20,30,60,.10);
+}
+.wa-meta-note{margin:0;font-size:12px;color:var(--wa-mut)}
+
+.wa-tip-row{display:flex;justify-content:flex-end;min-height:34px}
+.wa-mic-tooltip{
+  position:relative;display:inline-flex;align-items:center;gap:6px;align-self:center;
+  background:var(--wa-green-d);color:#fff;font-size:14px;font-weight:700;padding:7px 14px;border-radius:12px;
+  box-shadow:0 4px 12px rgba(0,100,40,.3);
+}
+.wa-mic-tooltip::after{
+  content:"";position:absolute;bottom:-6px;right:44px;width:12px;height:12px;background:inherit;transform:rotate(45deg);border-radius:2px;
+}
+.wa-mic-tooltip.wa-listening{background:var(--rect,#e31b23)}
+
+.wa-input-row{display:flex;align-items:center;gap:10px;padding-right:8px}
+.wa-kbd-btn{
+  width:50px;height:50px;border-radius:50%;border:0;background:#e6f6ea;color:var(--wa-ink);flex-shrink:0;
+  display:grid;place-items:center;cursor:pointer;box-shadow:0 3px 10px rgba(20,90,40,.18);
+}
+.wa-input-capsule{
+  flex:1;min-width:0;display:flex;align-items:center;background:#fff;border-radius:999px;
+  padding:0 18px;min-height:54px;box-shadow:0 3px 12px rgba(20,30,60,.10);
+}
+.sheet .wa-input-capsule textarea,.sheet .wa-input-capsule textarea:focus{
+  flex:1;min-width:0;min-height:0;border:0;border-radius:0;box-shadow:none;background:transparent;font:inherit;font-size:16px;color:var(--wa-ink);
+  resize:none;padding:13px 0;height:50px;max-height:96px;line-height:1.5;outline:none;
+}
+.wa-input-capsule:focus-within{box-shadow:0 0 0 2px var(--wa-green),0 3px 12px rgba(20,30,60,.10)}
+.wa-input-capsule textarea::placeholder{color:#6b7280;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media (max-width:370px){.sheet .wa-input-capsule textarea{font-size:15px}.wa-input-capsule{padding:0 14px}}
+.wa-action-btn{
+  position:relative;width:62px;height:62px;border-radius:50%;border:0;background:var(--wa-green);color:#fff;
+  display:grid;place-items:center;cursor:pointer;flex-shrink:0;margin-left:-4px;
+  box-shadow:0 0 0 6px rgba(34,164,71,.18),0 6px 16px rgba(0,110,45,.35);transition:transform .15s;
+}
+.wa-action-btn:active:not(:disabled){transform:scale(.94)}
+.wa-action-btn:disabled{opacity:.45;cursor:not-allowed}
+.wa-mic-btn .wa-pulse-ring{position:absolute;inset:-6px;border-radius:50%;border:2px solid rgba(34,164,71,.35);pointer-events:none}
+.wa-mic-btn .wa-pulse-ring.ring-2{inset:-12px;border-color:rgba(34,164,71,.18)}
+@media (prefers-reduced-motion:no-preference){
+  .wa-mic-btn .wa-pulse-ring{animation:wa-pulse 2.2s ease-out infinite}
+  .wa-mic-btn .wa-pulse-ring.ring-2{animation-delay:.7s}
+}
+@keyframes wa-pulse{0%{transform:scale(.92);opacity:1}100%{transform:scale(1.2);opacity:0}}
+.wa-mic-btn.is-listening{background:var(--rect,#e31b23);box-shadow:0 0 0 6px rgba(227,27,35,.18),0 6px 16px rgba(227,27,35,.35)}
+/* Pendant l'écoute : le micro respire, et chaque mot entendu lance une onde et fait sauter les barres. */
+.wa-ondes{display:inline-flex;align-items:center;gap:2px;height:14px;margin-left:4px}
+.wa-ondes i{width:3px;height:5px;border-radius:2px;background:#fff}
+.wa-voix-onde{position:absolute;inset:0;border-radius:50%;background:rgba(227,27,35,.35);pointer-events:none}
+@media (prefers-reduced-motion:no-preference){
+  .wa-mic-btn.is-listening{animation:wa-respire 1s ease-in-out infinite alternate}
+  .wa-ondes i{animation:wa-saut .45s ease-out both}
+  .wa-ondes i:nth-child(2){animation-delay:.05s}
+  .wa-ondes i:nth-child(3){animation-delay:.1s}
+  .wa-ondes i:nth-child(4){animation-delay:.15s}
+  .wa-ondes i:nth-child(5){animation-delay:.2s}
+  .wa-voix-onde{animation:wa-onde .6s ease-out forwards}
+}
+@keyframes wa-respire{from{transform:scale(1)}to{transform:scale(1.08)}}
+@keyframes wa-saut{0%{height:4px}40%{height:14px}100%{height:5px}}
+@keyframes wa-onde{from{transform:scale(1);opacity:1}to{transform:scale(1.7);opacity:0}}
+.wa-compteur{margin:0;text-align:right;font-size:12px;color:var(--wa-mut);font-variant-numeric:tabular-nums}
+
+/* 5. Pied tricolore avec la silhouette de Dakar */
+.wa-skyline-footer{
+  position:relative;flex-shrink:0;height:calc(64px + env(safe-area-inset-bottom,0px));overflow:hidden;background:#00853f;
+}
+.wa-skyline-svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.wa-skyline-city{position:absolute;left:12%;bottom:calc(6px + env(safe-area-inset-bottom,0px));width:44%;height:auto}
+.wa-skyline-text{
+  position:absolute;right:20px;bottom:calc(12px + env(safe-area-inset-bottom,0px));
+  font-family:"Kaushan Script","Brush Script MT",cursive;font-size:24px;color:#fff;
+  text-shadow:0 1px 3px rgba(0,0,0,.35);transform:rotate(-5deg);
+}
+.wa-skyline-text::after{content:"";position:absolute;left:10%;right:-10%;bottom:-4px;height:2px;border-radius:2px;background:#fff;transform:rotate(-3deg)}
 
 /* ---------- La voix (spec 007) ---------- */
 .micro{

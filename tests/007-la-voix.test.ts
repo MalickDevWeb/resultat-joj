@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { z } from 'zod';
 import configVercel from '../vercel.json';
-import { questionDictee } from '../src/components/Assistant';
+import { lireLaReponse, phrasesDeLaReponse, questionDictee } from '../src/components/Assistant';
 import { texteDuResume } from '../src/components/DaySummary';
 import { hitEvent } from '../src/components/Results';
 import type { PodiumEvent } from '../src/data';
@@ -129,12 +129,30 @@ describe('007 — la voix (écran)', () => {
     const { recu, micro } = dicter();
     expect(micro?.lang).toBe('fr-FR');
     expect(micro?.continuous).toBe(false);
-    expect(micro?.interimResults).toBe(false);
+    expect(micro?.interimResults).toBe(true);
     expect(micro?.demarrages).toBe(1);
     micro?.entendre('Sénégal', false);
     micro?.entendre('Sénégal lutte', true);
     micro?.finir();
     expect(recu).toEqual({ texte: ['Sénégal lutte'], erreurs: [], fins: 1 });
+  });
+
+  it('007-AS3: while the visitor speaks, the words heard so far are shown live, only the final sentence is kept', () => {
+    const vus: string[] = [];
+    const recu = { texte: [] as string[] };
+    creerDictee(FausseReconnaissance, {
+      surTexte: (t) => recu.texte.push(t),
+      surErreur: () => {},
+      surFin: () => {},
+      surEnCours: (t) => vus.push(t),
+    }, true);
+    const micro = FausseReconnaissance.derniere;
+    micro?.entendre('combien', false);
+    micro?.entendre('combien de médailles', false);
+    micro?.entendre('combien de médailles pour le Sénégal', true);
+    micro?.finir();
+    expect(vus).toEqual(['combien', 'combien de médailles', 'combien de médailles pour le Sénégal']);
+    expect(recu.texte).toEqual(['combien de médailles pour le Sénégal']);
   });
 
   it('007-AS3: a second touch stops the microphone and keeps what was heard, leaving the screen cancels silently', () => {
@@ -224,6 +242,16 @@ describe('007 — la voix (écran)', () => {
     expect(fins).toEqual(['réponse', 'résumé', 'autre']);
     lecteur.arreter();
     expect(fins).toHaveLength(3);
+  });
+
+  it('007-AS8: an answer is read aloud only when the question was asked by voice', () => {
+    expect(lireLaReponse('voix')).toBe(true);
+    expect(lireLaReponse('clavier')).toBe(false);
+  });
+
+  it('007-AS8: an answer is read without bold marks nor emojis, one sentence per paragraph', () => {
+    expect(phrasesDeLaReponse('🏅 Le Sénégal compte **10 médailles** : **5 en or**.\n\n🏆 Vive le Sénégal ! 🇸🇳'))
+      .toEqual(['Le Sénégal compte 10 médailles : 5 en or.', 'Vive le Sénégal !']);
   });
 
   it('007-AS5: the day summary is read with words instead of medal emojis', () => {

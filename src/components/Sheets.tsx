@@ -49,7 +49,7 @@ export function Scrim({
     const el = sheetRef.current;
     if (el && el.scrollTop > 0) return;
     // Une zone qui défile ne ferme la fenêtre que si elle est en haut.
-    const scrollEl = el?.querySelector<HTMLElement>('.inst-scroll, .assist-fil');
+    const scrollEl = el?.querySelector<HTMLElement>('.inst-scroll, .wa-fil, .fp-scroll');
     if (scrollEl && scrollEl.scrollTop > 0) return;
 
     startYRef.current = e.touches[0].clientY;

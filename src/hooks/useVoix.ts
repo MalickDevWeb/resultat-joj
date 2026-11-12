@@ -33,18 +33,21 @@ export function arreterLecture(id?: string) {
   if (id === undefined || enLecture === id) lecteur?.arreter();
 }
 
+/** Lit ces phrases sous cet identifiant (son bouton passe à « Arrêter ») ; arrête la dictée et la lecture en cours. */
+export function lireAVoixHaute(id: string, phrases: string[]) {
+  if (!lecteur) return;
+  annulerDictee();
+  annoncer(id);
+  lecteur.lire(phrases, () => { if (enLecture === id) annoncer(null); });
+}
+
 /** Bouton « Écouter » : lit ses phrases, ou arrête sa lecture. Démonté pendant la lecture, il l'arrête. */
 export function useLecture(id: string) {
   const lit = useSyncExternalStore(abonner, () => enLecture === id, () => false);
   const basculer = useCallback((phrases: string[]) => {
     if (!lecteur) return;
-    if (enLecture === id) {
-      lecteur.arreter();
-      return;
-    }
-    annulerDictee();
-    annoncer(id);
-    lecteur.lire(phrases, () => { if (enLecture === id) annoncer(null); });
+    if (enLecture === id) lecteur.arreter();
+    else lireAVoixHaute(id, phrases);
   }, [id]);
   useEffect(() => () => arreterLecture(id), [id]);
   return { lit, basculer };
@@ -90,6 +93,8 @@ if (typeof window !== 'undefined') {
 interface RappelsDuMicro {
   surTexte: (texte: string) => void;
   surErreur: (phrase: string) => void;
+  /** Les mots entendus pendant que le visiteur parle. */
+  surEnCours?: (texte: string) => void;
   /** Première dictée : la mention de confidentialité est à montrer. */
   surPrevenir?: () => void;
 }
@@ -136,6 +141,7 @@ export function useDictee(rappels: RappelsDuMicro) {
       surTexte: (t) => derniers.current.surTexte(t),
       surErreur: (p) => derniers.current.surErreur(p),
       surFin: terminer,
+      surEnCours: (t) => derniers.current.surEnCours?.(t),
     }, enLigne);
   };
 

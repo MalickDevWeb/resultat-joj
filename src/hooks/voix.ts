@@ -87,6 +87,8 @@ export interface RappelsDeDictee {
   surTexte: (texte: string) => void;
   surErreur: (phrase: string) => void;
   surFin: () => void;
+  /** Pendant que le visiteur parle : les mots entendus jusqu'ici, provisoires compris. */
+  surEnCours?: (texte: string) => void;
 }
 
 export interface Dictee {
@@ -97,7 +99,7 @@ export interface Dictee {
 }
 
 /**
- * Démarre une dictée d'une phrase, en français, résultats définitifs seulement.
+ * Démarre une dictée d'une phrase, en français. Les mots provisoires vont à `surEnCours` ; seul le définitif est gardé.
  * À la fin : le texte, ou une phrase d'erreur (une dictée vide compte comme « rien entendu »), puis `surFin`.
  */
 export function creerDictee(Reconnaissance: ConstructeurReconnaissance, rappels: RappelsDeDictee, enLigne: boolean): Dictee {
@@ -110,7 +112,7 @@ export function creerDictee(Reconnaissance: ConstructeurReconnaissance, rappels:
   const micro = new Reconnaissance();
   micro.lang = 'fr-FR';
   micro.continuous = false;
-  micro.interimResults = false;
+  micro.interimResults = true;
   micro.maxAlternatives = 1;
 
   let texte = '';
@@ -128,10 +130,15 @@ export function creerDictee(Reconnaissance: ConstructeurReconnaissance, rappels:
   };
 
   micro.onresult = (e) => {
+    let provisoire = '';
     for (let i = e.resultIndex; i < e.results.length; i += 1) {
       const resultat = e.results[i];
-      if (resultat?.isFinal) texte += resultat[0]?.transcript ?? '';
+      const mots = resultat?.[0]?.transcript ?? '';
+      if (resultat?.isFinal) texte += mots;
+      else provisoire += mots;
     }
+    const entendu = (texte + provisoire).trim();
+    if (entendu) rappels.surEnCours?.(entendu);
   };
   micro.onerror = (e) => { erreur = e.error; };
   micro.onend = terminer;

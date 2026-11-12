@@ -48,7 +48,7 @@ Le visiteur pose une question en français sur les JOJ Dakar 2026 et le Sénéga
 
 ### TR7 — La voix : dicter et écouter (spec 007)
 
-Le supporter, téléphone en main au stade, dicte sa recherche ou sa question à l'assistant, et écoute les réponses et le résumé du jour en français. Règles : le micro ne s'allume que sur un geste du visiteur et s'arrête seul ; une question dictée n'est jamais envoyée sans que le visiteur la valide ; sans voix dans le navigateur, rien ne change.
+Le supporter, téléphone en main au stade, dicte sa recherche ou sa question à l'assistant, et écoute les réponses et le résumé du jour en français. Règles : le micro ne s'allume que sur un geste du visiteur et s'arrête seul ; une question dictée part aussitôt la phrase finie, comme une recherche directe (décision de l'humain) ; sans voix dans le navigateur, rien ne change.
 
 ## Hors périmètre
 
