@@ -43,7 +43,8 @@ self.addEventListener('push', (event) => {
     icon: '/icons/icon-192.png',
     badge: '/icons/icon-192.png',
     vibrate: [200, 100, 200],
-    data: data.url || '/',
+    // Seulement une page du site lui-même (« /… ») : jamais une adresse d'un autre site.
+    data: typeof data.url === 'string' && /^\/(?![/\\])/.test(data.url) ? data.url : '/',
     actions: [
       { action: 'open', title: 'Ouvrir' },
       { action: 'close', title: 'Ignorer' },
@@ -60,6 +61,6 @@ self.addEventListener('notificationclick', (event) => {
 });
 
 // ---- BACKGROUND SYNC ----
-self.addEventListener('sync', (event: any) => {
+self.addEventListener('sync', (event: Event & { tag?: string }) => {
   console.log('[SW] Background Sync déclenché :', event.tag);
 });
