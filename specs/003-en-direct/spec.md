@@ -42,6 +42,11 @@ Wikipédia ne dit pas ce qui se joue en ce moment. Le programme officiel (webres
 - **Quand** le site officiel ne répond pas
 - **Alors** /api/live répond 502 avec « Programme officiel momentanément indisponible. »
 
+### AS8 — Un lien ne quitte jamais le site officiel
+
+- **Étant donné** une épreuve dont le lien ne commence pas par « / »
+- **Alors** elle n'a pas de lien
+
 ## Hors périmètre
 
 - Le direct point par point, les notifications.

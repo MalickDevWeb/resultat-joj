@@ -108,7 +108,8 @@ export function parseSchedule(html) {
       site: siteOf(venue),
       teams,
       medals: medaillesDe(h),
-      url: href ? BASE + decode(href) : null,
+      // Seulement un chemin du site officiel (« /… ») : « @autre-site » ou « //autre-site » changeraient d'hôte.
+      url: href && /^\/[^/@\\]/.test(decode(href)) ? BASE + decode(href) : null,
     };
   });
 }

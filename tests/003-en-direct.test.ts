@@ -45,6 +45,13 @@ describe('003 — Épreuves en direct (programme officiel)', () => {
     expect([handball.disc, handball.site, handball.event]).toEqual(['Handball de plage', 'Saly', 'finale filles, pour le bronze #23']);
   });
 
+  it('003-AS8: a link that would leave the official site is dropped', () => {
+    const piege = PAGE.replace(/href="\/hide\/[^"]*"/, 'href="@site-pirate.example/x"');
+    const [lien] = parseSchedule(piege);
+    expect(lien.url).toBeNull();
+    expect(parseSchedule(PAGE)[1].url).toMatch(/^https:\/\/webresult\.apps\.dakar2026\.org\/hide\//);
+  });
+
   it('003-AS6: /api/live answers the live events, cached one minute', async () => {
     vi.stubGlobal('fetch', vi.fn(async () => new Response(withStatus('Running'))));
     const res = fakeResponse();
