@@ -3,7 +3,7 @@
   "name": "Wikipédia",
   "url": "https://en.wikipedia.org/wiki/2026_Summer_Youth_Olympics",
   "license": "CC BY-SA 4.0",
-  "fetchedAt": "2026-11-11T21:29:14.196Z"
+  "fetchedAt": "2026-11-12T14:17:05.281Z"
  },
  "sites": [
   "Dakar",
@@ -4462,6 +4462,231 @@
    ]
   },
   {
+   "id": "boxing-m-50-kg",
+   "disc": "Boxe",
+   "name": "50 kg garçons",
+   "site": "Diamniadio",
+   "venue": "Centre des expositions, pavillon C",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Boxing_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "12 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 12 nov.",
+     "pod": [
+      {
+       "n": "Ambekar Lairenlakpam",
+       "c": "IND",
+       "perf": "",
+       "m": 1
+      },
+      {
+       "n": "Kristian Jubani",
+       "c": "IRL",
+       "perf": "",
+       "m": 2
+      },
+      {
+       "n": "Alan Ocampo",
+       "c": "MEX",
+       "perf": "",
+       "m": 3
+      },
+      {
+       "n": "Izzon Galea",
+       "c": "COL",
+       "perf": "",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "boxing-m-60-kg",
+   "disc": "Boxe",
+   "name": "60 kg garçons",
+   "site": "Diamniadio",
+   "venue": "Centre des expositions, pavillon C",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Boxing_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "12 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 12 nov.",
+     "pod": [
+      {
+       "n": "Jesfred Torres",
+       "c": "PUR",
+       "perf": "",
+       "m": 1
+      },
+      {
+       "n": "Siwa Chainarong",
+       "c": "THA",
+       "perf": "",
+       "m": 2
+      },
+      {
+       "n": "Muhammet Arlı",
+       "c": "TUR",
+       "perf": "",
+       "m": 3
+      },
+      {
+       "n": "Zhang Zhengkun",
+       "c": "CHN",
+       "perf": "",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "boxing-m-70-kg",
+   "disc": "Boxe",
+   "name": "70 kg garçons",
+   "site": "Diamniadio",
+   "venue": "Centre des expositions, pavillon C",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Boxing_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "12 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 12 nov.",
+     "pod": [
+      {
+       "n": "Michael Maughan",
+       "c": "GBR",
+       "perf": "",
+       "m": 1
+      },
+      {
+       "n": "Bibarys Ashirbay",
+       "c": "KAZ",
+       "perf": "",
+       "m": 2
+      },
+      {
+       "n": "Jorge Nieblas",
+       "c": "MEX",
+       "perf": "",
+       "m": 3
+      },
+      {
+       "n": "Mohamed Moaaz",
+       "c": "UAE",
+       "perf": "",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "boxing-w-51-kg",
+   "disc": "Boxe",
+   "name": "51 kg filles",
+   "site": "Diamniadio",
+   "venue": "Centre des expositions, pavillon C",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Boxing_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "12 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 12 nov.",
+     "pod": [
+      {
+       "n": "Grenyelis García",
+       "c": "VEN",
+       "perf": "",
+       "m": 1
+      },
+      {
+       "n": "Gular Huseynova",
+       "c": "AZE",
+       "perf": "",
+       "m": 2
+      },
+      {
+       "n": "Cerine Kessal",
+       "c": "ALG",
+       "perf": "",
+       "m": 3
+      },
+      {
+       "n": "Mehreen Khakh",
+       "c": "CAN",
+       "perf": "",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "boxing-w-57-kg",
+   "disc": "Boxe",
+   "name": "57 kg filles",
+   "site": "Diamniadio",
+   "venue": "Centre des expositions, pavillon C",
+   "time": "",
+   "url": "https://en.wikipedia.org/wiki/Boxing_at_the_2026_Summer_Youth_Olympics",
+   "status": "off",
+   "versions": [
+    {
+     "v": 1,
+     "at": "12 nov.",
+     "by": "Wikipédia",
+     "motif": null,
+     "valid": "Source Wikipédia · 12 nov.",
+     "pod": [
+      {
+       "n": "Sara Campos",
+       "c": "BRA",
+       "perf": "",
+       "m": 1
+      },
+      {
+       "n": "Aknur Tursyngali",
+       "c": "KAZ",
+       "perf": "",
+       "m": 2
+      },
+      {
+       "n": "Zsófia Kiss",
+       "c": "HUN",
+       "perf": "",
+       "m": 3
+      },
+      {
+       "n": "Yevanhelina Petruk",
+       "c": "UKR",
+       "perf": "",
+       "m": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
    "id": "wushu-m-men-s-changquan-combined",
    "disc": "Wushu",
    "name": "Changquan combined garçons",
@@ -5829,7 +6054,27 @@
    "site": "Diamniadio",
    "venue": "Dakar Arena",
    "time": "",
-   "url": "https://en.wikipedia.org/wiki/Futsal_at_the_2026_Summer_Youth_Olympics"
+   "url": "https://en.wikipedia.org/wiki/Futsal_at_the_2026_Summer_Youth_Olympics",
+   "pod": [
+    {
+     "n": "Maroc",
+     "c": "MAR",
+     "perf": "",
+     "team": [
+      "Alae Aït Challa",
+      "Mohamed Bamhamed",
+      "Hamza El Ahmadi",
+      "Youssef Haddou Ouali",
+      "Brahim Houdane",
+      "Hamza Iissi",
+      "Mohammed Karouk El Bahi",
+      "Zakariya Sarghine",
+      "Mohammed Serrar",
+      "Mohamed Touil"
+     ],
+     "m": 3
+    }
+   ]
   },
   {
    "id": "fencing-m-men-s-sabre",
@@ -5850,55 +6095,23 @@
    "url": "https://en.wikipedia.org/wiki/Fencing_at_the_2026_Summer_Youth_Olympics"
   },
   {
-   "id": "boxing-m-50-kg",
-   "disc": "Boxe",
-   "name": "50 kg garçons",
-   "site": "Diamniadio",
-   "venue": "Centre des expositions, pavillon C",
-   "time": "",
-   "url": "https://en.wikipedia.org/wiki/Boxing_at_the_2026_Summer_Youth_Olympics",
-   "pod": [
-    {
-     "n": "Alan Ocampo",
-     "c": "MEX",
-     "perf": "",
-     "m": 3
-    },
-    {
-     "n": "Izzon Galea",
-     "c": "COL",
-     "perf": "",
-     "m": 3
-    }
-   ]
-  },
-  {
    "id": "boxing-m-55-kg",
    "disc": "Boxe",
    "name": "55 kg garçons",
    "site": "Diamniadio",
    "venue": "Centre des expositions, pavillon C",
    "time": "",
-   "url": "https://en.wikipedia.org/wiki/Boxing_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "boxing-m-60-kg",
-   "disc": "Boxe",
-   "name": "60 kg garçons",
-   "site": "Diamniadio",
-   "venue": "Centre des expositions, pavillon C",
-   "time": "",
    "url": "https://en.wikipedia.org/wiki/Boxing_at_the_2026_Summer_Youth_Olympics",
    "pod": [
     {
-     "n": "Muhammet Arlı",
-     "c": "TUR",
+     "n": "Zaheer Changazi",
+     "c": "SWE",
      "perf": "",
      "m": 3
     },
     {
-     "n": "Zhang Zhengkun",
-     "c": "CHN",
+     "n": "Lisandro Garcia",
+     "c": "CAN",
      "perf": "",
      "m": 3
     }
@@ -5911,26 +6124,17 @@
    "site": "Diamniadio",
    "venue": "Centre des expositions, pavillon C",
    "time": "",
-   "url": "https://en.wikipedia.org/wiki/Boxing_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "boxing-m-70-kg",
-   "disc": "Boxe",
-   "name": "70 kg garçons",
-   "site": "Diamniadio",
-   "venue": "Centre des expositions, pavillon C",
-   "time": "",
    "url": "https://en.wikipedia.org/wiki/Boxing_at_the_2026_Summer_Youth_Olympics",
    "pod": [
     {
-     "n": "Jorge Nieblas",
-     "c": "MEX",
+     "n": "Suren Katvalyan",
+     "c": "ARM",
      "perf": "",
      "m": 3
     },
     {
-     "n": "Mohamed Moaaz",
-     "c": "UAE",
+     "n": "Pablo Souto",
+     "c": "ESP",
      "perf": "",
      "m": 3
     }
@@ -5943,26 +6147,17 @@
    "site": "Diamniadio",
    "venue": "Centre des expositions, pavillon C",
    "time": "",
-   "url": "https://en.wikipedia.org/wiki/Boxing_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "boxing-w-51-kg",
-   "disc": "Boxe",
-   "name": "51 kg filles",
-   "site": "Diamniadio",
-   "venue": "Centre des expositions, pavillon C",
-   "time": "",
    "url": "https://en.wikipedia.org/wiki/Boxing_at_the_2026_Summer_Youth_Olympics",
    "pod": [
     {
-     "n": "Cerine Kessal",
-     "c": "ALG",
+     "n": "Michela Guglielmon",
+     "c": "ITA",
      "perf": "",
      "m": 3
     },
     {
-     "n": "Mehreen Khakh",
-     "c": "CAN",
+     "n": "Lily Bassett",
+     "c": "GBR",
      "perf": "",
      "m": 3
     }
@@ -5975,26 +6170,17 @@
    "site": "Diamniadio",
    "venue": "Centre des expositions, pavillon C",
    "time": "",
-   "url": "https://en.wikipedia.org/wiki/Boxing_at_the_2026_Summer_Youth_Olympics"
-  },
-  {
-   "id": "boxing-w-57-kg",
-   "disc": "Boxe",
-   "name": "57 kg filles",
-   "site": "Diamniadio",
-   "venue": "Centre des expositions, pavillon C",
-   "time": "",
    "url": "https://en.wikipedia.org/wiki/Boxing_at_the_2026_Summer_Youth_Olympics",
    "pod": [
     {
-     "n": "Zsófia Kiss",
-     "c": "HUN",
+     "n": "Yura Kanemaru",
+     "c": "JPN",
      "perf": "",
      "m": 3
     },
     {
-     "n": "Yevanhelina Petruk",
-     "c": "UKR",
+     "n": "Maral Tolepbergen",
+     "c": "KAZ",
      "perf": "",
      "m": 3
     }
@@ -6007,7 +6193,21 @@
    "site": "Diamniadio",
    "venue": "Centre des expositions, pavillon C",
    "time": "",
-   "url": "https://en.wikipedia.org/wiki/Boxing_at_the_2026_Summer_Youth_Olympics"
+   "url": "https://en.wikipedia.org/wiki/Boxing_at_the_2026_Summer_Youth_Olympics",
+   "pod": [
+    {
+     "n": "Ayano Mochii",
+     "c": "JPN",
+     "perf": "",
+     "m": 3
+    },
+    {
+     "n": "Menatalla Ibrahim",
+     "c": "EGY",
+     "perf": "",
+     "m": 3
+    }
+   ]
   },
   {
    "id": "beach-handball-m-men",
