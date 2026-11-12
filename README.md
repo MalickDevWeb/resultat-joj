@@ -1,57 +1,59 @@
-# Podium Dakar 2026 — résultats JOJ (PWA)
+# Podium Dakar 2026 — résultats des JOJ, en français, sur mobile
 
-Ce projet est un socle minimaliste et prêt à l'emploi configuré avec **Vite**, **React**, et **vite-plugin-pwa**.
+**Le problème et pour qui** : pendant les JOJ Dakar 2026, un supporter ou un journaliste doit passer d'une source à l'autre pour savoir qui a gagné, où en est son pays et ce qui se joue maintenant ; Podium Dakar rassemble seul les vrais résultats, le tableau des médailles et les épreuves en direct.
+**Lancer** : `npm install` puis `npm run dev` (http://localhost:5173) ; `npm run check` pour les types, les 24 tests et le build. En ligne : https://resultat-joj-jugu.vercel.app
+**Ce qui manque** : le résumé de la journée rédigé par Claude pour les journalistes (TR5), de vrais comptes de chefs de site, et le partage entre appareils des podiums saisis.
 
-## 📦 Ce qui est inclus
+---
 
-- **Vite + React 19 + TypeScript**
-- **Configuration PWA complète** :
-  - `public/manifest.json` : Déclaration de l'application (standalone, icônes 192px et 512px, thème).
-  - `src/sw.ts` : Service Worker avec Workbox (pré-caching automatique, cache statique et navigation).
-  - `vite.config.ts` : Plugin `vite-plugin-pwa` avec stratégie `injectManifest`.
-  - `src/hooks/usePWAInstall.ts` : Hook pour gérer l'installation PWA et la compatibilité iOS.
-- **Sauvegarde** : Les fichiers d'origine de l'application UNFPA ont été archivés dans `backup_unfpa_original.tar.gz`.
+## Ce que fait l'application
 
-## 🚀 Démarrage
+- **Résultats réels** des 25 sports, lus sur Wikipédia : podium complet = officiel, sinon « à venir ».
+- **Tableau des médailles**, celui de Wikipédia, corrigé des podiums saisis dans l'application.
+- **En direct** : les épreuves en cours, lues chaque minute sur le programme officiel des Jeux, avec score et lieu.
+- **Toujours à jour, sans redéployer** : chaque navigateur relit Wikipédia toutes les 6 heures ; si rien ne répond, les derniers résultats restent.
+- **Chef de site** : publier un podium (provisoire), le faire valider (officiel), le rectifier avec un motif (l'ancienne version reste visible).
+- **PWA** : installable, en français, utilisable hors connexion.
 
-```bash
-# 1. Installer les dépendances
-npm install
+Compte de démonstration du chef de site : `admin123joj@gmail.com` / `joj1234` (vérifié dans le navigateur, ce n'est pas une vraie sécurité).
 
-# 2. Lancer le serveur de développement
-npm run dev
+## Comment c'est construit
 
-# 3. Compiler pour la production
-npm run build
+Le produit est décrit dans [`specs/prd-podium-dakar.md`](specs/prd-podium-dakar.md), découpé en tranches. Chaque tranche réalisée a sa spec, et chaque scénario de la spec a son test, dont le titre commence par l'identifiant du scénario (`001-AS3`, `003-AS1`…).
+
+| Tranche | Spec | Tests | Code |
+| --- | --- | --- | --- |
+| TR1 Résultats réels | [`001-resultats-wikipedia`](specs/001-resultats-wikipedia/spec.md) | `tests/001-*.test.ts` | `src/wikipedia.mjs` |
+| TR2 Tableau des médailles | [`002-tableau-medailles`](specs/002-tableau-medailles/spec.md) | `tests/002-*.test.ts` | `medalTable` dans `src/data.ts` |
+| TR3 En direct | [`003-en-direct`](specs/003-en-direct/spec.md) | `tests/003-*.test.ts` | `api/live.js`, `src/hooks/useLive.ts` |
+| TR4 Mise à jour sans perte | [`004-mise-a-jour`](specs/004-mise-a-jour/spec.md) | `tests/004-*.test.ts` | `src/hooks/usePodiumStore.ts` |
+
+Les tests n'appellent jamais le réseau : Wikipédia et le site officiel sont remplacés par de fausses réponses, dont un extrait réel du programme officiel (`tests/fixtures/`).
+
+## Commandes
+
+| Commande | Effet |
+| --- | --- |
+| `npm run dev` | serveur de développement (sert aussi `/api/live`) |
+| `npm test` | les tests (Vitest) |
+| `npm run check` | types, tests et build : tout doit être vert avant un commit |
+| `npm run import:wiki` | enregistre une copie des résultats dans `src/resultats.json` (lancé avant `dev` et `build`) |
+
+## Structure
+
+```
+api/live.js                 fonction Vercel : épreuves en cours, lues sur le programme officiel
+src/wikipedia.mjs           lecture de Wikipédia (navigateur et script)
+src/data.ts                 types, tableau des médailles
+src/hooks/usePodiumStore.ts données des podiums, mise à jour toutes les 6 h
+src/hooks/useLive.ts        épreuves en direct, rafraîchies chaque minute
+src/components/             écrans
+scripts/import-wikipedia.mjs copie de secours des résultats
+specs/                      PRD et specs
+tests/                      un fichier de tests par spec
 ```
 
-## 🏟️ Résultats réels (Wikipédia)
+## Sources des données
 
-Les résultats viennent de Wikipédia (pages « <Sport> at the 2026 Summer Youth Olympics », licence CC BY-SA 4.0) :
-
-```bash
-npm run import:wiki   # met à jour src/resultats.json, puis npm run build
-```
-
-- 25 sports, 151 épreuves : podiums renseignés = « Officiel », les autres = « À venir ».
-- Sites et lieux réels (Dakar, Diamniadio, Saly), noms de pays en français, ex aequo et doubles bronzes gérés.
-- Un nouvel import remplace les données, mais garde les podiums publiés ou rectifiés par un chef de site.
-- Wikipédia ne donne ni les heures ni les épreuves en cours : rien n'est affiché « en direct ».
-
-## 🎮 Démo
-
-Tout fonctionne hors ligne, les données sont stockées dans le navigateur (`localStorage`).
-
-- **Public** : résultats par site, détail des podiums, historique des versions, tableau des médailles.
-- **Chef de site** : `admin123joj@gmail.com` / `joj1234` (compte de démo, vérifié côté client).
-  - Publier un podium (provisoire) → Valider (officiel) → Rectifier avec motif (nouvelle version, l'ancienne reste visible).
-  - « Réinitialiser la démo » restaure les données de départ.
-
-## 🏅 Logos officiels JOJ
-
-Déposez les fichiers officiels ici (sinon un logo texte de secours s'affiche) :
-
-- `public/brand/joj-logo.png` : logo JOJ Dakar 2026 (PNG à fond transparent)
-- `public/brand/hero.jpg` : photo de fond de l'accueil (paysage, ~1920×1280)
-
-> Node 18+ suffit pour le build ; Node 20+ recommandé.
+- Résultats et médailles : [Wikipédia](https://en.wikipedia.org/wiki/2026_Summer_Youth_Olympics), licence CC BY-SA 4.0 (attribution affichée dans l'application).
+- Épreuves en cours : [résultats officiels Dakar 2026](https://webresult.apps.dakar2026.org/hide/en/).
