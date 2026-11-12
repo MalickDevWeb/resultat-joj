@@ -7,10 +7,24 @@ interface Resume {
   jour: string;
   titre: string;
   paragraphes: string[];
-  epreuves: { id: string; disc: string; event: string; podium: { m: number; c: string; n: string }[] }[];
+  epreuves: { id: string; disc: string; event: string; podium: Medaille[] }[];
+}
+
+/** Un médaillé du site officiel ; une équipe porte le nom anglais de son pays. */
+interface Medaille {
+  m: number;
+  c: string;
+  n: string;
+  equipe?: boolean;
 }
 
 const MEDAILLE = ['', '🥇', '🥈', '🥉'];
+
+/** « 🥇 Grenyelis Garcia (Venezuela) », ou pour une équipe « 🥇 Ukraine », en français. */
+export const medailleLisible = (p: Medaille) => {
+  const pays = NOC[p.c] ?? p.c;
+  return `${MEDAILLE[p.m] ?? ''} ${p.equipe ? pays : `${p.n} (${pays})`}`.trim();
+};
 const ERREUR_RESEAU: ApiError = { status: 0, code: 'RESEAU', msg: 'Impossible de joindre le serveur. Vérifiez votre connexion, puis rouvrez le résumé.' };
 
 const DEBUT = '2026-10-31';
@@ -108,7 +122,7 @@ export function DaySummary() {
             {resume.epreuves.map((e) => (
               <div key={e.id} className="ev">
                 <strong>{e.disc} · {e.event}</strong>
-                <small>{e.podium.map((p) => `${MEDAILLE[p.m] ?? ''} ${p.n} (${NOC[p.c] ?? p.c})`).join(' · ')}</small>
+                <small>{e.podium.map(medailleLisible).join(' · ')}</small>
               </div>
             ))}
             <div className="ev"><small>Rédigé par Claude à partir des résultats officiels de Dakar 2026. À vérifier avant publication.</small></div>

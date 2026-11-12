@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it, vi } from 'vitest';
 import { creerGestionnaire, finalesDuJour, type Finale, type Redaction } from '../api/resume.js';
-import { joursAEssayer } from '../src/components/DaySummary';
+import { joursAEssayer, medailleLisible } from '../src/components/DaySummary';
 
 /** Extrait réel du programme officiel du 11 novembre : deux finales avec médaillés, un assaut de poule sans médaille. */
 const FINALES = readFileSync(new URL('./fixtures/finales-du-jour.html', import.meta.url), 'utf8');
@@ -45,10 +45,12 @@ describe('005 — Résumé de la journée rédigé par Claude', () => {
     expect(r.json.paragraphes).toHaveLength(2);
     expect(r.json.epreuves.map((e: Finale) => e.id)).toEqual([EPEE, FUTSAL]);
     expect(r.json.epreuves[0].podium).toEqual([
-      { m: 1, c: 'CAN', n: 'SHAN Simon' },
-      { m: 2, c: 'SRB', n: 'RADJENOVIC Vukan' },
-      { m: 3, c: 'BEL', n: 'van LAECKE Wout' },
+      { m: 1, c: 'CAN', n: 'Simon Shan' },
+      { m: 2, c: 'SRB', n: 'Vukan Radjenovic' },
+      { m: 3, c: 'BEL', n: 'Wout van Laecke' },
     ]);
+    // Une équipe porte le nom anglais de son pays : l'écran affiche alors le nom français du pays.
+    expect(r.json.epreuves[1].podium[0]).toEqual({ m: 1, c: 'UKR', n: 'Ukraine', equipe: true });
   });
 
   it('005-AS2: a day without any podium answers 404 and Claude is not called', async () => {
@@ -193,6 +195,11 @@ describe('005 — Résumé de la journée rédigé par Claude', () => {
     expect((await appeler(gerer, '/api/resume?jour=2026-11-11')).status).toBe(503);
     expect((await appeler(gerer, '/api/resume?jour=2026-11-11')).status).toBe(503);
     expect(lireProgramme).toHaveBeenCalledTimes(1);
+  });
+
+  it('005-AS12: a medallist reads « Prénom Nom (Pays) », a team reads its country, in French', () => {
+    expect(medailleLisible({ m: 1, c: 'VEN', n: 'Grenyelis Garcia' })).toBe('🥇 Grenyelis Garcia (Venezuela)');
+    expect(medailleLisible({ m: 3, c: 'IRI', n: 'Islamic Republic of Iran', equipe: true })).toBe('🥉 Iran');
   });
 
   it('005-AS8: the writer only receives the official finals of the day', async () => {

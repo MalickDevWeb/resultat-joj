@@ -66,6 +66,10 @@ Le journaliste qui écrit à 18 h doit résumer les finales du jour à partir de
 - **Quand** Claude ou le site officiel échoue
 - **Alors** le visiteur reçoit la phrase claire ; la cause (type d'erreur, statut, message court, clé masquée) est notée dans les journaux privés de Vercel
 
+### AS12 — Les médaillés s'écrivent en français
+
+- **Alors** un médaillé s'écrit « Prénom Nom (Pays) », une équipe par le nom français de son pays
+
 ## Hors périmètre
 
 - Choisir le ton ou la longueur du résumé, le traduire, l'envoyer par e-mail.

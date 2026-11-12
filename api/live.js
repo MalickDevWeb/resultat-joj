@@ -66,12 +66,49 @@ const siteOf = (venue) =>
 
 const RANG = { gold: 1, silver: 2, bronze: 3 };
 
+/* Le site officiel écrit « NOM Prénom » en capitales : on l'affiche « Prénom Nom ». */
+const PARTICULE = /^(?:van|von|der|den|de|da|di|del|della|des|du|dos|das|le|la|al|el|bin|ben)$/;
+const enCapitales = (mot) => /\p{Lu}/u.test(mot) && mot === mot.toUpperCase() && /\p{L}{2}/u.test(mot);
+const capitaliser = (mot) => mot.toLowerCase().replace(/(^|[-'’])(\p{L})/gu, (_, sep, l) => sep + l.toUpperCase());
+
+/** « GARCIA Grenyelis » → « Grenyelis Garcia » ; un nom sans capitales (une équipe, un pays) reste tel quel. */
+export function nomLisible(brut) {
+  const mots = brut.trim().split(/\s+/);
+  let fin = 0;
+  // Le nom de famille : les mots en capitales du début, avec les particules (« van », « da ») qu'ils encadrent.
+  for (let i = 0; i < mots.length; i++) {
+    if (enCapitales(mots[i])) fin = i + 1;
+    else if (!PARTICULE.test(mots[i])) break;
+  }
+  if (!fin) return brut.trim();
+  const nom = mots.slice(0, fin).map((m) => (PARTICULE.test(m) ? m : capitaliser(m))).join(' ');
+  return [...mots.slice(fin), nom].join(' ');
+}
+
+/** Un nom d'équipe : aucun mot en capitales (le site officiel donne alors le nom anglais du pays). */
+const estEquipe = (brut) => !brut.trim().split(/\s+/).some(enCapitales);
+
+/** « 51kg filles, finale pour l'or #95 » → « 51 kg filles, finale » : sans numéro de match ni mot technique. */
+export function epreuveLisible(texte) {
+  return texte
+    .replace(/\s*#\d+/g, '')
+    .replace(/(\d)kg\b/g, '$1 kg')
+    .replace(/\bfinale((?: (?:garçons|filles|mixte))?),? pour le bronze\b/, 'match pour le bronze$1')
+    .replace(/,? pour l'or\b/, '')
+    .replace(/\s+(?:assaut|combat|match)$/, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
 /** Médaillés officiels d'une épreuve (bloc « medal-content »), dans l'ordre or, argent, bronze. */
 function medaillesDe(h) {
   const bloc = h.split('class="medal-content"')[1];
   if (!bloc) return [];
   return [...bloc.matchAll(/medals\/(gold|silver|bronze)\.png[\s\S]*?svg_flags\/([A-Z]{3})\.svg[\s\S]*?class="sortValue">([^<]*)</g)]
-    .map(([, metal, c, n]) => ({ m: RANG[metal], c, n: decode(n).trim() }));
+    .map(([, metal, c, n]) => {
+      const brut = decode(n).trim();
+      return { m: RANG[metal], c, n: nomLisible(brut), ...(estEquipe(brut) ? { equipe: true } : {}) };
+    });
 }
 
 /** Découpe la page du programme en épreuves. */
@@ -88,7 +125,7 @@ export function parseSchedule(html) {
     const teams = [...h.matchAll(/class="scoredev(Left|Right)([^"]*)">([\s\S]*?)(?=class="(?:separator-score-card|scoredevRight)|<\/a>)/g)]
       .map(([, , cls, t]) => ({
         c: t.match(/svg_flags\/([A-Z]{3})\.svg/)?.[1] ?? '',
-        n: block(t, 'team-name'),
+        n: nomLisible(block(t, 'team-name')),
         score: text(t.match(/class="result-value"[^>]*>([\s\S]*?)(?:<div class="winner-indicator"|$)/)?.[1]),
         ...(/isWinner/.test(cls) ? { win: true } : {}),
       }))
@@ -98,7 +135,7 @@ export function parseSchedule(html) {
       id: href?.split('/').pop() ?? '',
       code,
       disc: SPORT[code] ?? sportEn,
-      event: tr(block(h, 'competition-name')).replace(code === 'FEN' ? /\bcombat\b/g : /$^/, 'assaut'),
+      event: epreuveLisible(tr(block(h, 'competition-name')).replace(code === 'FEN' ? /\bcombat\b/g : /$^/, 'assaut')),
       time: time.padStart(5, '0'),
       at: Number(h.match(/data-time-ticks="(\d+)"/)?.[1]) || null,
       status,

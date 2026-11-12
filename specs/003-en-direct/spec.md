@@ -52,6 +52,10 @@ Wikipédia ne dit pas ce qui se joue en ce moment. Le programme officiel (webres
 - **Quand** /api/live reçoit un paramètre ou une méthode autre que GET
 - **Alors** 400 `PARAMETRE_INCONNU` ou 405 `METHODE_INTERDITE`, sans lire le site officiel : le cache n'est pas contourné
 
+### AS10 — Noms et épreuves lisibles
+
+- **Alors** un athlète s'écrit « Prénom Nom » (« GARCIA Grenyelis » devient « Grenyelis Garcia »), une équipe garde le nom de son pays, et une épreuve perd son numéro de match (« 51kg filles, finale pour l'or #95 » devient « 51 kg filles, finale »)
+
 ## Hors périmètre
 
 - Le direct point par point, les notifications.
