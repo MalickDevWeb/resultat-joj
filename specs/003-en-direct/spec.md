@@ -40,7 +40,7 @@ Wikipédia ne dit pas ce qui se joue en ce moment. Le programme officiel (webres
 ### AS7 — Programme indisponible
 
 - **Quand** le site officiel ne répond pas
-- **Alors** /api/live répond 502 avec « Programme officiel momentanément indisponible. »
+- **Alors** /api/live répond 502, code `PROGRAMME_INDISPONIBLE`, avec « Programme officiel momentanément indisponible. »
 
 ### AS8 — Un lien ne quitte jamais le site officiel
 

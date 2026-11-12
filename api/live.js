@@ -167,6 +167,6 @@ export default async function handler(req, res) {
     res.statusCode = 502;
     res.setHeader('Content-Type', 'application/json; charset=utf-8');
     res.setHeader('Cache-Control', 'public, s-maxage=30');
-    res.end(JSON.stringify({ error: 'Programme officiel momentanément indisponible.' }));
+    res.end(JSON.stringify({ code: 'PROGRAMME_INDISPONIBLE', message: 'Programme officiel momentanément indisponible.' }));
   }
 }

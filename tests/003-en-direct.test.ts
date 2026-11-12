@@ -80,6 +80,6 @@ describe('003 — Épreuves en direct (programme officiel)', () => {
     const res = fakeResponse();
     await handler({ method: 'GET', url: '/api/live' }, res);
     expect(res.statusCode).toBe(502);
-    expect(JSON.parse(res.body)).toEqual({ error: 'Programme officiel momentanément indisponible.' });
+    expect(JSON.parse(res.body)).toEqual({ code: 'PROGRAMME_INDISPONIBLE', message: 'Programme officiel momentanément indisponible.' });
   });
 });
