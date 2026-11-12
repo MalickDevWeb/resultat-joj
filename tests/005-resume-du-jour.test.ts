@@ -161,6 +161,30 @@ describe('005 — Résumé de la journée rédigé par Claude', () => {
     expect(rediger).toHaveBeenCalledTimes(2);
   });
 
+  it('005-AS10: simultaneous requests for the same day share a single call to Claude', async () => {
+    const rediger = vi.fn(async (_f: Finale[]) => {
+      await new Promise((ok) => setTimeout(ok, 30));
+      return redaction([EPEE]);
+    });
+    const { gerer } = monter(FINALES, rediger);
+    const reponses = await Promise.all(Array.from({ length: 20 }, () => appeler(gerer, '/api/resume?jour=2026-11-11')));
+    expect(reponses.every((r) => r.status === 200)).toBe(true);
+    expect(rediger).toHaveBeenCalledTimes(1);
+  });
+
+  it('005-AS10: a day without podium and an unreachable official site are kept 60 s, without re-reading the site', async () => {
+    const sansPodium = monter(SANS_FINALE);
+    await Promise.all([appeler(sansPodium.gerer, '/api/resume?jour=2026-11-11'), appeler(sansPodium.gerer, '/api/resume?jour=2026-11-11')]);
+    await appeler(sansPodium.gerer, '/api/resume?jour=2026-11-11');
+    expect(sansPodium.lireProgramme).toHaveBeenCalledTimes(1);
+
+    const lireProgramme = vi.fn(async (_jour: string): Promise<string> => { throw new Error('site officiel injoignable'); });
+    const gerer = creerGestionnaire({ lireProgramme, rediger: vi.fn(), maintenant: MAINTENANT });
+    expect((await appeler(gerer, '/api/resume?jour=2026-11-11')).status).toBe(503);
+    expect((await appeler(gerer, '/api/resume?jour=2026-11-11')).status).toBe(503);
+    expect(lireProgramme).toHaveBeenCalledTimes(1);
+  });
+
   it('005-AS8: the writer only receives the official finals of the day', async () => {
     const { gerer, rediger } = monter();
     await appeler(gerer, '/api/resume?jour=2026-11-11');

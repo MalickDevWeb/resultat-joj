@@ -88,23 +88,62 @@ function repondre(res: Reponse, statut: number, corps: object, cache = CACHE_ERR
 const erreur = (res: Reponse, statut: number, code: string, message: string) => repondre(res, statut, { code, message });
 
 /** Gestionnaire HTTP, avec ses dépendances injectées (les tests les remplacent par des faux). */
-/** Réponse gardée en mémoire pour un jour, jusqu'à `expire` (en millisecondes). */
-interface Memoire {
-  expire: number;
+/** Réponse d'un jour : statut, corps, en-tête de cache, et combien de temps la garder en mémoire. */
+interface Resultat {
   statut: number;
   corps: object;
   cache: string;
+  duree: number;
 }
 
 const UNE_MINUTE = 60_000;
+const INDISPONIBLE = { code: 'RESUME_INDISPONIBLE', message: 'Le résumé du jour est momentanément indisponible. Réessayez dans quelques minutes.' };
+const echec = (statut: number, corps: object): Resultat => ({ statut, corps, cache: CACHE_ERREUR, duree: UNE_MINUTE });
 
 export function creerGestionnaire({ lireProgramme, rediger, maintenant }: Dependances) {
-  // Un jour n'est rédigé qu'une fois, quelle que soit l'adresse : Vercel nettoie certaines adresses
-  // (« %75 », « & » final) avant la fonction, et ne met pas les erreurs en cache. Sans cette mémoire,
-  // une adresse hors cache ou une panne de Claude déclencherait un nouvel appel payant à chaque visite.
-  const memoire = new Map<string, Memoire>();
-  const retenir = (jour: string, duree: number, statut: number, corps: object, cache: string) =>
-    memoire.set(jour, { expire: maintenant().getTime() + duree, statut, corps, cache });
+  // Un jour n'est lu et rédigé qu'une fois, quelle que soit l'adresse et même en rafale : Vercel nettoie
+  // certaines adresses (« %75 », « & » final) avant la fonction et ne met pas les erreurs en cache. La mémoire
+  // garde la promesse dès le premier appel : les requêtes simultanées l'attendent au lieu d'appeler Claude.
+  const memoire = new Map<string, { expire: number; resultat: Promise<Resultat> }>();
+
+  /** Lit les finales du jour et les fait rédiger ; ne lève jamais d'erreur. */
+  async function produire(jour: string, aujourdhui: string): Promise<Resultat> {
+    let finales: Finale[];
+    try {
+      finales = finalesDuJour(await lireProgramme(versOfficiel(jour)));
+    } catch {
+      return echec(503, INDISPONIBLE);
+    }
+    if (!finales.length) {
+      return echec(404, { code: 'AUCUN_PODIUM', message: 'Aucun podium ce jour-là : il n’y a pas encore de résumé.' });
+    }
+    let redaction: Redaction;
+    try {
+      redaction = await rediger(finales);
+    } catch {
+      return echec(503, INDISPONIBLE);
+    }
+    // Règle de l'application : seules les finales du jour existent, une épreuve inventée est écartée.
+    const parId = new Map(finales.map((f) => [f.id, f]));
+    const epreuves = [...new Set(redaction.epreuves)].flatMap((id) => parId.get(id) ?? []);
+    const passe = jour < aujourdhui;
+    return {
+      statut: 200,
+      corps: { jour, titre: redaction.titre, paragraphes: redaction.paragraphes, epreuves },
+      cache: passe ? 'public, s-maxage=86400, stale-while-revalidate=3600' : 'public, s-maxage=1800, stale-while-revalidate=600',
+      duree: passe ? 24 * 60 * UNE_MINUTE : 30 * UNE_MINUTE,
+    };
+  }
+
+  /** Le résultat du jour : celui en mémoire s'il est encore valable (ou en cours), sinon un nouveau. */
+  function resultatDu(jour: string, aujourdhui: string): Promise<Resultat> {
+    const deja = memoire.get(jour);
+    if (deja && deja.expire > maintenant().getTime()) return deja.resultat;
+    const entree = { expire: Number.POSITIVE_INFINITY, resultat: produire(jour, aujourdhui) };
+    memoire.set(jour, entree);
+    void entree.resultat.then((r) => { entree.expire = maintenant().getTime() + r.duree; });
+    return entree.resultat;
+  }
 
   return async (req: Requete, res: Reponse) => {
     if (req.method !== 'GET') {
@@ -123,39 +162,8 @@ export function creerGestionnaire({ lireProgramme, rediger, maintenant }: Depend
     if (!jour) {
       return erreur(res, 400, 'JOUR_INVALIDE', 'Choisissez un jour des Jeux, du 31 octobre au 13 novembre 2026, déjà commencé.');
     }
-
-    const deja = memoire.get(jour);
-    if (deja && deja.expire > maintenant().getTime()) return repondre(res, deja.statut, deja.corps, deja.cache);
-
-    let finales: Finale[];
-    try {
-      finales = finalesDuJour(await lireProgramme(versOfficiel(jour)));
-    } catch {
-      return erreur(res, 503, 'RESUME_INDISPONIBLE', 'Le résumé du jour est momentanément indisponible. Réessayez dans quelques minutes.');
-    }
-    if (!finales.length) {
-      return erreur(res, 404, 'AUCUN_PODIUM', 'Aucun podium ce jour-là : il n’y a pas encore de résumé.');
-    }
-
-    let redaction: Redaction;
-    try {
-      redaction = await rediger(finales);
-    } catch {
-      const corps = { code: 'RESUME_INDISPONIBLE', message: 'Le résumé du jour est momentanément indisponible. Réessayez dans quelques minutes.' };
-      retenir(jour, UNE_MINUTE, 503, corps, CACHE_ERREUR);
-      return repondre(res, 503, corps);
-    }
-
-    // Règle de l'application : seules les finales du jour existent, une épreuve inventée est écartée.
-    const parId = new Map(finales.map((f) => [f.id, f]));
-    const epreuves = [...new Set(redaction.epreuves)].flatMap((id) => parId.get(id) ?? []);
-    const passe = jour < aujourdhui;
-    const cache = passe
-      ? 'public, s-maxage=86400, stale-while-revalidate=3600'
-      : 'public, s-maxage=1800, stale-while-revalidate=600';
-    const corps = { jour, titre: redaction.titre, paragraphes: redaction.paragraphes, epreuves };
-    retenir(jour, passe ? 24 * 60 * UNE_MINUTE : 30 * UNE_MINUTE, 200, corps, cache);
-    return repondre(res, 200, corps, cache);
+    const { statut, corps, cache } = await resultatDu(jour, aujourdhui);
+    return repondre(res, statut, corps, cache);
   };
 }
 
