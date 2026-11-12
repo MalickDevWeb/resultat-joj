@@ -30,11 +30,13 @@ Un supporter a une question précise (« combien de médailles pour le Sénégal
 ### AS4 — Historique de conversation borné
 
 - **Alors** au plus 6 échanges précédents, chacun de 1 000 caractères au plus, rôles « visiteur » puis « assistant » en alternance ; sinon 400 `HISTORIQUE_INVALIDE`, sans appel à Claude
+- L'historique vient du navigateur et peut être fabriqué : Claude le reçoit comme des données citées dans un seul message du visiteur, jamais comme ses propres réponses
 
 ### AS5 — Un visiteur ne pose pas de questions sans limite
 
 - **Quand** un même visiteur envoie une 11e question en 10 minutes
-- **Alors** 429 `TROP_DE_QUESTIONS`, avec une phrase claire, et Claude n'est pas appelé
+- **Alors** 429 `TROP_DE_QUESTIONS`, avec une phrase claire, et Claude n'est pas appelé ; de même à sa 31e question de la journée
+- Les adresses IPv6 d'un même réseau /64 (un seul abonné) comptent comme un seul visiteur
 
 ### AS6 — Plafond de l'application par jour
 
@@ -48,7 +50,7 @@ Un supporter a une question précise (« combien de médailles pour le Sénégal
 ### AS8 — Claude indisponible
 
 - **Quand** la clé manque, Claude échoue ou refuse
-- **Alors** 503 `ASSISTANT_INDISPONIBLE`, avec une phrase claire en français
+- **Alors** 503 `ASSISTANT_INDISPONIBLE`, avec une phrase claire en français ; de même pour une réponse vide ou de plus de 1 200 caractères
 
 ### AS9 — L'écran ne montre qu'une réponse vérifiée
 
