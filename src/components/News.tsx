@@ -63,7 +63,7 @@ export const HERO_ARTICLES: Record<string, ArticleActu> = {
     categorieType: 'une',
     date: 'Il y a 1h',
     tempsLecture: '3 min',
-    image: '/brand/actu-hero-full.webp',
+    image: '/brand/actu-ceremonie.webp',
     phrasesVocales: [
       'JOJ Dakar 2026 : la cérémonie d’ouverture éblouit le monde !',
       'Une soirée inoubliable au Stade Abdoulaye-Wade de Diamniadio, marquée par la culture sénégalaise et l’esprit olympique.',
@@ -155,7 +155,7 @@ export const HERO_ARTICLES: Record<string, ArticleActu> = {
     categorieType: 'une',
     date: 'Mise à jour 17h',
     tempsLecture: '2 min',
-    image: '/brand/actu-hero-full.webp',
+    image: '/brand/actu-ceremonie.webp',
     phrasesVocales: [
       'Découvrez la galerie photo officielle des Jeux Olympiques de la Jeunesse Dakar 2026.',
       'Revivez en images les victoires, la ferveur populaire et l’énergie contagieuse d’Ayo la mascotte.',
@@ -478,7 +478,7 @@ export const ARTICLES_LIST: ArticleActu[] = [
     categorieType: 'evenement',
     date: '10h00 · Diamniadio',
     tempsLecture: '2 min',
-    image: '/brand/actu-hero-bg.webp',
+    image: '/brand/actu-ceremonie-defile.webp',
     phrasesVocales: [
       'Les épreuves de sabre individuel se déroulent au Pavillon A du Centre des expositions.',
       'Les meilleures lames de la jeunesse mondiale en lice pour le titre olympique.',
@@ -1073,20 +1073,20 @@ function ArticleDetailPage({
         {/* 5. Galerie 4 vignettes */}
         <div className="actu-detail-gallery" aria-label="Galerie photos">
           <div className="actu-thumb-box">
-            <img src="/brand/actu-thumb-1.webp" alt="Stade Iba Mar Diop" loading="lazy" />
+            <img src="/brand/actu-galerie-1.webp" alt="Stade Iba Mar Diop" loading="lazy" />
             <span className="actu-thumb-badge" aria-hidden="true">
               <ImageIcon size={12} strokeWidth={2.4} />
               <span>+8</span>
             </span>
           </div>
           <div className="actu-thumb-box">
-            <img src="/brand/actu-thumb-2.webp" alt="Course d'athlétisme" loading="lazy" />
+            <img src="/brand/actu-galerie-2.webp" alt="Course d'athlétisme" loading="lazy" />
           </div>
           <div className="actu-thumb-box">
-            <img src="/brand/actu-thumb-3.webp" alt="Drapeau du Sénégal" loading="lazy" />
+            <img src="/brand/actu-galerie-3.webp" alt="Drapeau du Sénégal" loading="lazy" />
           </div>
           <div className="actu-thumb-box">
-            <img src="/brand/actu-thumb-4.webp" alt="Supporters sénégalais" loading="lazy" />
+            <img src="/brand/actu-galerie-4.webp" alt="Supporters sénégalais" loading="lazy" />
           </div>
         </div>
 
