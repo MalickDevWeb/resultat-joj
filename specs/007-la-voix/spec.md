@@ -49,7 +49,8 @@ Au stade, le supporter a une main prise et peu de temps : taper « Sénégal lut
 ## Tâches
 
 - [ ] T01 [007-AS1…AS7] (ux-design) Écrire `design/007-la-voix.md`
-- [ ] T02 [007-AS1…AS7] (frontend) Écrire d'abord `tests/007-la-voix.test.ts` (règles pures : transcription, phrases d'erreur, disponibilité, en-tête), puis le micro et « Écouter », d'après la note de design ; `vercel.json` pour AS7
+- [ ] T02 [007-AS7] (backend) Écrire d'abord le test de l'en-tête dans `tests/007-la-voix.test.ts`, puis `microphone=(self)` dans `vercel.json`
+- [ ] T03 [007-AS1…AS6] (frontend) Écrire d'abord les tests des règles pures (transcription, phrases d'erreur, disponibilité) dans `tests/007-la-voix.test.ts`, puis le micro et « Écouter », d'après la note de design
 
 ## Hors périmètre
 
