@@ -30,13 +30,14 @@ Un supporter a une question précise (« combien de médailles pour le Sénégal
 ### AS4 — Historique de conversation borné
 
 - **Alors** au plus 6 échanges précédents, chacun de 1 000 caractères au plus, rôles « visiteur » puis « assistant » en alternance ; sinon 400 `HISTORIQUE_INVALIDE`, sans appel à Claude
-- L'historique vient du navigateur et peut être fabriqué : Claude le reçoit comme des données citées dans un seul message du visiteur, jamais comme ses propres réponses
+- L'historique vient du navigateur et peut être fabriqué : Claude le reçoit comme des données citées dans un seul message du visiteur, jamais comme ses propres réponses, et un visiteur ne peut pas fermer la citation
 
 ### AS5 — Un visiteur ne pose pas de questions sans limite
 
 - **Quand** un même visiteur envoie une 11e question en 10 minutes
 - **Alors** 429 `TROP_DE_QUESTIONS`, avec une phrase claire, et Claude n'est pas appelé ; de même à sa 31e question de la journée
-- Les adresses IPv6 d'un même réseau /64 (un seul abonné) comptent comme un seul visiteur
+- Les adresses IPv6 d'un même réseau /56 (un seul abonné) comptent comme un seul visiteur ; une adresse IPv4 écrite en IPv6 reste une adresse IPv4
+- Un refus pour le reste de la journée indique de revenir après minuit à Dakar (`Retry-After`)
 
 ### AS6 — Plafond de l'application par jour
 
@@ -45,7 +46,7 @@ Un supporter a une question précise (« combien de médailles pour le Sénégal
 
 ### AS7 — Seule une question bien formée est acceptée
 
-- **Alors** 405 `METHODE_INTERDITE` pour une autre méthode que POST ; 400 `REQUETE_INVALIDE` pour un paramètre dans l'adresse, un corps qui n'est pas du JSON ou un champ inconnu
+- **Alors** 405 `METHODE_INTERDITE` pour une autre méthode que POST ; 400 `REQUETE_INVALIDE` pour un paramètre dans l'adresse, un corps vide ou qui n'est pas du JSON, ou un champ inconnu, de la même façon sur Vercel et en développement
 
 ### AS8 — Claude indisponible
 
@@ -69,3 +70,4 @@ Un supporter a une question précise (« combien de médailles pour le Sénégal
 
 - Hypothèse : le visiteur est reconnu par son adresse IP, et les limites valent par instance du serveur : plusieurs instances simultanées peuvent chacune atteindre la limite.
 - Hypothèse : le modèle est `claude-opus-5-5` à effort faible, avec la mise en cache des données officielles pour réduire le coût.
+- Limite assumée : l'assistant répond avec les résultats du dernier déploiement (chaque push en déclenche un, qui relit Wikipédia), alors que les écrans se mettent à jour seuls toutes les 6 heures.
