@@ -2,7 +2,7 @@ import react from '@vitejs/plugin-react';
 import basicSsl from '@vitejs/plugin-basic-ssl';
 import { VitePWA } from 'vite-plugin-pwa';
 import path from 'path';
-import { defineConfig, type Plugin } from 'vite';
+import { defineConfig, loadEnv, type Plugin } from 'vite';
 
 /** En développement, sert les fonctions Vercel du dossier api/ (/api/live, /api/resume, /api/assistant). */
 const vercelApi = (): Plugin => ({
@@ -19,6 +19,14 @@ const vercelApi = (): Plugin => ({
 });
 
 export default defineConfig(({ mode }) => {
+  // En développement seulement : la clé de l'API Claude peut venir de `.env.local` (ignoré par git),
+  // pour que les fonctions `api/` servies par Vite la trouvent. Sans préfixe VITE_, elle n'est jamais
+  // envoyée au navigateur. En production, elle vient des variables d'environnement de Vercel.
+  if (mode === 'development' && !process.env.ANTHROPIC_API_KEY) {
+    const cle = loadEnv(mode, process.cwd(), '').ANTHROPIC_API_KEY;
+    if (cle) process.env.ANTHROPIC_API_KEY = cle;
+  }
+
   // HTTPS (certificat auto-signé) uniquement sur demande : `HTTPS=1 npm run dev`,
   // utile pour tester sur un téléphone via le réseau local. Sur localhost, HTTP suffit.
   const useHttps = mode === 'development' && process.env.HTTPS === '1';
