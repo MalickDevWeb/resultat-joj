@@ -64,6 +64,16 @@ const siteOf = (venue) =>
   : /expo|diamniadio|dakar arena|abdoulaye|equestr/i.test(venue) ? 'Diamniadio'
   : 'Dakar';
 
+const RANG = { gold: 1, silver: 2, bronze: 3 };
+
+/** Médaillés officiels d'une épreuve (bloc « medal-content »), dans l'ordre or, argent, bronze. */
+function medaillesDe(h) {
+  const bloc = h.split('class="medal-content"')[1];
+  if (!bloc) return [];
+  return [...bloc.matchAll(/medals\/(gold|silver|bronze)\.png[\s\S]*?svg_flags\/([A-Z]{3})\.svg[\s\S]*?class="sortValue">([^<]*)</g)]
+    .map(([, metal, c, n]) => ({ m: RANG[metal], c, n: decode(n).trim() }));
+}
+
 /** Découpe la page du programme en épreuves. */
 export function parseSchedule(html) {
   let lastTime = '';
@@ -97,23 +107,29 @@ export function parseSchedule(html) {
       location: block(h, 'location'),
       site: siteOf(venue),
       teams,
+      medals: medaillesDe(h),
       url: href ? BASE + decode(href) : null,
     };
   });
 }
 
+/** Lit la page du programme d'un jour (JJMMAAAA) sur le site officiel. */
+export async function lireProgramme(jour) {
+  const url = `${BASE}/hide/en/Comp/ScheduleDatePartial?sportCode=---&day=${jour}`;
+  const r = await fetch(url, { headers: { 'User-Agent': UA, Accept: 'text/html' }, signal: AbortSignal.timeout(15000) });
+  if (!r.ok) throw new Error(`HTTP ${r.status}`);
+  return r.text();
+}
+
 /** Date du jour à Dakar (UTC+0) au format du site officiel : JJMMAAAA. */
-const dakarDay = (d = new Date()) => {
+export const dakarDay = (d = new Date()) => {
   const p = new Intl.DateTimeFormat('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric', timeZone: 'Africa/Dakar' }).formatToParts(d);
   const v = (t) => p.find((x) => x.type === t).value;
   return v('day') + v('month') + v('year');
 };
 
 export async function getLive() {
-  const url = `${BASE}/hide/en/Comp/ScheduleDatePartial?sportCode=---&day=${dakarDay()}`;
-  const r = await fetch(url, { headers: { 'User-Agent': UA, Accept: 'text/html' }, signal: AbortSignal.timeout(15000) });
-  if (!r.ok) throw new Error(`HTTP ${r.status}`);
-  const items = parseSchedule(await r.text());
+  const items = parseSchedule(await lireProgramme(dakarDay()));
   const now = Date.now();
   return {
     updatedAt: new Date().toISOString(),

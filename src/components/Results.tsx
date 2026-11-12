@@ -1,5 +1,6 @@
 import { CalendarDays } from 'lucide-react';
 import { ALL_SITES, NOC, SOURCE, SPORTS, at, cur, matches, sportTone, today, type PodiumEvent, type Session } from '../data';
+import { DaySummary } from './DaySummary';
 import { Badge, Scene, SportIcon } from './ui';
 
 interface Props {
@@ -42,6 +43,8 @@ export function Results({ events, pending, site, q, openId, onOpen, importedAt =
           <h2>{today()}</h2>
         </div>
       </div>
+
+      {!q.trim() && <DaySummary />}
 
       {n ? (
         <div className={`sports ${gridCls}`}>
