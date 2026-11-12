@@ -10,6 +10,14 @@ const vercelApi = (): Plugin => ({
   configureServer(server) {
     for (const [route, file] of [['/api/live', '/api/live.js'], ['/api/resume', '/api/resume.ts'], ['/api/assistant', '/api/assistant.ts']]) {
       server.middlewares.use(route, async (req, res) => {
+        // Seulement depuis ce poste : un site tiers qui ferait pointer son nom vers 127.0.0.1 (rebinding DNS)
+        // pourrait sinon utiliser la clé de développement. Vite protège ses pages, pas ces routes ajoutées.
+        const hote = (req.headers.host ?? '').replace(/:\d+$/, '');
+        if (!['localhost', '127.0.0.1', '[::1]'].includes(hote)) {
+          res.statusCode = 403;
+          res.end();
+          return;
+        }
         const { default: handler } = await server.ssrLoadModule(file);
         req.url = req.originalUrl ?? req.url; // garde « /api/resume?jour=… » complet
         await handler(req, res);
