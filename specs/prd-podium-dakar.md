@@ -42,6 +42,10 @@ Toutes les 6 heures, sans redéploiement ; le travail des chefs de site est gard
 
 À partir des finales du jour sur le site officiel ; une journée sans podium n'a pas de résumé, et Claude n'est pas appelé. Pourquoi l'IA : transformer une liste de médaillés en quelques phrases qu'un journaliste peut reprendre.
 
+### TR6 — L'assistant des Jeux, rédigé par Claude (spec 006)
+
+Le visiteur pose une question en français sur les JOJ Dakar 2026 et le Sénégal ; l'assistant répond à partir des vrais résultats de l'application. Règles : il ne parle que des Jeux, et refuse poliment tout autre sujet ; un visiteur ne peut pas envoyer de questions sans limite, et l'application a un plafond par jour. Pourquoi l'IA : comprendre une question libre (« le Sénégal a gagné quoi en lutte ? ») est ce qu'aucun filtre ne fait.
+
 ## Hors périmètre
 
 - Les comptes réels des chefs de site (compte de démonstration), le partage des podiums saisis entre appareils, les notifications, le direct point par point.
