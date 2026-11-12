@@ -36,6 +36,20 @@ Le produit est décrit dans [`specs/prd-podium-dakar.md`](specs/prd-podium-dakar
 
 Les tests n'appellent jamais le réseau ni Claude : Wikipédia, le site officiel et le rédacteur sont remplacés par des faux, dont des extraits réels du programme officiel (`tests/fixtures/`).
 
+## Équipe d'agents Claude Code
+
+Cinq agents, définis dans `.claude/agents/`, construisent chaque tranche, chacun dans son périmètre :
+
+| Agent | Rôle | Seul à modifier |
+| --- | --- | --- |
+| `ux-design` | note de design de l'écran (textes exacts, états, accessibilité) | `design/*.md` |
+| `backend` | fonctions Vercel, lecture des sources, test d'abord | `api/`, `src/wikipedia.mjs`, `scripts/`, `vercel.json` |
+| `frontend` | écrans fidèles au design, test d'abord | `src/components/`, `src/hooks/`, `src/index.css`, `src/sw.ts` |
+| `securite` | audit des failles, avec preuve | rien (lecture seule) |
+| `relecteur` | verdict indépendant sur la spec | rien (lecture seule) |
+
+Celui qui produit ne valide pas. Le déroulé, les garde-fous et l'essai réel de l'équipe sont dans [`docs/equipe-agents.md`](docs/equipe-agents.md) ; `tests/agents.test.ts` vérifie ces garde-fous à chaque `npm run check`.
+
 ## Claude dans l'application
 
 `GET /api/resume?jour=2026-11-11` renvoie le résumé des médailles d'une journée. Claude (`claude-opus-5-5`, réponse JSON validée par un schéma Zod) rédige ; l'application garde les règles :

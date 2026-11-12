@@ -8,6 +8,7 @@ Podium Dakar 2026 : une PWA React + Vite qui affiche les vrais résultats des JO
 - Une nouvelle idée va d'abord dans le PRD ; la spec ne réalise que sa tranche.
 - Un test d'abord, vu en échec, puis le code minimal. Chaque scénario a un test dont le titre commence par son identifiant : `it('003-AS1: an event whose status is "Running" is live')`.
 - Rien n'est fini tant que `npm run check` n'est pas vert (types, tests, build).
+- Le travail se répartit entre les agents de `.claude/agents/` (ux-design, backend, frontend, puis securite et relecteur, qui ne font que lire) : voir `docs/equipe-agents.md`. Celui qui produit ne valide pas.
 
 ## Architecture
 
