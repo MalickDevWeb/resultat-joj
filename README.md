@@ -1,7 +1,7 @@
 # Podium Dakar 2026 — résultats des JOJ, en français, sur mobile
 
 **Le problème et pour qui** : pendant les JOJ Dakar 2026, un supporter ou un journaliste doit passer d'une source à l'autre pour savoir qui a gagné, où en est son pays et ce qui se joue maintenant ; Podium Dakar rassemble seul les vrais résultats, le tableau des médailles et les épreuves en direct.
-**Lancer** : Node 20 ou plus (`nvm use`), `npm install` puis `npm run dev` (http://localhost:5173) ; `npm run check` pour les types, les 38 tests et le build. En ligne : https://resultat-joj-jugu.vercel.app
+**Lancer** : Node 20 ou plus (`nvm use`), `npm install` puis `npm run dev` (http://localhost:5173) ; `npm run check` pour les types, les 51 tests et le build. En ligne : https://resultat-joj-jugu.vercel.app
 **Ce qui manque** : de vrais comptes de chefs de site (un compte de démonstration les remplace), et le partage entre appareils des podiums saisis dans l'application.
 
 ---
