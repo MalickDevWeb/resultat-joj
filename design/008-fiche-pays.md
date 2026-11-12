@@ -33,3 +33,12 @@ Référence : `design/maquette-fiche-pays.png` (« Sénégal à l'honneur »). P
 - **À retenir !** : étoile, les phrases du résumé, le monument à droite, la barre ▶︎ pour l'écouter.
 - **Trois boutons verts** : « Voir ses épreuves », « Voir le programme », « Demander à l'assistant ».
 - **Pied** : vagues vert-jaune-rouge.
+
+## Ajustements « exactement comme la maquette » (décision de l'humain)
+
+- Sous le nom, en italique vert : « Teranga, Excellence, Jeunesse » pour le Sénégal (pays hôte, devise de la maquette) ; « JOJ Dakar 2026 · CODE » pour les autres pays (aucune devise inventée).
+- Pilule du rang sur une ligne : « 6e Position au classement général ».
+- « Détails des médailles » est dans la même barre verte que les colonnes Or / Argent / Bronze / Total.
+- « Nos champions » et « Informations clés » restent côte à côte, même sur téléphone ; un champion montre son nom et son sport.
+- Trois boutons sur une ligne : « Voir les épreuves », « Voir le programme », « Voir les sites » (ce dernier déplie « Ses sites » dans la fiche).
+- L'accès à l'assistant devient un lien sous « À retenir ! » : « Poser une question à l'assistant sur ce pays ».

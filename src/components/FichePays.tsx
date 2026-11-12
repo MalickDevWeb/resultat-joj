@@ -1,11 +1,13 @@
 import { useRef, useState } from 'react';
-import { ArrowLeft, ArrowRight, BarChart3, CalendarDays, Medal as MedalIcon, MessageCircle, Trophy } from 'lucide-react';
+import { ArrowLeft, ArrowRight, BarChart3, CalendarDays, MapPin, Medal as MedalIcon, Mic, PersonStanding, Trophy } from 'lucide-react';
 import type { FicheDuPays } from '../pays';
 import { Scrim } from './Sheets';
 import { Flag, MiniMedal, Picto } from './ui';
 import { BarreVocale } from './Voix';
 
 const METAUX = ['Or', 'Argent', 'Bronze'];
+/** Sous le nom : la devise de la maquette pour le pays hôte, sinon rien d'inventé. */
+const devise = (code: string) => (code === 'SEN' ? 'Teranga, Excellence, Jeunesse' : `JOJ Dakar 2026 · ${code}`);
 const initiales = (nom: string) => nom.split(/[\s/-]+/).filter(Boolean).map((p) => p[0]).join('').slice(0, 2).toUpperCase();
 
 /**
@@ -22,6 +24,12 @@ export function FichePays({ fiche, onClose, onAsk, onVoirEpreuves, onVoirProgram
 }) {
   const ailleurs = useRef(false);
   const [tous, setTous] = useState(false);
+  const [voirSites, setVoirSites] = useState(false);
+  const sitesRef = useRef<HTMLElement>(null);
+  const montrerSites = () => {
+    setVoirSites(true);
+    requestAnimationFrame(() => sitesRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }));
+  };
   const rang = fiche.rang === 1 ? '1re' : `${fiche.rang}e`;
   const champions = tous ? fiche.liste : fiche.liste.slice(0, 3);
   const enMedailles = [...fiche.medailles, fiche.total];
@@ -47,10 +55,10 @@ export function FichePays({ fiche, onClose, onAsk, onVoirEpreuves, onVoirProgram
                 </div>
                 <div className="fp-name">
                   <h3>{fiche.nom}</h3>
-                  <p className="fp-tag">JOJ Dakar 2026 · {fiche.code}</p>
+                  <p className="fp-tag">{devise(fiche.code)}</p>
                   <p className="fp-rankpill">
                     <Trophy size={18} aria-hidden="true" />
-                    <span><b>{rang}</b> position{fiche.exAequo ? ' ex aequo' : ''} au classement général</span>
+                    <span><b>{rang}</b> Position{fiche.exAequo ? ' ex aequo' : ''} au classement général</span>
                   </p>
                 </div>
               </div>
@@ -67,12 +75,13 @@ export function FichePays({ fiche, onClose, onAsk, onVoirEpreuves, onVoirProgram
 
               {fiche.sports.length > 0 && (
                 <section className="fp-panel" aria-labelledby="fp-details">
-                  <h4 className="fp-band" id="fp-details"><BarChart3 size={20} aria-hidden="true" /> Détails des médailles</h4>
                   <table className="fp-table">
                     <caption className="vh">Médailles par sport</caption>
                     <thead>
                       <tr>
-                        <th scope="col" className="fp-th-sport">Sport</th>
+                        <th scope="col" className="fp-th-sport">
+                          <span className="fp-th-title" id="fp-details"><BarChart3 size={22} aria-hidden="true" /> Détails des médailles</span>
+                        </th>
                         {METAUX.map((l, k) => <th key={l} scope="col"><MiniMedal k={k} ribbon={false} /><span>{l}</span></th>)}
                         <th scope="col"><Trophy size={18} aria-hidden="true" className="fp-th-cup" /><span>Total</span></th>
                       </tr>
@@ -101,7 +110,7 @@ export function FichePays({ fiche, onClose, onAsk, onVoirEpreuves, onVoirProgram
                           <span className={`fp-avatar fp-avatar${x.m}`} aria-hidden="true">{initiales(x.nom)}</span>
                           <span className="fp-champ">
                             <b>{x.nom}{x.equipe && <small> · équipe</small>}</b>
-                            <span>{x.disc} · {x.epreuve}</span>
+                            <span title={x.epreuve}>{x.disc}</span>
                           </span>
                           <span className="fp-champ-medal"><MiniMedal k={x.m - 1} /><span className="vh">{METAUX[x.m - 1]}</span></span>
                         </li>
@@ -118,7 +127,7 @@ export function FichePays({ fiche, onClose, onAsk, onVoirEpreuves, onVoirProgram
                 <section className="fp-panel" aria-labelledby="fp-infos">
                   <h4 className="fp-band" id="fp-infos"><CalendarDays size={20} aria-hidden="true" /> Informations clés</h4>
                   <dl className="fp-keys">
-                    <div><dt><CalendarDays size={18} aria-hidden="true" /> Classement actuel</dt><dd className="fp-big">{rang} <small>/ {fiche.nations} nations</small></dd></div>
+                    <div><dt><CalendarDays size={18} aria-hidden="true" /> Classement actuel</dt><dd className="fp-big">{rang} <small>/ {fiche.nations}</small><span className="vh"> nations</span></dd></div>
                     <div><dt><Trophy size={18} aria-hidden="true" className="fp-gold" /> Total médailles</dt><dd>{fiche.total}</dd></div>
                     {METAUX.map((l, k) => (
                       <div key={l}><dt><MiniMedal k={k} /> {l}</dt><dd>{fiche.medailles[k]}</dd></div>
@@ -135,13 +144,31 @@ export function FichePays({ fiche, onClose, onAsk, onVoirEpreuves, onVoirProgram
                 <img src="/brand/monument.webp" alt="" className="fp-monument" />
                 <div className="fp-retenir-voix">
                   <BarreVocale id={`pays-${fiche.code}`} phrases={fiche.resume} nom={`Écouter le résumé de ${fiche.nom}`} />
+                  {onAsk && (
+                    <button type="button" className="fp-ask-link" onClick={aller(() => onAsk(fiche.question))}>
+                      <Mic size={16} aria-hidden="true" /> Poser une question à l’assistant sur ce pays
+                    </button>
+                  )}
                 </div>
               </section>
+
+              {voirSites && (
+                <section className="fp-panel" aria-labelledby="fp-sites" ref={sitesRef} tabIndex={-1}>
+                  <h4 className="fp-band" id="fp-sites"><MapPin size={20} aria-hidden="true" /> Ses sites</h4>
+                  {fiche.sites.length > 0 ? (
+                    <ul className="fp-sites">
+                      {fiche.sites.map((s) => (
+                        <li key={s.site}><MapPin size={18} aria-hidden="true" /><b>{s.site}</b><span>{s.total} médaille{s.total > 1 ? 's' : ''}</span></li>
+                      ))}
+                    </ul>
+                  ) : <p className="fp-wait">Les sites de ses médailles ne sont pas encore connus.</p>}
+                </section>
+              )}
 
               <nav className="fp-actions" aria-label="Aller plus loin">
                 {onVoirEpreuves && (
                   <button type="button" onClick={aller(() => onVoirEpreuves(fiche.nom))}>
-                    <BarChart3 size={20} aria-hidden="true" /> Voir ses épreuves
+                    <PersonStanding size={20} aria-hidden="true" /> Voir les épreuves
                   </button>
                 )}
                 {onVoirProgramme && (
@@ -149,11 +176,9 @@ export function FichePays({ fiche, onClose, onAsk, onVoirEpreuves, onVoirProgram
                     <CalendarDays size={20} aria-hidden="true" /> Voir le programme
                   </button>
                 )}
-                {onAsk && (
-                  <button type="button" onClick={aller(() => onAsk(fiche.question))}>
-                    <MessageCircle size={20} aria-hidden="true" /> Demander à l’assistant
-                  </button>
-                )}
+                <button type="button" aria-expanded={voirSites} onClick={montrerSites}>
+                  <MapPin size={20} aria-hidden="true" /> Voir les sites
+                </button>
               </nav>
 
               <svg className="fp-foot" viewBox="0 0 400 60" preserveAspectRatio="none" aria-hidden="true">

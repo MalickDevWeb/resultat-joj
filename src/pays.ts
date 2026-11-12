@@ -28,6 +28,8 @@ export interface FicheDuPays {
   total: number;
   liste: MedailleDuPays[];
   sports: SportDuPays[];
+  /** Les sites où le pays a gagné ses médailles, du plus au moins médaillé. */
+  sites: { site: string; total: number }[];
   /** Médailles comptées par le tableau officiel mais sans podium connu : signalées, jamais inventées. */
   nonDetaillees: number;
   resume: string[];
@@ -88,6 +90,11 @@ export function ficheDuPays(
   const sports = [...parSport].map(([disc, m]) => ({ disc, medailles: m, total: m[0] + m[1] + m[2] }))
     .sort((a, b) => parMetal(a.medailles, b.medailles) || a.disc.localeCompare(b.disc, 'fr'));
 
+  const parSite = new Map<string, number>();
+  for (const x of liste) parSite.set(x.site, (parSite.get(x.site) ?? 0) + 1);
+  const sites = [...parSite].map(([site, n]) => ({ site, total: n }))
+    .sort((a, b) => b.total - a.total || a.site.localeCompare(b.site, 'fr'));
+
   const nonDetaillees = Math.max(0, total - liste.length);
   const resume = [
     `${nom} : ${rang === 1 ? '1re' : `${rang}e`} nation${exAequo ? ' ex aequo' : ''} au tableau des médailles, avec ${enToutesLettres(medailles)}.`,
@@ -97,7 +104,7 @@ export function ficheDuPays(
   ];
 
   return {
-    code, nom, rang, exAequo, nations: rows.length, medailles, total, liste, sports, nonDetaillees, resume,
+    code, nom, rang, exAequo, nations: rows.length, medailles, total, liste, sports, sites, nonDetaillees, resume,
     question: `Pays : ${nom}. Quelles médailles aux JOJ, et dans quels sports ?`,
   };
 }

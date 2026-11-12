@@ -37,15 +37,17 @@ Le tableau des médailles dit combien un pays a gagné, pas qui ni où. Le suppo
 
 - **Quand** le visiteur touche un pays du tableau (la ligne ou son nom, au clavier aussi)
 - **Alors** la fiche s'ouvre en plein écran sur téléphone, comme la maquette `design/maquette-fiche-pays.png` (décision de l'humain) : drapeau, nom, rang ; « ← Retour », Échap ou un glissement vers le bas (contenu en haut) la ferment, et le focus revient au pays
-- **Quand** il touche « Poser une question à l'assistant sur ce pays »
+- **Quand** il touche « Poser une question à l'assistant sur ce pays » (sous « À retenir ! »)
 - **Alors** l'assistant s'ouvre avec la question « Pays : <pays>. Quelles médailles aux JOJ, et dans quels sports ? » prête dans le champ, non envoyée
 
 ### AS7 — Aller plus loin depuis la fiche
 
-- **Quand** le visiteur touche « Voir ses épreuves »
+- **Quand** le visiteur touche « Voir les épreuves »
 - **Alors** la fiche se ferme et les Résultats s'ouvrent, cherchés sur le nom du pays
 - **Quand** il touche « Voir le programme »
 - **Alors** la fiche se ferme et le Programme s'ouvre
+- **Quand** il touche « Voir les sites »
+- **Alors** la fiche montre les sites où le pays a gagné ses médailles, du plus au moins médaillé (« Saly · 3 médailles »)
 
 ### AS6 — Un pays inconnu n'a pas de fiche
 

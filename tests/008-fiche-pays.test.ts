@@ -65,6 +65,17 @@ describe('008 — La fiche d’un pays', () => {
     expect(ficheDuPays('SEN', [judo], [])?.question).toBe('Pays : Sénégal. Quelles médailles aux JOJ, et dans quels sports ?');
   });
 
+  it('008-AS7: sites are listed from the most to the least medals', () => {
+    const fiche = ficheDuPays('SEN', [judo, lutte], [boxe]);
+    expect(fiche?.sites).toEqual([
+      { site: 'Dakar', total: 1 },
+      { site: 'Diamniadio', total: 1 },
+      { site: 'Saly', total: 1 },
+    ]);
+    const autre = epreuve('lutte-80', 'Lutte de plage', '80 kg garçons', 'Saly', [{ n: 'Maguette Diop', c: 'SEN', m: 1 }]);
+    expect(ficheDuPays('SEN', [judo, lutte, autre], [])?.sites[0]).toEqual({ site: 'Saly', total: 2 });
+  });
+
   it('008-AS6: a country without medals has no card', () => {
     expect(ficheDuPays('XYZ', [judo], [], { SEN: [1, 0, 0] })).toBeNull();
     expect(ficheDuPays('FRA', [judo], [])).toBeNull();
