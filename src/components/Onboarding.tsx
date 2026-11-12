@@ -16,7 +16,6 @@ interface Props {
 
 /* Fichiers officiels à déposer dans public/brand/ (voir README). */
 const LOGO = '/brand/joj-logo.png';
-const AYO = '/brand/ayo.webp';
 const AYO_HEAD = '/brand/ayo-head.webp';
 const HERO = '/brand/hero.jpg';
 
@@ -107,7 +106,17 @@ export function Onboarding({ onLogin, onGuest, canInstall, onInstall }: Props) {
           <p className="cta-note"><span className="live-dot" aria-hidden="true" />Accès libre, sans compte</p>
         </div>
         <div className="ayo-hero">
-          <Img src={AYO} alt="Ayo, la mascotte des JOJ Dakar 2026, brandit la flamme" className="ayo-img" />
+          {/* Ayo baisse la flamme sur le côté puis la relève bien droite (design/ayo-flamme.md) : le bras pivote à l'épaule. */}
+          <span className="ayo-img ayo-pantin" role="img" aria-label="Ayo, la mascotte des JOJ Dakar 2026, brandit la flamme">
+            <span className="ayo-bras" aria-hidden="true">
+              <img src="/brand/ayo-course/avant-bras.webp" alt="" className="ayo-avant-bras" />
+              <span className="ayo-main">
+                <img src="/brand/ayo-course/main-torche.webp" alt="" />
+                <span className="ayo-lueur" />
+              </span>
+            </span>
+            <img src="/brand/ayo-course/corps-rocher.webp" alt="" className="ayo-corps" aria-hidden="true" />
+          </span>
         </div>
       </div>
 

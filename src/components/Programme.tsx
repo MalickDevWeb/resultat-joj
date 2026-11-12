@@ -31,7 +31,18 @@ export function Programme({ pending, site, q }: { pending: Session[]; site: stri
           <p>Découvrez le programme complet des épreuves</p>
           <span className="pg-hero-n"><CalendarDays size={15} aria-hidden="true" /> {plural(n)} à venir</span>
         </div>
-        <img src="/brand/ayo.webp" alt="" className="pg-hero-ayo" aria-hidden="true" />
+        {/* Ayo court vers les épreuves (design/ayo-qui-court.md) : une marionnette découpée, jambes et bras articulés. */}
+        <span className="pg-runner" aria-hidden="true">
+          <span className="pg-vitesse"><i /><i /><i /><i /></span>
+          <span className="pg-ombre" />
+          <span className="pg-pantin">
+            <img src="/brand/ayo-course/bras.webp" alt="" className="pg-bras" />
+            <img src="/brand/ayo-course/jambe-g.webp" alt="" className="pg-jambe-g" />
+            <img src="/brand/ayo-course/jambe-d.webp" alt="" className="pg-jambe-d" />
+            <img src="/brand/ayo-course/corps.webp" alt="" className="pg-corps" />
+          </span>
+          <span className="pg-poussiere"><i /><i /><i /></span>
+        </span>
       </div>
 
       {!n ? <p className="empty">{searching ? `Aucune épreuve à venir pour « ${q.trim()} ».` : 'Aucune épreuve à venir sur ce site.'}</p> : (
