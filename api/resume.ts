@@ -94,12 +94,15 @@ export function creerGestionnaire({ lireProgramme, rediger, maintenant }: Depend
       res.setHeader('Allow', 'GET');
       return erreur(res, 405, 'METHODE_INTERDITE', 'Seule la lecture du résumé est possible.');
     }
-    const params = new URL(req.url ?? '/', 'http://localhost').searchParams;
-    if ([...params.keys()].some((k) => k !== 'jour')) {
-      return erreur(res, 400, 'PARAMETRE_INCONNU', 'Seul le paramètre « jour » est accepté.');
+    // Une seule forme d'adresse par jour (rien, ou exactement « jour=AAAA-MM-JJ »), lue dans la chaîne brute :
+    // un doublon, un encodage ou un « & » de trop créeraient une adresse hors cache, donc un appel payant à Claude.
+    const url = req.url ?? '';
+    const requete = url.includes('?') ? url.slice(url.indexOf('?') + 1) : null;
+    if (requete !== null && !/^jour=[0-9-]+$/.test(requete)) {
+      return erreur(res, 400, 'PARAMETRE_INCONNU', 'Seul le paramètre « jour » est accepté, une seule fois.');
     }
     const aujourdhui = depuisOfficiel(dakarDay(maintenant()));
-    const jour = jourValide(params.get('jour') ?? aujourdhui, aujourdhui);
+    const jour = jourValide(requete?.slice(5) ?? aujourdhui, aujourdhui);
     if (!jour) {
       return erreur(res, 400, 'JOUR_INVALIDE', 'Choisissez un jour des Jeux, du 31 octobre au 13 novembre 2026, déjà commencé.');
     }
@@ -151,7 +154,7 @@ let client: Anthropic | null = null;
 
 async function redigerAvecClaude(finales: Finale[]): Promise<Redaction> {
   if (!process.env.ANTHROPIC_API_KEY) throw new Error('ANTHROPIC_API_KEY manquante');
-  client ??= new Anthropic({ timeout: 50_000, maxRetries: 1 });
+  client ??= new Anthropic({ timeout: 40_000, maxRetries: 0 }); // 15 s de lecture + 40 s de rédaction : sous la limite de 60 s de Vercel
   const reponse = await client.beta.messages.parse({
     model: 'claude-opus-5-5',
     max_tokens: 16000,

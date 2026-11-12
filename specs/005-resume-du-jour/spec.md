@@ -37,6 +37,7 @@ Le journaliste qui écrit à 18 h doit résumer les finales du jour à partir de
 ### AS5 — Paramètre inconnu ou méthode autre que GET
 
 - **Alors** 400 `PARAMETRE_INCONNU`, ou 405 `METHODE_INTERDITE` : on ne contourne pas le cache pour consommer des crédits
+- Une seule forme d'adresse par jour : un `jour` répété, un nom ou une valeur encodés, un `&` final ou un `?` vide sont refusés
 
 ### AS6 — Claude indisponible
 
@@ -46,6 +47,10 @@ Le journaliste qui écrit à 18 h doit résumer les finales du jour à partir de
 ### AS7 — Le résumé est gardé en cache
 
 - **Alors** un jour passé est gardé 24 h, le jour même 30 min ; une erreur n'est jamais gardée plus de 60 s
+
+### AS9 — L'écran ne demande que des jours des Jeux
+
+- **Alors** pendant les Jeux, aujourd'hui puis la veille ; le 31 octobre, ce seul jour ; après le 13 novembre, le 13 ; avant les Jeux, aucun
 
 ### AS8 — Claude ne reçoit que les résultats officiels
 

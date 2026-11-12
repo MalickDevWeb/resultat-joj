@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it, vi } from 'vitest';
 import { creerGestionnaire, finalesDuJour, type Finale, type Redaction } from '../api/resume.js';
+import { joursAEssayer } from '../src/components/DaySummary';
 
 /** Extrait réel du programme officiel du 11 novembre : deux finales avec médaillés, un assaut de poule sans médaille. */
 const FINALES = readFileSync(new URL('./fixtures/finales-du-jour.html', import.meta.url), 'utf8');
@@ -94,6 +95,19 @@ describe('005 — Résumé de la journée rédigé par Claude', () => {
     expect(rediger).not.toHaveBeenCalled();
   });
 
+  it.each([
+    ['a repeated day', '/api/resume?jour=2026-11-11&jour=1'],
+    ['an encoded name', '/api/resume?jo%75r=2026-11-11'],
+    ['an encoded value', '/api/resume?jour=2026%2D11-11'],
+    ['a trailing &', '/api/resume?jour=2026-11-11&'],
+    ['an empty query', '/api/resume?'],
+  ])('005-AS5: an address with %s answers 400, so the cache cannot be bypassed', async (_cas, url) => {
+    const { gerer, rediger } = monter();
+    const r = await appeler(gerer, url);
+    expect([r.status, r.json.code]).toEqual([400, 'PARAMETRE_INCONNU']);
+    expect(rediger).not.toHaveBeenCalled();
+  });
+
   it('005-AS6: when Claude fails, the answer is 503 with a clear French sentence', async () => {
     const { gerer } = monter(FINALES, vi.fn(async () => { throw new Error('clé absente'); }));
     const r = await appeler(gerer, '/api/resume?jour=2026-11-11');
@@ -108,6 +122,23 @@ describe('005 — Résumé de la journée rédigé par Claude', () => {
     const aujourdhui = await appeler(gerer, '/api/resume?jour=2026-11-12');
     expect(passe.headers['cache-control']).toBe('public, s-maxage=86400, stale-while-revalidate=3600');
     expect(aujourdhui.headers['cache-control']).toBe('public, s-maxage=1800, stale-while-revalidate=600');
+  });
+
+  it('005-AS7: an error is never cached more than 60 s', async () => {
+    const sansPodium = await appeler(monter(SANS_FINALE).gerer, '/api/resume?jour=2026-11-11');
+    const jourInvalide = await appeler(monter().gerer, '/api/resume?jour=2026-10-01');
+    expect([sansPodium.status, sansPodium.headers['cache-control']]).toEqual([404, 'public, s-maxage=60']);
+    expect([jourInvalide.status, jourInvalide.headers['cache-control']]).toEqual([400, 'public, s-maxage=60']);
+  });
+
+  it.each([
+    ['before the Games', '2026-10-20', []],
+    ['on the first day', '2026-10-31', ['2026-10-31']],
+    ['during the Games', '2026-11-12', ['2026-11-12', '2026-11-11']],
+    ['on the last day', '2026-11-13', ['2026-11-13', '2026-11-12']],
+    ['after the Games', '2026-11-20', ['2026-11-13']],
+  ])('005-AS9: %s, the screen only asks for days of the Games', (_cas, aujourdhui, jours) => {
+    expect(joursAEssayer(aujourdhui)).toEqual(jours);
   });
 
   it('005-AS8: the writer only receives the official finals of the day', async () => {

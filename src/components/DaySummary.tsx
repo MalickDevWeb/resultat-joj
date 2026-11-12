@@ -13,8 +13,23 @@ interface Resume {
 const MEDAILLE = ['', '🥇', '🥈', '🥉'];
 const ERREUR_RESEAU: ApiError = { status: 0, code: 'RESEAU', msg: 'Impossible de joindre le serveur. Vérifiez votre connexion, puis rouvrez le résumé.' };
 
-/** AAAA-MM-JJ du jour à Dakar (UTC+0), décalé de `decalage` jours. */
-const jourDakar = (decalage = 0) => new Date(Date.now() + decalage * 86_400_000).toISOString().slice(0, 10);
+const DEBUT = '2026-10-31';
+const FIN = '2026-11-13';
+const veille = (jour: string) => new Date(Date.parse(`${jour}T12:00:00Z`) - 86_400_000).toISOString().slice(0, 10);
+
+/**
+ * Jours à demander, dans l'ordre : aujourd'hui puis la veille (si aujourd'hui n'a pas encore de finale),
+ * toujours pendant les Jeux. Après les Jeux, le dernier jour ; avant, aucun.
+ */
+export function joursAEssayer(aujourdhui: string): string[] {
+  if (aujourdhui < DEBUT) return [];
+  if (aujourdhui > FIN) return [FIN];
+  return aujourdhui === DEBUT ? [DEBUT] : [aujourdhui, veille(aujourdhui)];
+}
+
+/** AAAA-MM-JJ du jour à Dakar (UTC+0). */
+const jourDakar = () => new Date().toISOString().slice(0, 10);
+const PAS_ENCORE: ApiError = { status: 404, code: 'AUCUN_PODIUM', msg: 'Pas encore de finale : le premier résumé arrivera après les premières médailles.' };
 
 const libelleJour = (jour: string) =>
   new Date(`${jour}T12:00:00Z`).toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'UTC' });
@@ -52,10 +67,13 @@ export function DaySummary() {
     if (etat !== 'ferme') return;
     setEtat('chargement');
     try {
-      // Pas encore de finale aujourd'hui : on montre le résumé de la veille.
-      let r = await lireResume(jourDakar());
-      if (estErreur(r) && r.code === 'AUCUN_PODIUM') r = await lireResume(jourDakar(-1));
-      if (estErreur(r)) setErreur(r);
+      // Pas encore de finale aujourd'hui : on montre le résumé de la veille, toujours pendant les Jeux.
+      let r: Resume | ApiError = PAS_ENCORE;
+      for (const jour of joursAEssayer(jourDakar())) {
+        r = await lireResume(jour);
+        if (!estErreur(r) || r.code !== 'AUCUN_PODIUM') break;
+      }
+      if (estErreur(r)) setErreur(r.code === 'AUCUN_PODIUM' ? PAS_ENCORE : r);
       else setResume(r);
     } catch {
       setErreur(ERREUR_RESEAU);
