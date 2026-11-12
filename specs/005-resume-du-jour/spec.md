@@ -56,6 +56,11 @@ Le journaliste qui écrit à 18 h doit résumer les finales du jour à partir de
 
 - **Alors** le rédacteur reçoit seulement les finales du jour (sport, épreuve, médaillés), jamais un texte venu de la requête
 
+### AS10 — Un jour n'est rédigé qu'une fois
+
+- **Quand** le même jour est redemandé, par n'importe quelle adresse, ou que Claude vient d'échouer
+- **Alors** Claude n'est pas rappelé : le résumé est gardé 24 h (jour passé) ou 30 min (jour même), un échec 60 s
+
 ## Hors périmètre
 
 - Choisir le ton ou la longueur du résumé, le traduire, l'envoyer par e-mail.

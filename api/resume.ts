@@ -88,7 +88,24 @@ function repondre(res: Reponse, statut: number, corps: object, cache = CACHE_ERR
 const erreur = (res: Reponse, statut: number, code: string, message: string) => repondre(res, statut, { code, message });
 
 /** Gestionnaire HTTP, avec ses dépendances injectées (les tests les remplacent par des faux). */
+/** Réponse gardée en mémoire pour un jour, jusqu'à `expire` (en millisecondes). */
+interface Memoire {
+  expire: number;
+  statut: number;
+  corps: object;
+  cache: string;
+}
+
+const UNE_MINUTE = 60_000;
+
 export function creerGestionnaire({ lireProgramme, rediger, maintenant }: Dependances) {
+  // Un jour n'est rédigé qu'une fois, quelle que soit l'adresse : Vercel nettoie certaines adresses
+  // (« %75 », « & » final) avant la fonction, et ne met pas les erreurs en cache. Sans cette mémoire,
+  // une adresse hors cache ou une panne de Claude déclencherait un nouvel appel payant à chaque visite.
+  const memoire = new Map<string, Memoire>();
+  const retenir = (jour: string, duree: number, statut: number, corps: object, cache: string) =>
+    memoire.set(jour, { expire: maintenant().getTime() + duree, statut, corps, cache });
+
   return async (req: Requete, res: Reponse) => {
     if (req.method !== 'GET') {
       res.setHeader('Allow', 'GET');
@@ -107,6 +124,9 @@ export function creerGestionnaire({ lireProgramme, rediger, maintenant }: Depend
       return erreur(res, 400, 'JOUR_INVALIDE', 'Choisissez un jour des Jeux, du 31 octobre au 13 novembre 2026, déjà commencé.');
     }
 
+    const deja = memoire.get(jour);
+    if (deja && deja.expire > maintenant().getTime()) return repondre(res, deja.statut, deja.corps, deja.cache);
+
     let finales: Finale[];
     try {
       finales = finalesDuJour(await lireProgramme(versOfficiel(jour)));
@@ -121,16 +141,21 @@ export function creerGestionnaire({ lireProgramme, rediger, maintenant }: Depend
     try {
       redaction = await rediger(finales);
     } catch {
-      return erreur(res, 503, 'RESUME_INDISPONIBLE', 'Le résumé du jour est momentanément indisponible. Réessayez dans quelques minutes.');
+      const corps = { code: 'RESUME_INDISPONIBLE', message: 'Le résumé du jour est momentanément indisponible. Réessayez dans quelques minutes.' };
+      retenir(jour, UNE_MINUTE, 503, corps, CACHE_ERREUR);
+      return repondre(res, 503, corps);
     }
 
     // Règle de l'application : seules les finales du jour existent, une épreuve inventée est écartée.
     const parId = new Map(finales.map((f) => [f.id, f]));
     const epreuves = [...new Set(redaction.epreuves)].flatMap((id) => parId.get(id) ?? []);
-    const cache = jour < aujourdhui
+    const passe = jour < aujourdhui;
+    const cache = passe
       ? 'public, s-maxage=86400, stale-while-revalidate=3600'
       : 'public, s-maxage=1800, stale-while-revalidate=600';
-    return repondre(res, 200, { jour, titre: redaction.titre, paragraphes: redaction.paragraphes, epreuves }, cache);
+    const corps = { jour, titre: redaction.titre, paragraphes: redaction.paragraphes, epreuves };
+    retenir(jour, passe ? 24 * 60 * UNE_MINUTE : 30 * UNE_MINUTE, 200, corps, cache);
+    return repondre(res, 200, corps, cache);
   };
 }
 

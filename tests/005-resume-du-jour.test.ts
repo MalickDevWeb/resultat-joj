@@ -141,6 +141,26 @@ describe('005 — Résumé de la journée rédigé par Claude', () => {
     expect(joursAEssayer(aujourdhui)).toEqual(jours);
   });
 
+  it('005-AS10: a day is written only once, whatever the address, even if the CDN cache is bypassed', async () => {
+    const { gerer, rediger } = monter();
+    await appeler(gerer, '/api/resume?jour=2026-11-11');
+    const seconde = await appeler(gerer, '/api/resume?jour=2026-11-11');
+    expect(seconde.status).toBe(200);
+    expect(rediger).toHaveBeenCalledTimes(1);
+  });
+
+  it('005-AS10: after a failure of Claude, the day is not retried for 60 s', async () => {
+    let maintenant = new Date('2026-11-12T15:00:00Z');
+    const rediger = vi.fn(async (_f: Finale[]): Promise<Redaction> => { throw new Error('Claude indisponible'); });
+    const gerer = creerGestionnaire({ lireProgramme: async () => FINALES, rediger, maintenant: () => maintenant });
+    expect((await appeler(gerer, '/api/resume?jour=2026-11-11')).status).toBe(503);
+    expect((await appeler(gerer, '/api/resume?jour=2026-11-11')).status).toBe(503);
+    expect(rediger).toHaveBeenCalledTimes(1);
+    maintenant = new Date('2026-11-12T15:01:01Z');
+    await appeler(gerer, '/api/resume?jour=2026-11-11');
+    expect(rediger).toHaveBeenCalledTimes(2);
+  });
+
   it('005-AS8: the writer only receives the official finals of the day', async () => {
     const { gerer, rediger } = monter();
     await appeler(gerer, '/api/resume?jour=2026-11-11');
