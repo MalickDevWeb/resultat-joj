@@ -14,11 +14,13 @@ precacheAndRoute(self.__WB_MANIFEST);
 // ---- STRATÉGIE POUR LES ASSETS STATIQUES ----
 // (Images, polices, icônes)
 registerRoute(
-  ({ request, url }) =>
+  // Seulement les ressources du site : les drapeaux (flagcdn) et les polices (Google) se chargent directement,
+  // sinon le service worker les relirait avec fetch, que la CSP (connect-src) bloque.
+  ({ request, url }) => url.origin === self.location.origin && (
     request.destination === 'image' ||
     request.destination === 'font' ||
     url.pathname.startsWith('/icons/') ||
-    url.pathname.startsWith('/assets/'),
+    url.pathname.startsWith('/assets/')),
   new CacheFirst({
     cacheName: 'pwa-assets-v1',
   })
