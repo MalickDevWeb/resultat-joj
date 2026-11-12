@@ -6,6 +6,12 @@ import { precacheAndRoute, cleanupOutdatedCaches } from 'workbox-precaching';
 import { registerRoute } from 'workbox-routing';
 import { NetworkFirst, CacheFirst } from 'workbox-strategies';
 
+// Active immédiatement le nouveau Service Worker dès son installation sans attendre
+self.skipWaiting();
+self.addEventListener('activate', (event) => {
+  event.waitUntil(self.clients.claim());
+});
+
 // Nettoyer les anciens caches générés par Workbox
 cleanupOutdatedCaches();
 
