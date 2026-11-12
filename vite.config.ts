@@ -4,11 +4,11 @@ import { VitePWA } from 'vite-plugin-pwa';
 import path from 'path';
 import { defineConfig, type Plugin } from 'vite';
 
-/** En développement, sert les fonctions Vercel du dossier api/ (/api/live, /api/resume). */
+/** En développement, sert les fonctions Vercel du dossier api/ (/api/live, /api/resume, /api/assistant). */
 const vercelApi = (): Plugin => ({
   name: 'vercel-api',
   configureServer(server) {
-    for (const [route, file] of [['/api/live', '/api/live.js'], ['/api/resume', '/api/resume.ts']]) {
+    for (const [route, file] of [['/api/live', '/api/live.js'], ['/api/resume', '/api/resume.ts'], ['/api/assistant', '/api/assistant.ts']]) {
       server.middlewares.use(route, async (req, res) => {
         const { default: handler } = await server.ssrLoadModule(file);
         req.url = req.originalUrl ?? req.url; // garde « /api/resume?jour=… » complet

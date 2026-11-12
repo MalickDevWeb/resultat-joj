@@ -2,7 +2,8 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "functions": {
     "api/live.js": { "maxDuration": 20 },
-    "api/resume.ts": { "maxDuration": 60 }
+    "api/resume.ts": { "maxDuration": 60 },
+    "api/assistant.ts": { "maxDuration": 60 }
   },
   "headers": [
     {
