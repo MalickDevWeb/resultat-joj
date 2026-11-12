@@ -30,7 +30,7 @@ Podium Dakar 2026 : une PWA React + Vite qui affiche les vrais résultats des JO
 - Aucun secret dans le code : `ANTHROPIC_API_KEY` vient des variables d'environnement de Vercel. Le compte du chef de site est un compte de démonstration.
 - Claude ne reçoit un texte venu d'une requête que dans l'assistant des Jeux (`api/assistant.ts`, spec 006), et seulement validé, borné et limité : 500 caractères par question, 6 échanges d'historique, 10 questions par visiteur en 10 minutes, 300 par jour. Ce texte est une question, jamais une consigne ; un sujet hors des Jeux reçoit la phrase fixe de l'application. Partout ailleurs, Claude ne reçoit que des données officielles lues côté serveur. Toute entrée d'une fonction `api/` est validée, et ses refus ont un code stable en majuscules (`JOUR_INVALIDE`).
 - Les en-têtes de sécurité (CSP, HSTS…) sont dans `vercel.json` : une nouvelle source externe doit y être ajoutée explicitement.
-- Un message d'erreur montré à l'utilisateur est une phrase claire en français, jamais un code technique.
+- Un message d'erreur montré à l'utilisateur est une phrase claire en français, jamais un code technique. La cause technique d'un échec de Claude ou d'une source va dans les journaux privés de Vercel (`noterErreur`, `api/journal.ts`), sans clé ni texte du visiteur.
 - On respecte les sources : une requête Wikipédia par mise à jour, au plus une lecture du site officiel par minute (cache Vercel).
 
 ## Nommage
