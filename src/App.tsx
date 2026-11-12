@@ -65,6 +65,7 @@ export default function App() {
   }, []);
   const [open, setOpen] = useState<string | null>(null);
   const [sheet, setSheet] = useState<Sheet>(null);
+  const [questionPrete, setQuestionPrete] = useState('');
   const [toastMsg, setToastMsg] = useState<string | null>(null);
   const toastTimer = useRef<number>(undefined);
   const screenRef = useRef<HTMLElement>(null);
@@ -167,7 +168,8 @@ export default function App() {
   } else {
     body = (
       <div className="wrap view" key={`${tab}-${openId ?? ''}`}>
-        {tab === 'medals' ? <Medals events={events} pending={pending} official={store.medals} />
+        {tab === 'medals' ? <Medals events={events} pending={pending} official={store.medals} onAsk={(q) => { setQuestionPrete(q); setSheet('assistant'); }}
+          onVoirEpreuves={chercher} onVoirProgramme={() => goTab('programme')} />
           : tab === 'programme' ? <Programme pending={pending} site={site} q={q} />
           : tab === 'publish' && isResp ? (
             <Publish events={events} pending={pending} onPublish={(sid, pod) => {
@@ -305,7 +307,7 @@ export default function App() {
         }} />
       )}
       {sheet === 'assistant' && (
-        <AssistantSheet conversation={conversation} onClose={() => { setSheet(null); assistRef.current?.focus(); }} />
+        <AssistantSheet conversation={conversation} questionInitiale={questionPrete} onClose={() => { setSheet(null); setQuestionPrete(''); assistRef.current?.focus(); }} />
       )}
       {!onb && (sheet === null || sheet === 'assistant') && (
         <button type="button" ref={assistRef} className="assist-fab" aria-haspopup="dialog" onClick={() => setSheet('assistant')}>

@@ -1,32 +1,35 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { CalendarDays, Star, Trophy } from 'lucide-react';
 import { NOC, SOURCE, medalTable, type PodiumEvent, type Session } from '../data';
-import { Flag } from './ui';
+import { ficheDuPays } from '../pays';
+import { FichePays } from './FichePays';
+import { Flag, MiniMedal } from './ui';
 
 type Sort = 'all' | 0 | 1 | 2;
 const METALS = ['Or', 'Argent', 'Bronze'];
-
-/** Petite médaille (or, argent, bronze) avec ruban. */
-const MiniMedal = ({ k, ribbon = true }: { k: number; ribbon?: boolean }) => {
-  const c = [['#ffe27a', '#e0a512', '#9a6500'], ['#f4f6f9', '#b4bec9', '#66717e'], ['#ffc99c', '#d07a38', '#874214']][k];
-  return (
-    <svg viewBox="0 0 24 30" className="mm" aria-hidden="true">
-      {ribbon && <path d="M6 1h5l3 9H9zM18 1h-5l-3 9h5z" fill={k === 0 ? '#0b7a3b' : k === 1 ? '#3b6fb6' : '#c8161d'} />}
-      <circle cx="12" cy="19" r="9" fill={c[1]} stroke={c[2]} strokeWidth="1.2" />
-      <circle cx="12" cy="19" r="6.2" fill={c[0]} opacity=".55" />
-      <path d="M12 14.6l1.3 2.7 3 .4-2.2 2 .6 2.9-2.7-1.4-2.7 1.4.6-2.9-2.2-2 3-.4z" fill={c[2]} opacity=".8" />
-    </svg>
-  );
-};
 
 interface Props {
   events: PodiumEvent[];
   pending?: Session[];
   official?: Record<string, number[]> | null; // tableau général de Wikipédia
+  /** Ouvre l'assistant avec une question prête (spec 008-AS5). */
+  onAsk?: (question: string) => void;
+  /** Résultats cherchés sur le nom du pays (008-AS7). */
+  onVoirEpreuves?: (nom: string) => void;
+  onVoirProgramme?: () => void;
 }
 
-export function Medals({ events, pending = [], official = null }: Props) {
+export function Medals({ events, pending = [], official = null, onAsk, onVoirEpreuves, onVoirProgramme }: Props) {
   const [sort, setSort] = useState<Sort>('all');
+  const [pays, setPays] = useState<string | null>(null);
+  const boutons = useRef(new Map<string, HTMLButtonElement>());
+  const fiche = pays === null ? null : ficheDuPays(pays, events, pending, official);
+  const fermer = (rendreLeFocus: boolean) => {
+    const c = pays;
+    setPays(null);
+    if (c && rendreLeFocus) boutons.current.get(c)?.focus();
+  };
   const rows = medalTable(events, pending, official);
   const sorted = sort === 'all' ? rows : [...rows].sort((a, b) =>
     b[1][sort] - a[1][sort] || (b[1][0] + b[1][1] + b[1][2]) - (a[1][0] + a[1][1] + a[1][2]) || a[0].localeCompare(b[0]));
@@ -79,9 +82,16 @@ export function Medals({ events, pending = [], official = null }: Props) {
         </thead>
         <tbody>
           {ranked.map(({ c, m, rank }) => (
-            <tr key={c} className={c === 'SEN' ? 'sen' : ''}>
+            <tr key={c} className={`mx-row${c === 'SEN' ? ' sen' : ''}`} onClick={() => setPays(c)}>
               <td><span className={`rk rk${rank <= 3 ? rank : 0}`}>{rank}</span></td>
-              <td><span className="cty" title={NOC[c] || c}><Flag c={c} /><span>{NOC[c] || c}</span></span></td>
+              <td>
+                <button type="button" className="cty cty-btn" title={NOC[c] || c} aria-haspopup="dialog"
+                  aria-label={`Voir la fiche de ${NOC[c] || c}`}
+                  ref={(el) => { if (el) boutons.current.set(c, el); else boutons.current.delete(c); }}
+                  onClick={(e) => { e.stopPropagation(); setPays(c); }}>
+                  <Flag c={c} /><span>{NOC[c] || c}</span>
+                </button>
+              </td>
               <td>{m[0]}</td><td>{m[1]}</td><td>{m[2]}</td>
               <td><span className="tot">{m[0] + m[1] + m[2]}</span></td>
             </tr>
@@ -103,6 +113,12 @@ export function Medals({ events, pending = [], official = null }: Props) {
             <path d="M60 32l3 8.5h9l-7.3 5.3 2.8 8.7L60 49.2l-7.5 5.3 2.8-8.7-7.3-5.3h9z" fill="#00853f" />
           </svg>
         </div>
+      )}
+
+      {/* Hors du tableau : un parent animé (transform) piégerait la fenêtre fixe dans son cadre. */}
+      {fiche && createPortal(
+        <FichePays fiche={fiche} onClose={fermer} onAsk={onAsk} onVoirEpreuves={onVoirEpreuves} onVoirProgramme={onVoirProgramme} />,
+        document.body,
       )}
 
       <p className="note">

@@ -149,3 +149,16 @@ export function PodiumBig({ pod }: { pod: Place[] }) {
     </div>
   );
 }
+
+/** Petite médaille (or, argent, bronze) avec ruban. */
+export const MiniMedal = ({ k, ribbon = true }: { k: number; ribbon?: boolean }) => {
+  const c = [['#ffe27a', '#e0a512', '#9a6500'], ['#f4f6f9', '#b4bec9', '#66717e'], ['#ffc99c', '#d07a38', '#874214']][k];
+  return (
+    <svg viewBox="0 0 24 30" className="mm" aria-hidden="true">
+      {ribbon && <path d="M6 1h5l3 9H9zM18 1h-5l-3 9h5z" fill={k === 0 ? '#0b7a3b' : k === 1 ? '#3b6fb6' : '#c8161d'} />}
+      <circle cx="12" cy="19" r="9" fill={c[1]} stroke={c[2]} strokeWidth="1.2" />
+      <circle cx="12" cy="19" r="6.2" fill={c[0]} opacity=".55" />
+      <path d="M12 14.6l1.3 2.7 3 .4-2.2 2 .6 2.9-2.7-1.4-2.7 1.4.6-2.9-2.2-2 3-.4z" fill={c[2]} opacity=".8" />
+    </svg>
+  );
+};

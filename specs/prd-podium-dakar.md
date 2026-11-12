@@ -50,6 +50,10 @@ Le visiteur pose une question en français sur les JOJ Dakar 2026 et le Sénéga
 
 Le supporter, téléphone en main au stade, dicte sa recherche ou sa question à l'assistant, et écoute les réponses et le résumé du jour en français. Règles : le micro ne s'allume que sur un geste du visiteur et s'arrête seul ; une question dictée part aussitôt la phrase finie, comme une recherche directe (décision de l'humain) ; sans voix dans le navigateur, rien ne change.
 
+### TR8 — La fiche d'un pays (spec 008)
+
+Dans le tableau des médailles, le supporter touche un pays et voit tout sur lui : son rang, ses médailles, ses médaillés (sport, épreuve, site), ses meilleurs sports et un résumé simple qu'il peut écouter, puis peut interroger l'assistant sur ce pays (décision de l'humain). Règles : tout vient des données de l'application, sans appel à Claude ; les comptes de la fiche sont ceux du tableau ; les médailles que Wikipédia compte mais ne détaille pas encore sont signalées, jamais inventées.
+
 ## Hors périmètre
 
 - Les comptes réels des chefs de site (compte de démonstration), le partage des podiums saisis entre appareils, les notifications, le direct point par point.
