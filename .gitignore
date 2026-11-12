@@ -10,3 +10,6 @@ coverage/
 # Archives locales (non versionnées)
 backup_unfpa_original.tar.gz
 podium (1).html
+
+# Captures d'écran locales
+/image*.png
