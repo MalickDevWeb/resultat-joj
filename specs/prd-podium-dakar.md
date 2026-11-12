@@ -38,9 +38,9 @@ Lues chaque minute sur le programme officiel, avec score et lieu.
 
 Toutes les 6 heures, sans redéploiement ; le travail des chefs de site est gardé.
 
-### TR5 — Résumé de la journée pour les journalistes, rédigé par Claude (à venir)
+### TR5 — Résumé de la journée pour les journalistes, rédigé par Claude (spec 005)
 
-À partir des podiums du jour ; une journée sans podium n'a pas de résumé, et Claude n'est pas appelé.
+À partir des finales du jour sur le site officiel ; une journée sans podium n'a pas de résumé, et Claude n'est pas appelé. Pourquoi l'IA : transformer une liste de médaillés en quelques phrases qu'un journaliste peut reprendre.
 
 ## Hors périmètre
 
