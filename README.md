@@ -4,6 +4,10 @@
 **Lancer** : Node 20 ou plus (`nvm use`), `npm install` puis `npm run dev` (http://localhost:5173) ; `npm run check` pour les types, les 51 tests et le build. En ligne : https://resultat-joj-jugu.vercel.app
 **Ce qui manque** : de vrais comptes de chefs de site (un compte de démonstration les remplace), et le partage entre appareils des podiums saisis dans l'application.
 
+> **Réalisé pendant le Bootcamp AI Programming d'Artefact (Dakar, novembre 2026), avec Claude Code.** Équipe : Silamaka Diallo (analyste de données), Daouda KA (ingénieur en informatique, spécialité Business Intelligence), Papa Malick Teuw (ingénieur développeur Full Stack & Data, conception et développement).
+
+Travail de la formation, construit avec la même méthode (PRD, specs, test d'abord, relecture indépendante) : [formation-joj, branche atelier-c](https://github.com/MalickDevWeb/formation-joj/tree/atelier-c).
+
 ---
 
 ## Ce que fait l'application
