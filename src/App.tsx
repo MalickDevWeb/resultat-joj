@@ -153,7 +153,8 @@ export default function App() {
 
   const resultsList = (
     <Results live={live} importedAt={store.importedAt} events={events} pending={pending} site={site} q={q} openId={openId}
-      onOpen={setOpen} onGoProgramme={() => goTab('programme')} onOpenAssistant={() => setSheet('assistant')} />
+      onOpen={setOpen} onGoProgramme={() => goTab('programme')} onOpenAssistant={() => setSheet('assistant')}
+      onSiteChange={setSite} />
   );
   const detail = openEvent && (
     <Detail event={openEvent} isResp={isResp} toast={toast}

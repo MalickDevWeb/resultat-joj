@@ -14,9 +14,24 @@ interface Props {
   onOpenAssistant?: () => void;
   importedAt?: string; // dernière lecture de Wikipédia
   live?: Session[]; // épreuves en cours (programme officiel)
+  onSiteChange?: (site: string) => void;
+  onDateChange?: (dateIso: string, libelle: string) => void;
 }
 
-export function Results({ events, pending, site, q, openId, onOpen, onGoProgramme, onOpenAssistant, importedAt = SOURCE.fetchedAt, live = [] }: Props) {
+export function Results({
+  events,
+  pending,
+  site,
+  q,
+  openId,
+  onOpen,
+  onGoProgramme,
+  onOpenAssistant,
+  importedAt = SOURCE.fetchedAt,
+  live = [],
+  onSiteChange,
+  onDateChange,
+}: Props) {
   const inSite = (x: Session) => site === ALL_SITES || x.site === site;
   const hitS = (x: Session) => hitSession(q, x);
   const hitE = (e: PodiumEvent) => hitEvent(q, e);
@@ -54,6 +69,8 @@ export function Results({ events, pending, site, q, openId, onOpen, onGoProgramm
           onGoProgramme={onGoProgramme}
           onOpenEvent={onOpen}
           site={site}
+          onSiteChange={onSiteChange}
+          onDateChange={onDateChange}
         />
       )}
 

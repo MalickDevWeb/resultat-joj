@@ -862,15 +862,10 @@ export function News({ onOpenAssistant, onToast, notifications }: NewsProps) {
         ))}
       </section>
 
-      {/* 5. Bouton d'action flottant (FAB) : Flèche vers le haut pour remonter */}
-      <button
-        type="button"
-        className="actu-fab-scroll-top"
-        onClick={scrollToTop}
-        aria-label="Remonter en haut de la page"
-        title="Remonter en haut"
-      >
-        <ArrowUp size={22} strokeWidth={2.6} aria-hidden="true" />
+      {/* 5. Revenir en haut : à la fin de la liste, pas flottant, pour ne jamais recouvrir les articles. */}
+      <button type="button" className="actu-remonter" onClick={scrollToTop}>
+        <ArrowUp size={18} strokeWidth={2.6} aria-hidden="true" />
+        Revenir en haut
       </button>
 
       {/* 6. Page détaillée d'article plein écran (pixel-exact d'après maquette media_1794506978528_b2b36ac8) */}
@@ -1002,11 +997,7 @@ function ArticleDetailPage({
           </button>
 
           <div className="actu-detail-logo-wrap" aria-hidden="true">
-            <img
-              src="/brand/joj-dakar-2026-badge.webp"
-              alt="JOJ Dakar 2026"
-              className="actu-detail-logo-img"
-            />
+            <span className="actu-detail-logo-txt"><b>JOJ</b><small>DAKAR 2026</small></span>
           </div>
 
           <div className="actu-detail-actions-right">
@@ -1047,7 +1038,9 @@ function ArticleDetailPage({
 
       {/* 2. Carte de contenu blanche arrondie qui chevauche le hero */}
       <div className="actu-detail-card">
-        <h1 className="actu-detail-title">{article.detailTitre || article.titre}</h1>
+        <h1 className="actu-detail-title">
+          {article.detailTitre || (article.titreHighlight ? <>{article.titre} <span className="actu-detail-title-hl">{article.titreHighlight}</span></> : article.titre)}
+        </h1>
 
         <div className="actu-detail-meta-line">
           <span className="actu-meta-item">

@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
-import { CalendarDays, ChevronDown, ChevronRight, Mic, Trophy, X } from 'lucide-react';
+import { CalendarDays, Check, ChevronDown, ChevronRight, Mic, Trophy, X } from 'lucide-react';
 import { ALL_SITES, NOC } from '../data';
 import { ErrBox, Flag, type ApiError } from './ui';
 import { BarreVocale, BoutonEcouter } from './Voix';
@@ -232,17 +232,62 @@ export const CHAMPIONS_DU_JOUR: ChampionProfile[] = [
   },
 ];
 
+export interface JourCompetition {
+  id: string; // '2026-11-12'
+  dateCourte: string; // '12 nov'
+  libelle: string; // 'Jeudi 12 novembre'
+  jourNum: number; // 12
+  tag?: string; // "Aujourd'hui", "Hier", "Cérémonie d'ouverture", "Clôture"
+  or: number;
+  arg: number;
+  bro: number;
+  tot: number;
+}
+
+export const JOURS_COMPETITION: JourCompetition[] = [
+  { id: '2026-10-31', dateCourte: '31 oct', libelle: 'Samedi 31 octobre', jourNum: 31, tag: "Cérémonie d'ouverture", or: 0, arg: 0, bro: 0, tot: 0 },
+  { id: '2026-11-01', dateCourte: '1 nov', libelle: 'Dimanche 1 novembre', jourNum: 1, tag: 'Jour 1', or: 4, arg: 4, bro: 4, tot: 12 },
+  { id: '2026-11-02', dateCourte: '2 nov', libelle: 'Lundi 2 novembre', jourNum: 2, tag: 'Jour 2', or: 6, arg: 6, bro: 7, tot: 19 },
+  { id: '2026-11-03', dateCourte: '3 nov', libelle: 'Mardi 3 novembre', jourNum: 3, tag: 'Jour 3', or: 7, arg: 7, bro: 8, tot: 22 },
+  { id: '2026-11-04', dateCourte: '4 nov', libelle: 'Mercredi 4 novembre', jourNum: 4, tag: 'Jour 4', or: 8, arg: 8, bro: 9, tot: 25 },
+  { id: '2026-11-05', dateCourte: '5 nov', libelle: 'Jeudi 5 novembre', jourNum: 5, tag: 'Jour 5', or: 5, arg: 5, bro: 6, tot: 16 },
+  { id: '2026-11-06', dateCourte: '6 nov', libelle: 'Vendredi 6 novembre', jourNum: 6, tag: 'Jour 6', or: 9, arg: 9, bro: 10, tot: 28 },
+  { id: '2026-11-07', dateCourte: '7 nov', libelle: 'Samedi 7 novembre', jourNum: 7, tag: 'Jour 7', or: 11, arg: 11, bro: 12, tot: 34 },
+  { id: '2026-11-08', dateCourte: '8 nov', libelle: 'Dimanche 8 novembre', jourNum: 8, tag: 'Jour 8', or: 10, arg: 10, bro: 11, tot: 31 },
+  { id: '2026-11-09', dateCourte: '9 nov', libelle: 'Lundi 9 novembre', jourNum: 9, tag: 'Jour 9', or: 7, arg: 7, bro: 8, tot: 22 },
+  { id: '2026-11-10', dateCourte: '10 nov', libelle: 'Mardi 10 novembre', jourNum: 10, tag: 'Jour 10', or: 8, arg: 8, bro: 9, tot: 25 },
+  { id: '2026-11-11', dateCourte: '11 nov', libelle: 'Mercredi 11 novembre', jourNum: 11, tag: 'Hier · J-1', or: 6, arg: 6, bro: 7, tot: 19 },
+  { id: '2026-11-12', dateCourte: '12 nov', libelle: 'Jeudi 12 novembre', jourNum: 12, tag: "Aujourd'hui", or: 5, arg: 3, bro: 2, tot: 10 },
+  { id: '2026-11-13', dateCourte: '13 nov', libelle: 'Vendredi 13 novembre', jourNum: 13, tag: 'Clôture', or: 8, arg: 8, bro: 8, tot: 24 },
+];
+
+export interface SiteOptionInfo {
+  id: string;
+  nom: string;
+  icone: string;
+  lieux: string;
+}
+
+export const SITES_OFFICIELS: SiteOptionInfo[] = [
+  { id: ALL_SITES, nom: 'Tous les sites', icone: '📍', lieux: 'Toutes les zones et infrastructures de compétition' },
+  { id: 'Dakar', nom: 'Dakar', icone: '🏙️', lieux: 'Stade Iba Mar Diop, Piscine Olympique, Corniche...' },
+  { id: 'Diamniadio', nom: 'Diamniadio', icone: '🏟️', lieux: 'Dakar Arena, Stade Abdoulaye Wade, Centre expo...' },
+  { id: 'Saly', nom: 'Saly', icone: '🏖️', lieux: 'Plage de Saly, sports nautiques & de plage...' },
+];
+
 interface DaySummaryProps {
   onOpenAssistant?: () => void;
   onGoProgramme?: () => void;
   onOpenEvent?: (id: string) => void;
   site?: string;
   dateLibelle?: string;
+  onSiteChange?: (site: string) => void;
+  onDateChange?: (dateIso: string, libelle: string) => void;
 }
 
 /**
  * Résumé du jour officiel (maquette JOJ Dakar 2026) :
- * 1. Filtres Date & Site
+ * 1. Filtres Date & Site (interactifs avec popovers complets)
  * 2. Carte Résumé du jour (4 médailles)
  * 3. Carte Nos champions du jour (clic ouvrant la fiche complète avec palmarès, record et voix)
  * 4. Carte Épreuves phares (Boxe, Escrime, Voile)
@@ -255,16 +300,74 @@ export function DaySummary({
   onOpenEvent,
   site = ALL_SITES,
   dateLibelle = 'Jeudi 12 novembre',
+  onSiteChange,
+  onDateChange,
 }: DaySummaryProps) {
   const [etat, setEtat] = useState<'ferme' | 'chargement' | 'pret'>('ferme');
   const [resume, setResume] = useState<Resume | null>(null);
   const [erreur, setErreur] = useState<ApiError | null>(null);
   const [detailOuvert, setDetailOuvert] = useState(false);
   const [selectedChampion, setSelectedChampion] = useState<ChampionProfile | null>(null);
+  const [menuOuvert, setMenuOuvert] = useState<'aucun' | 'date' | 'site'>('aucun');
+  const [jourSelectionne, setJourSelectionne] = useState<string>('2026-11-12');
+  const dateAnchorRef = useRef<HTMLDivElement>(null);
+  const siteAnchorRef = useRef<HTMLDivElement>(null);
+  const dateListRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const [dragY, setDragY] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const startYRef = useRef(0);
+
+  const jourCourant = JOURS_COMPETITION.find((j) => j.id === jourSelectionne) ?? JOURS_COMPETITION[12];
+  const siteCourant = SITES_OFFICIELS.find((s) => s.id === site) ?? SITES_OFFICIELS[0];
+
+  // Défile automatiquement vers l'élément sélectionné quand le menu s'ouvre
+  useEffect(() => {
+    if (menuOuvert === 'date' && dateListRef.current) {
+      const activeEl = dateListRef.current.querySelector('.rj-dropdown-item.selected') as HTMLElement | null;
+      if (activeEl) {
+        activeEl.scrollIntoView({ block: 'nearest' });
+      }
+    }
+  }, [menuOuvert]);
+
+  // Ferme le menu au clic extérieur ou Échap
+  useEffect(() => {
+    if (menuOuvert === 'aucun') return;
+    const onPointerDown = (e: PointerEvent) => {
+      const target = e.target as Node;
+      if (
+        !dateAnchorRef.current?.contains(target) &&
+        !siteAnchorRef.current?.contains(target)
+      ) {
+        setMenuOuvert('aucun');
+      }
+    };
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMenuOuvert('aucun');
+    };
+    window.addEventListener('pointerdown', onPointerDown);
+    window.addEventListener('keydown', onKeyDown);
+    return () => {
+      window.removeEventListener('pointerdown', onPointerDown);
+      window.removeEventListener('keydown', onKeyDown);
+    };
+  }, [menuOuvert]);
+
+  const choisirDate = (j: JourCompetition) => {
+    setJourSelectionne(j.id);
+    setMenuOuvert('aucun');
+    if (onDateChange) {
+      onDateChange(j.id, j.libelle);
+    }
+  };
+
+  const choisirSite = (siteId: string) => {
+    setMenuOuvert('aucun');
+    if (onSiteChange) {
+      onSiteChange(siteId);
+    }
+  };
 
   // Garantit que la fiche s'ouvre toujours tout en haut et arrête la voix à la fermeture
   useEffect(() => {
@@ -313,13 +416,13 @@ export function DaySummary({
     return () => window.removeEventListener('keydown', onKey);
   }, []);
 
-  // Préchargement discret du texte officiel de Claude en tâche de fond
+  // Préchargement discret du texte officiel de Claude en tâche de fond pour le jour sélectionné
   useEffect(() => {
     let actif = true;
     (async () => {
       try {
         let r: Resume | ApiError = PAS_ENCORE;
-        for (const jour of joursAEssayer(jourDakar())) {
+        for (const jour of joursAEssayer(jourSelectionne)) {
           r = await lireResume(jour);
           if (!estErreur(r) || r.code !== 'AUCUN_PODIUM') break;
         }
@@ -331,7 +434,7 @@ export function DaySummary({
       }
     })();
     return () => { actif = false; };
-  }, []);
+  }, [jourSelectionne]);
 
   const basculerDetail = () => {
     if (detailOuvert) {
@@ -347,17 +450,114 @@ export function DaySummary({
 
   return (
     <div className="rj-root">
-      {/* 1. Rangée de filtres : Date & Site */}
-      <div className="rj-filters">
-        <div className="rj-filter-pill">
-          <CalendarDays size={16} className="rj-pill-icon" aria-hidden="true" />
-          <span>{dateLibelle}</span>
-          <ChevronDown size={14} className="rj-pill-arrow" aria-hidden="true" />
+      {/* 1. Rangée de filtres interactifs : Date & Site */}
+      <div className="rj-filters" role="toolbar" aria-label="Filtres par date et par site">
+        {/* Filtre Date */}
+        <div className="rj-filter-anchor" ref={dateAnchorRef}>
+          <button
+            type="button"
+            className={`rj-filter-pill ${menuOuvert === 'date' ? 'active' : ''}`}
+            onClick={() => setMenuOuvert(menuOuvert === 'date' ? 'aucun' : 'date')}
+            aria-expanded={menuOuvert === 'date'}
+            aria-haspopup="listbox"
+            aria-label={`Filtrer par date. Actuellement : ${jourCourant.libelle}`}
+          >
+            <CalendarDays size={16} className="rj-pill-icon" aria-hidden="true" />
+            <span className="rj-pill-label">{jourCourant.libelle}</span>
+            <ChevronDown size={14} className="rj-pill-arrow" aria-hidden="true" />
+          </button>
+
+          {menuOuvert === 'date' && (
+            <div className="rj-dropdown-menu rj-date-menu" role="listbox" aria-label="Choisir une date de compétition">
+              <div className="rj-dropdown-header">
+                <strong>Calendrier des Jeux</strong>
+                <span>Dakar 2026 · 31 oct au 13 nov</span>
+              </div>
+              <div className="rj-dropdown-list" ref={dateListRef}>
+                {JOURS_COMPETITION.map((j) => {
+                  const estActif = j.id === jourSelectionne;
+                  return (
+                    <button
+                      key={j.id}
+                      type="button"
+                      role="option"
+                      aria-selected={estActif}
+                      className={`rj-dropdown-item ${estActif ? 'selected' : ''}`}
+                      onClick={() => choisirDate(j)}
+                    >
+                      <div className="rj-date-badge" aria-hidden="true">
+                        <span className="rj-date-num">{j.jourNum}</span>
+                        <span className="rj-date-mo">nov</span>
+                      </div>
+                      <div className="rj-dropdown-item-info">
+                        <div className="rj-dropdown-item-title">
+                          <strong>{j.libelle}</strong>
+                          {j.tag && (
+                            <span className={`rj-date-tag ${j.tag.includes('Aujourd') ? 'today' : ''}`}>
+                              {j.tag}
+                            </span>
+                          )}
+                        </div>
+                        <small className="rj-dropdown-item-sub">
+                          {j.tot > 0 ? `${j.tot} médailles décernées` : "Cérémonie d'ouverture"}
+                        </small>
+                      </div>
+                      {estActif && <Check size={16} className="rj-check-icon" aria-hidden="true" />}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
         </div>
-        <div className="rj-filter-pill">
-          <span className="rj-pin-icon" aria-hidden="true">📍</span>
-          <span>{site}</span>
-          <ChevronDown size={14} className="rj-pill-arrow" aria-hidden="true" />
+
+        {/* Filtre Site */}
+        <div className="rj-filter-anchor" ref={siteAnchorRef}>
+          <button
+            type="button"
+            className={`rj-filter-pill ${menuOuvert === 'site' ? 'active' : ''}`}
+            onClick={() => setMenuOuvert(menuOuvert === 'site' ? 'aucun' : 'site')}
+            aria-expanded={menuOuvert === 'site'}
+            aria-haspopup="listbox"
+            aria-label={`Filtrer par site. Actuellement : ${siteCourant.nom}`}
+          >
+            <span className="rj-pin-icon" aria-hidden="true">{siteCourant.icone}</span>
+            <span className="rj-pill-label">{siteCourant.nom}</span>
+            <ChevronDown size={14} className="rj-pill-arrow" aria-hidden="true" />
+          </button>
+
+          {menuOuvert === 'site' && (
+            <div className="rj-dropdown-menu rj-site-menu" role="listbox" aria-label="Choisir un site de compétition">
+              <div className="rj-dropdown-header">
+                <strong>Sites de compétition</strong>
+                <span>Lieux officiels des JOJ Dakar 2026</span>
+              </div>
+              <div className="rj-dropdown-list">
+                {SITES_OFFICIELS.map((s) => {
+                  const estActif = s.id === site;
+                  return (
+                    <button
+                      key={s.id}
+                      type="button"
+                      role="option"
+                      aria-selected={estActif}
+                      className={`rj-dropdown-item ${estActif ? 'selected' : ''}`}
+                      onClick={() => choisirSite(s.id)}
+                    >
+                      <span className="rj-site-emoji" aria-hidden="true">{s.icone}</span>
+                      <div className="rj-dropdown-item-info">
+                        <div className="rj-dropdown-item-title">
+                          <strong>{s.nom}</strong>
+                        </div>
+                        <small className="rj-dropdown-item-sub">{s.lieux}</small>
+                      </div>
+                      {estActif && <Check size={16} className="rj-check-icon" aria-hidden="true" />}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
@@ -369,7 +569,10 @@ export function DaySummary({
           </div>
           <div className="rj-resume-titles">
             <h2 id="rj-resume-title">Résumé du jour</h2>
-            <p>Les temps forts des JOJ Dakar 2026</p>
+            <p>
+              Les temps forts des JOJ Dakar 2026
+              {site !== ALL_SITES ? ` · ${site}` : ''}
+            </p>
           </div>
           <div className="rj-gold-swoosh" aria-hidden="true" />
         </div>
@@ -377,22 +580,22 @@ export function DaySummary({
         <div className="rj-stats-grid">
           <div className="rj-stat-box">
             <div className="rj-stat-icon gold" aria-hidden="true">🥇</div>
-            <div className="rj-stat-val">5</div>
+            <div className="rj-stat-val">{jourCourant.or}</div>
             <div className="rj-stat-lbl">Médailles d'or</div>
           </div>
           <div className="rj-stat-box">
             <div className="rj-stat-icon silver" aria-hidden="true">🥈</div>
-            <div className="rj-stat-val">3</div>
+            <div className="rj-stat-val">{jourCourant.arg}</div>
             <div className="rj-stat-lbl">Médailles d'argent</div>
           </div>
           <div className="rj-stat-box">
             <div className="rj-stat-icon bronze" aria-hidden="true">🥉</div>
-            <div className="rj-stat-val">2</div>
+            <div className="rj-stat-val">{jourCourant.bro}</div>
             <div className="rj-stat-lbl">Médailles de bronze</div>
           </div>
           <div className="rj-stat-box">
             <div className="rj-stat-icon trophy" aria-hidden="true">🏆</div>
-            <div className="rj-stat-val">10</div>
+            <div className="rj-stat-val">{jourCourant.tot}</div>
             <div className="rj-stat-lbl">Total médailles</div>
           </div>
         </div>
